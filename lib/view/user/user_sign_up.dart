@@ -1,11 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/user/user_password_provider.dart';
 import 'package:smartico/core/theme/theme.dart';
-import 'package:smartico/presentation/user/user_otp.dart';
+import 'package:smartico/view/user/user_otp.dart';
 
-import '../../core/constants/constants.dart';
+import '../../application/user/user_password_provider.dart';
+
+
 
 class UserSignUP extends StatelessWidget {
   UserSignUP({super.key});
@@ -16,6 +17,16 @@ class UserSignUP extends StatelessWidget {
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+    Widget kHeight10 = const SizedBox(height: 10,);
+Widget KHeight15 = const SizedBox(height: 15,);
+Widget kHeight20 = const SizedBox(height: 20,);
+Widget kHeight30 = const SizedBox(height: 30,);
+Widget kHeight40 = const SizedBox(height: 40,);
+Widget kWidth10 = const SizedBox(width: 10,);
+Widget kWidth20 = const SizedBox(width: 20,);
+Widget kWidth30 = const SizedBox(width: 30,);
+Widget kWidth40 = const SizedBox(width: 40,);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -343,7 +354,7 @@ class UserSignUP extends StatelessWidget {
                             // if (_formKey.currentState!.validate()) {
                             //   signUpButtonClicked(context);
                             // }
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const UserOtpScreen(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  UserOtpScreen(),));
                           },
                         ),
                       ),
@@ -401,7 +412,7 @@ class UserSignUP extends StatelessWidget {
       return;
     }
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const UserOtpScreen(),
+      builder: (context) =>  UserOtpScreen(),
     ));
   }
 }

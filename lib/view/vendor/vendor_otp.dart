@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:smartico/core/constants/constants.dart';
-import 'package:smartico/presentation/user/roll_selecting.dart';
+import 'package:smartico/view/user/roll_selecting.dart';
 
-class UserOtpScreen extends StatelessWidget {
-  const UserOtpScreen({super.key});
+class VendorOtpScreen extends StatelessWidget {
+   VendorOtpScreen({super.key});
+  Widget kHeight15 = const SizedBox(height: 15,);
+Widget kHeight20 = const SizedBox(height: 20,);
+Widget kHeight30 = const SizedBox(height: 30,);
+Widget kHeight40 = const SizedBox(height: 40,);
+Widget kWidth10 = const SizedBox(width: 10,);
+Widget kWidth20 = const SizedBox(width: 20,);
+Widget kWidth30 = const SizedBox(width: 30,);
+Widget kWidth40 = const SizedBox(width: 40,);
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +175,7 @@ class UserOtpScreen extends StatelessWidget {
                       ElevatedButton(
                         
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const RollSelectingScreen(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  RollSelectingScreen(),));
                         },
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all(5.0),
@@ -191,7 +198,7 @@ class UserOtpScreen extends StatelessWidget {
                         
                       
                       ),
-                      kHeight10,
+                      kHeight15,
                      Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children:  [

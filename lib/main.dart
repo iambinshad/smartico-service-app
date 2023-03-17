@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/user/user_password_provider.dart';
-import 'package:smartico/presentation/splash_screen.dart';
+import 'package:smartico/view/splash_screen.dart';
+
+import 'application/user/user_password_provider.dart';
+
+
+
 
 void main() {
   runApp(const MyApp());
@@ -17,6 +21,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+          
           useMaterial3: true,
           
           primarySwatch: Colors.blue,

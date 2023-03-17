@@ -1,19 +1,26 @@
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/user/user_password_provider.dart';
-import 'package:smartico/core/constants/constants.dart';
 
-import 'package:smartico/core/theme/theme.dart';
-import 'package:smartico/presentation/user/user_sign_up.dart';
 
-class UserSignIn extends StatelessWidget {
-  UserSignIn({super.key});
+import '../../application/user/user_password_provider.dart';
+import '../user/user_sign_up.dart';
 
+class VendorSignIn extends StatelessWidget {
+   VendorSignIn({super.key});
+  
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  Widget kHeight10 = const SizedBox(height: 10,);
+Widget KHeight15 = const SizedBox(height: 15,);
+Widget kHeight20 = const SizedBox(height: 20,);
+Widget kHeight30 = const SizedBox(height: 30,);
+Widget kHeight40 = const SizedBox(height: 40,);
+Widget kWidth10 = const SizedBox(width: 10,);
+Widget kWidth20 = const SizedBox(width: 20,);
+Widget kWidth30 = const SizedBox(width: 30,);
+Widget kWidth40 = const SizedBox(width: 40,);
  
 
   @override
@@ -21,8 +28,8 @@ class UserSignIn extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor:  Color.fromARGB(255, 121, 216, 206),
-          title: Text('SMARTICO',style: TextStyle(fontSize: 25),),
+          backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
+          title: const Text('SMARTICO',style: TextStyle(fontSize: 25),),
           centerTitle: true,
         ),
         resizeToAvoidBottomInset: false,
@@ -53,7 +60,7 @@ class UserSignIn extends StatelessWidget {
                       const Text(
                         'Enter Your Email And Password',
                         style: TextStyle(
-                            color: textColor,
+                            
                             fontSize: 20,
                             fontWeight: FontWeight.w500),
                       ),
@@ -61,7 +68,7 @@ class UserSignIn extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
-                          style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
                           controller: emailController,
                           validator: (value) {
                             var validatedEmail = emailValidation(value);
@@ -102,7 +109,7 @@ class UserSignIn extends StatelessWidget {
                         child: Consumer<UserPasswordProvider>(
                           builder:(context, value, child) => 
                            TextFormField(
-                            style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
                             controller: passwordController,
                             validator: (value) {
                               if (value == null ||
@@ -205,9 +212,9 @@ class UserSignIn extends StatelessWidget {
                             border: Border.all(),
                             borderRadius: BorderRadius.circular(8)),
                         child: Row(
-                          children: const [
+                          children:  [
                             kWidth10,
-                            Center(
+                            const Center(
                                 child: Image(
                               image: AssetImage(
                                   'assets/authentication/google-logo-9808.png'),
@@ -215,7 +222,7 @@ class UserSignIn extends StatelessWidget {
                               width: 35.0,
                             )),
                             kWidth20,
-                            Text(
+                            const Text(
                               'Continue With Google',
                               style: TextStyle(fontSize: 22,fontFamily: 'Roboto',fontWeight: FontWeight.bold),
                             )
@@ -263,7 +270,7 @@ class UserSignIn extends StatelessWidget {
       ),
     );
   }
-
+  
   Future<void> signInClicked(context) async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();

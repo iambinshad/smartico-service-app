@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:smartico/presentation/user/user_sign_in.dart';
+import 'package:smartico/view/user/user_sign_in.dart';
 
 
 class SplashScreen extends StatelessWidget {
