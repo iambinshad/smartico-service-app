@@ -1,9 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/view/vendor/vendor_signup_firsrt_scrn.dart';
 
 
-import '../../application/user/user_password_provider.dart';
+import '../../application/user/user_provider.dart';
 import '../user/user_sign_up.dart';
 
 class VendorSignIn extends StatelessWidget {
@@ -27,19 +28,20 @@ Widget kWidth40 = const SizedBox(width: 40,);
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
-          title: const Text('SMARTICO',style: TextStyle(fontSize: 25),),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
+        //   title: const Text('SMARTICO',style: TextStyle(fontSize: 25),),
+        //   centerTitle: true,
+        // ),
         resizeToAvoidBottomInset: false,
         // backgroundColor: const Color.fromARGB(255, 181, 177, 177),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(children: [
-              const SizedBox(
-                height: 70,
+            const SizedBox(
+                height: 160,
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 230,),),
               ),
               Center(
                 child: Padding(
@@ -106,7 +108,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       kHeight20,
                       Padding(
                         padding: const EdgeInsets.only(right: 20, left: 20),
-                        child: Consumer<UserPasswordProvider>(
+                        child: Consumer<UserProvider>(
                           builder:(context, value, child) => 
                            TextFormField(
                             style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
@@ -245,7 +247,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                                   fontSize: 18,
                                   color: Color.fromARGB(255, 121, 216, 206)),),
                                   onPressed: (){
-                                    Navigator.push(context,MaterialPageRoute(builder: (context) => UserSignUP(),));
+                                    Navigator.push(context,MaterialPageRoute(builder: (context) => VendorSignUPScrnOne(),));
     
                                   },
                             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:smartico/view/user/roll_selecting.dart';
+import 'package:smartico/view/vendor/vendor_home.dart';
 
 class VendorOtpScreen extends StatelessWidget {
    VendorOtpScreen({super.key});
@@ -18,6 +19,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+         resizeToAvoidBottomInset: false,
         // appBar: AppBar(
         //   elevation: 5.0,
         //   backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
@@ -30,7 +32,10 @@ Widget kWidth40 = const SizedBox(width: 40,);
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           
-          const SizedBox(height: 180,),
+          const SizedBox(
+                height: 180,
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
+              ),
           Card(
             elevation: 3.0,
             child: Row(
@@ -175,7 +180,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       ElevatedButton(
                         
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  RollSelectingScreen(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorHomeScreen(),));
                         },
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all(5.0),

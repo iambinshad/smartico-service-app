@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smartico/core/theme/theme.dart';
 import 'package:smartico/view/user/user_otp.dart';
 
-import '../../application/user/user_password_provider.dart';
+import '../../application/user/user_provider.dart';
 
 
 
@@ -194,7 +194,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       kHeight20,
                       Padding(
                         padding: const EdgeInsets.only(right: 20, left: 20),
-                        child: Consumer<UserPasswordProvider>(
+                        child: Consumer<UserProvider>(
                           builder: (context, value, child) => TextFormField(
                                                         style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
 
@@ -246,7 +246,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       kHeight20,
                       Padding(
                         padding: const EdgeInsets.only(right: 20, left: 20),
-                        child: Consumer<UserPasswordProvider>(
+                        child: Consumer<UserProvider>(
                           builder: (context, value, child) => TextFormField(
                                                         style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
 

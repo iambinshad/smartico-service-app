@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/view/splash_screen.dart';
 
-import 'application/user/user_password_provider.dart';
+import 'application/user/user_provider.dart';
 
 
 
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ListenableProvider(create: (context) => UserPasswordProvider(),)],
+      providers: [ListenableProvider(create: (context) => UserProvider(),)],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

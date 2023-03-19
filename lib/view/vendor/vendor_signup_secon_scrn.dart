@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/view/vendor/vendor_otp.dart';
 
-import '../../application/user/user_password_provider.dart';
+import '../../application/user/user_provider.dart';
 import '../user/user_otp.dart';
 import 'package:intl/intl.dart';
 
-class VendorSignUPScrnTwo extends StatelessWidget {
-  VendorSignUPScrnTwo({super.key});
+class VendorSignUpScrnTwo extends StatelessWidget {
+  VendorSignUpScrnTwo({super.key});
 
   final genderController = TextEditingController();
   final dobController = TextEditingController();
@@ -53,8 +54,9 @@ class VendorSignUPScrnTwo extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
-              height: 40,
-            ),
+                height: 160,
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
+              ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -106,9 +108,9 @@ class VendorSignUPScrnTwo extends StatelessWidget {
                           //     ),
                           //   ),
                           // ),
-                          Consumer<UserPasswordProvider>(
+                          Consumer<UserProvider>(
                               builder: (context, value, child) =>
-                                  Consumer<UserPasswordProvider>(
+                                  Consumer<UserProvider>(
                                       builder: (context, value, child) {
                                     List<DropdownMenuItem<Object>>
                                         genderListObject = genderList
@@ -147,11 +149,11 @@ class VendorSignUPScrnTwo extends StatelessWidget {
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: Consumer<UserPasswordProvider>(
+                            child: Consumer<UserProvider>(
                               builder: (context, value, child) => TextFormField(
                                 style: const TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.bold),
-                                keyboardType: TextInputType.number,
+                                keyboardType:TextInputType.none,
                                 controller: value.dateController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -199,7 +201,7 @@ class VendorSignUPScrnTwo extends StatelessWidget {
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: Consumer<UserPasswordProvider>(
+                            child: Consumer<UserProvider>(
                               builder: (context, value, child) => TextFormField(
                                 style: const TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.bold),
@@ -252,7 +254,7 @@ class VendorSignUPScrnTwo extends StatelessWidget {
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: Consumer<UserPasswordProvider>(
+                            child: Consumer<UserProvider>(
                               builder: (context, value, child) => TextFormField(
                                 style: const TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.bold),
@@ -364,7 +366,7 @@ class VendorSignUPScrnTwo extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => UserOtpScreen(),
+                                      builder: (context) => VendorOtpScreen(),
                                     ));
                               },
                             ),
@@ -386,6 +388,7 @@ class VendorSignUPScrnTwo extends StatelessWidget {
                                           Color.fromARGB(255, 121, 216, 206)),
                                 ),
                                 onPressed: () {
+                                  Navigator.pop(context);
                                   Navigator.pop(context);
                                 },
                               ),

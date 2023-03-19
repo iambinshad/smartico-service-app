@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smartico/view/vendor/vendor_signup_firsrt_scrn.dart';
 
+import '../vendor/vendor_sign_in.dart';
+
 class RollSelectingScreen extends StatelessWidget {
   RollSelectingScreen({super.key});
 
@@ -173,7 +175,7 @@ class RollSelectingScreen extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => VendorSignUPScrnOne(),
+                                    builder: (context) => VendorSignIn(),
                                   ));
                             },
                             style: ButtonStyle(

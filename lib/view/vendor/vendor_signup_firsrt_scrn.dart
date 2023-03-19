@@ -14,7 +14,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
   final phoneController = TextEditingController();
 
   Widget kHeight10 = const SizedBox(height: 10,);
-Widget KHeight15 = const SizedBox(height: 15,);
+Widget kHeight15 = const SizedBox(height: 15,);
 Widget kHeight20 = const SizedBox(height: 20,);
 Widget kHeight30 = const SizedBox(height: 30,);
 Widget kHeight40 = const SizedBox(height: 40,);
@@ -34,8 +34,9 @@ Widget kWidth40 = const SizedBox(width: 40,);
         child: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
-              height: 40,
-            ),
+                height: 160,
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
+              ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -189,10 +190,10 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       ),
                      
                      
-                      KHeight15,
+                      kHeight15,
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => VendorSignUPScrnTwo(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => VendorSignUpScrnTwo(),));
                         },
                         style: ButtonStyle(
                           fixedSize: MaterialStateProperty.all(
@@ -219,7 +220,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                             // if (_formKey.currentState!.validate()) {
                             //   signUpButtonClicked(context);
                             // }
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorSignUPScrnTwo(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorSignUpScrnTwo(),));
                           },
                         ),
                       ),

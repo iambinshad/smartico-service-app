@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:smartico/view/user/roll_selecting.dart';
 
+// ignore: must_be_immutable
 class UserOtpScreen extends StatelessWidget {
    UserOtpScreen({super.key});
     Widget kHeight10 = const SizedBox(height: 10,);
@@ -19,19 +20,17 @@ Widget kWidth40 = const SizedBox(width: 40,);
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   elevation: 5.0,
-        //   backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
-        //     title: const Text('SMARTICO',style: TextStyle(fontSize: 25),),
-        //     centerTitle: true,
-        // ),
+       resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           
-          const SizedBox(height: 180,),
+          const SizedBox(
+                height: 220,
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 220,),),
+              ),
           Card(
             elevation: 3.0,
             child: Row(

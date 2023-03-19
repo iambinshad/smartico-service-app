@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,14 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:smartico/core/theme/theme.dart';
 import 'package:smartico/view/user/user_sign_up.dart';
 
-import '../../application/user/user_password_provider.dart';
+import '../../application/user/user_provider.dart';
 
 
 class UserSignIn extends StatelessWidget {
   UserSignIn({super.key});
 
     Widget kHeight10 = const SizedBox(height: 10,);
-Widget KHeight15 = const SizedBox(height: 15,);
+Widget kHeight15 = const SizedBox(height: 15,);
 Widget kHeight20 = const SizedBox(height: 20,);
 Widget kHeight30 = const SizedBox(height: 30,);
 Widget kHeight40 = const SizedBox(height: 40,);
@@ -31,11 +33,11 @@ Widget kWidth40 = const SizedBox(width: 40,);
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor:  Color.fromARGB(255, 121, 216, 206),
-          title: Text('SMARTICO',style: TextStyle(fontSize: 25),),
-          centerTitle: true,
-        ),
+        // appBar: AppBar(
+        //   backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
+        //   title: const Text('SMARTICO',style: TextStyle(fontSize: 25),),
+        //   centerTitle: true,
+        // ),
         resizeToAvoidBottomInset: false,
         // backgroundColor: const Color.fromARGB(255, 181, 177, 177),
         body: SingleChildScrollView(
@@ -43,7 +45,8 @@ Widget kWidth40 = const SizedBox(width: 40,);
             key: _formKey,
             child: Column(children: [
               const SizedBox(
-                height: 70,
+                height: 160,
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
               ),
               Center(
                 child: Padding(
@@ -72,7 +75,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       Padding(
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
-                          style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
                           controller: emailController,
                           validator: (value) {
                             var validatedEmail = emailValidation(value);
@@ -110,10 +113,10 @@ Widget kWidth40 = const SizedBox(width: 40,);
                       kHeight20,
                       Padding(
                         padding: const EdgeInsets.only(right: 20, left: 20),
-                        child: Consumer<UserPasswordProvider>(
+                        child: Consumer<UserProvider>(
                           builder:(context, value, child) => 
                            TextFormField(
-                            style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
                             controller: passwordController,
                             validator: (value) {
                               if (value == null ||
@@ -159,6 +162,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                         onPressed: () {
                           
                           if (_formKey.currentState!.validate()) {
+                            log('email and password validated');
                             signInClicked(context);
                           }
                         },
@@ -218,7 +222,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                         child: Row(
                           children:  [
                             kWidth10,
-                            Center(
+                            const Center(
                                 child: Image(
                               image: AssetImage(
                                   'assets/authentication/google-logo-9808.png'),
@@ -226,7 +230,7 @@ Widget kWidth40 = const SizedBox(width: 40,);
                               width: 35.0,
                             )),
                             kWidth20,
-                            Text(
+                            const Text(
                               'Continue With Google',
                               style: TextStyle(fontSize: 22,fontFamily: 'Roboto',fontWeight: FontWeight.bold),
                             )
@@ -275,22 +279,24 @@ Widget kWidth40 = const SizedBox(width: 40,);
     );
   }
 
-  Future<void> signInClicked(context) async {
+  Future<void> signInClicked(BuildContext context) async {
+    log('signin clicked');
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
       return;
     }
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserSignUP(),
-        ));
+    log('checkUserSignIn called');
+    Provider.of<UserProvider>(context,listen: false).checkUserSignIn(context,password,email);
   }
 
   bool emailValidation(value) {
     bool emailResult = EmailValidator.validate(value);
     return emailResult;
+  }
+  disposeTextFiled(){
+    emailController.clear();
+    passwordController.clear();
   }
 }
