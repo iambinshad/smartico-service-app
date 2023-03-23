@@ -93,14 +93,5 @@ class UserServices {
     return null;
   }
 
-  // void dioError(Object e, BuildContext context) {
-
-  //   if (e is DioError) {
-  //     if (e.response?.statusCode == 404) {
-  //       Provider.of<UserProvider>(context,listen: false).showSomethingWentWrongSnack(context);
-  //     } else if (e.response?.statusCode == 401) {
-  //      Provider.of<UserProvider>(context,listen: false).showInvalidOtpSnack(context);
-  //     }
-  //   }
-  // }
+  
 }
