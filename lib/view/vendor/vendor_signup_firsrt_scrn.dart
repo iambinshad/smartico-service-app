@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:smartico/view/vendor/vendor_signup_secon_scrn.dart';
 
+import '../../core/widgets.dart';
 import '../user/user_otp.dart';
 
 
@@ -12,16 +13,6 @@ class VendorSignUPScrnOne extends StatelessWidget {
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
-
-  Widget kHeight10 = const SizedBox(height: 10,);
-Widget kHeight15 = const SizedBox(height: 15,);
-Widget kHeight20 = const SizedBox(height: 20,);
-Widget kHeight30 = const SizedBox(height: 30,);
-Widget kHeight40 = const SizedBox(height: 40,);
-Widget kWidth10 = const SizedBox(width: 10,);
-Widget kWidth20 = const SizedBox(width: 20,);
-Widget kWidth30 = const SizedBox(width: 30,);
-Widget kWidth40 = const SizedBox(width: 40,);
 
 
   final _formKey = GlobalKey<FormState>();

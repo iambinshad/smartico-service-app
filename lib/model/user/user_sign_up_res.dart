@@ -1,11 +1,11 @@
-class UserSignInResModel {
-    UserSignInResModel({
+class UserSignUpResModel {
+    UserSignUpResModel({
         required this.token,
     });
 
     String token;
 
-    factory UserSignInResModel.fromJson(Map<String, dynamic> json) => UserSignInResModel(
+    factory UserSignUpResModel.fromJson(Map<String, dynamic> json) => UserSignUpResModel(
         token: json["token"],
     );
 
