@@ -1,21 +1,30 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/view/vendor/vendor_otp.dart';
-
-import '../../application/user/user_provider.dart';
-import '../../core/widgets.dart';
-import '../user/user_otp.dart';
+import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
+import '../../../application/user/user_provider.dart';
+import 'package:smartico/application/vendor/vendor_provider.dart';
+import '../../../core/widgets.dart';
 import 'package:intl/intl.dart';
 
 class VendorSignUpScrnTwo extends StatelessWidget {
-  VendorSignUpScrnTwo({super.key});
+  VendorSignUpScrnTwo(
+      {super.key,
+      required this.fullName,
+      required this.userName,
+      required this.email,
+      required this.phoneNumber});
 
+  final String fullName;
+  final String userName;
+  final String email;
+  final String phoneNumber;
   final genderController = TextEditingController();
   final dobController = TextEditingController();
-
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
-  List<String> genderList = ['Male', 'Female', 'Transgender'];
+
+  List<String> genderList = ['Male', 'Female', 'Others'];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -27,9 +36,17 @@ class VendorSignUpScrnTwo extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
-                height: 160,
-                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
+              height: 100,
+              child: Center(
+                child: Image(
+                  image: AssetImage(
+                    'assets/splash/logo3.webp',
+                  ),
+                  height: 100,
+                  width: 250,
+                ),
               ),
+            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -48,85 +65,51 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                 fontWeight: FontWeight.w700),
                           ),
                           kHeight20,
-
-                          // Padding(
-                          //   padding: const EdgeInsets.only(right: 20, left: 20),
-                          //   child: TextFormField(
-                          //                                 style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-
-                          //     controller: genderController,
-                          //     validator: (value) {
-
-                          //       if (value == null || value.isEmpty) {
-                          //         return 'Gender is required';
-                          //       }
-                          //       return null;
-                          //     },
-                          //     decoration: InputDecoration(
-                          //        filled: true,
-                          //       fillColor:Colors.white ,
-                          //       focusedBorder: const OutlineInputBorder(
-                          //           borderSide: BorderSide(
-                          //               color: Color.fromARGB(255, 123, 230, 219))),
-                          //       enabledBorder: const OutlineInputBorder(
-                          //           borderSide: BorderSide(color: Colors.black)),
-                          //       border: OutlineInputBorder(
-                          //         borderRadius: BorderRadius.circular(10),
-                          //       ),
-                          //       hintText: 'Select Gender',
-                          //       labelText: 'Gender',
-                          //       hintStyle: const TextStyle(
-                          //         color: Color.fromARGB(255, 111, 111, 111),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                          Consumer<UserProvider>(
-                              builder: (context, value, child) =>
-                                  Consumer<UserProvider>(
-                                      builder: (context, value, child) {
-                                    List<DropdownMenuItem<Object>>
-                                        genderListObject = genderList
-                                            .map((valueItem) =>
-                                                DropdownMenuItem(
-                                                    value: valueItem,
-                                                    child: Text(valueItem)))
-                                            .toList();
-                                    return Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20),
-                                      child: Container(
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(),
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Colors.white),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 5, left: 8, right: 8),
-                                          child: DropdownButton(
-                                            underline: const SizedBox(),
-                                            isExpanded: true,
-                                            hint: const Text('Select Gender'),
-                                            items: genderListObject,
-                                            value: value.choosedGender,
-                                            onChanged: (newValue) {
-                                              value.dropdownvalue(newValue);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  })),
+                          Consumer<VendorProvider>(
+                              builder: (context, value, child) {
+                            List<DropdownMenuItem<Object>> genderListObject =
+                                genderList
+                                    .map((valueItem) => DropdownMenuItem(
+                                        value: valueItem,
+                                        child: Text(valueItem)))
+                                    .toList();
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5, left: 8, right: 8),
+                                  child: DropdownButton(
+                                    underline: const SizedBox(),
+                                    isExpanded: true,
+                                    hint: const Text('Select Gender'),
+                                    items: genderListObject,
+                                    value: value.choosedGender,
+                                    onChanged: (newValue) {
+                                      value.dropdownvalue(newValue);
+                                      genderController.text =
+                                          newValue.toString();
+                                      log(genderController.text);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: Consumer<UserProvider>(
+                            child: Consumer<VendorProvider>(
                               builder: (context, value, child) => TextFormField(
                                 style: const TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.bold),
-                                keyboardType:TextInputType.none,
+                                keyboardType: TextInputType.none,
                                 controller: value.dateController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -138,7 +121,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                   DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
+                                    firstDate: DateTime(1900),
                                     lastDate: DateTime(2101),
                                   );
 
@@ -146,6 +129,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                     value.dateController.text =
                                         DateFormat('dd-MM-yyyy')
                                             .format(pickedDate);
+                                    log(value.dateController.text);
                                   }
                                 },
                                 decoration: InputDecoration(
@@ -237,7 +221,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                     return 'Confirm Password is required';
                                   } else if (value.length < 8) {
                                     return '8 characters required';
-                                  } else if (value != passwordController) {
+                                  } else if (value != passwordController.text) {
                                     return 'Not Match';
                                   }
                                   return null;
@@ -333,14 +317,10 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                // if (_formKey.currentState!.validate()) {
-                                //   signUpButtonClicked(context);
-                                // }
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VendorOtpScreen(),
-                                    ));
+                                if (_formKey.currentState!.validate()) {
+                                  log('validated');
+                                  signUpButtonClicked(context);
+                                }
                               },
                             ),
                           ),
@@ -379,19 +359,29 @@ class VendorSignUpScrnTwo extends StatelessWidget {
   }
 
   signUpButtonClicked(context) {
-    final email = genderController.text.trim();
-    final phoneNumber = dobController.text.trim();
+    log('inside signUpButton clicked');
+    final gender = genderController.text.trim();
+    final dob = dobController.text.trim();
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    if (email.isEmpty ||
-        phoneNumber.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
-      return;
-    }
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => UserOtpScreen(),
-    ));
+    // if (gender.isEmpty ||
+    //     dob.isEmpty ||
+    //     password.isEmpty ||
+    //     confirmPassword.isEmpty) {
+    //   return;
+    // }
+
+    VendorProvider().signUpNewVendor(
+      fullName: fullName,
+      userName: userName,
+      email: email,
+      phone: phoneNumber,
+      gender: gender,
+      dob: dob,
+      password: password,
+      passwordConfirm: confirmPassword,
+      context: context
+    );
   }
 }
