@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:smartico/core/theme/theme.dart';
-import 'package:smartico/view/user/user_sign_up.dart';
+import 'package:smartico/user/view/authentication/user_sign_up.dart';
 
-import '../../application/user/user_provider.dart';
-import '../../core/constants.dart';
-import '../../core/widgets.dart';
+import '../../../application/user/user_provider.dart';
+import '../../../core/constants.dart';
+import '../../../core/widgets.dart';
 
 
 class UserSignIn extends StatelessWidget {

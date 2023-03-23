@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-import '../../application/user/user_provider.dart';
-import '../../core/widgets.dart';
+import '../../../application/user/user_provider.dart';
+import '../../../core/widgets.dart';
 
 class UserSignUP extends StatelessWidget {
   UserSignUP({super.key});
@@ -258,10 +258,10 @@ class UserSignUP extends StatelessWidget {
                                   } else if (value.length < 8) {
                                     return '8 characters required';
                                   } 
-                                  // else if (confirmPasswordController !=
-                                  //     passwordController) {
-                                  //   return 'Not Match';
-                                  // }
+                                  else if (confirmPasswordController.text !=
+                                      passwordController.text) {
+                                    return 'Not Match';
+                                  }
                                   return null;
                                 },
                                 decoration: InputDecoration(

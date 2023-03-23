@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:smartico/view/vendor/vendor_home.dart';
+import 'package:smartico/vendor/view/home/vendor_home.dart';
 
-import '../../core/widgets.dart';
+import '../../../core/widgets.dart';
 
 class VendorOtpScreen extends StatelessWidget {
    VendorOtpScreen({super.key});

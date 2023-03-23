@@ -1,12 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/view/vendor/vendor_signup_firsrt_scrn.dart';
+import 'package:smartico/vendor/view/authentication/vendor_signup_firsrt_scrn.dart';
 
 
-import '../../application/user/user_provider.dart';
-import '../../core/widgets.dart';
-import '../user/user_sign_up.dart';
+import '../../../application/user/user_provider.dart';
+import '../../../core/widgets.dart';
+import '../../../user/view/authentication/user_sign_up.dart';
 
 class VendorSignIn extends StatelessWidget {
    VendorSignIn({super.key});
@@ -21,11 +21,7 @@ class VendorSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   backgroundColor:  const Color.fromARGB(255, 121, 216, 206),
-        //   title: const Text('SMARTICO',style: TextStyle(fontSize: 25),),
-        //   centerTitle: true,
-        // ),
+        
         resizeToAvoidBottomInset: false,
         // backgroundColor: const Color.fromARGB(255, 181, 177, 177),
         body: SingleChildScrollView(
@@ -33,7 +29,7 @@ class VendorSignIn extends StatelessWidget {
             key: _formKey,
             child: Column(children: [
             const SizedBox(
-                height: 160,
+                height: 115,
                 child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 230,),),
               ),
               Center(

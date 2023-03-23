@@ -1,9 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:smartico/view/vendor/vendor_signup_secon_scrn.dart';
+import 'package:smartico/vendor/view/authentication/vendor_signup_secon_scrn.dart';
 
-import '../../core/widgets.dart';
-import '../user/user_otp.dart';
+import '../../../core/widgets.dart';
+import '../../../user/view/authentication/user_otp.dart';
 
 
 class VendorSignUPScrnOne extends StatelessWidget {
@@ -25,7 +25,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
-                height: 160,
+                height: 140,
                 child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
               ),
             Center(
@@ -184,7 +184,9 @@ class VendorSignUPScrnOne extends StatelessWidget {
                       kHeight15,
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => VendorSignUpScrnTwo(),));
+                         if (_formKey.currentState!.validate()) {
+                              signUpButtonClicked(context);
+                            }
                         },
                         style: ButtonStyle(
                           fixedSize: MaterialStateProperty.all(
@@ -199,7 +201,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                             ),
                           ),
                         ),
-                        child: TextButton(
+                        
                           child: const Text(
                             'Proceed',
                             style: TextStyle(
@@ -207,13 +209,8 @@ class VendorSignUPScrnOne extends StatelessWidget {
                               fontSize: 28,
                             ),
                           ),
-                          onPressed: () {
-                            // if (_formKey.currentState!.validate()) {
-                            //   signUpButtonClicked(context);
-                            // }
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorSignUpScrnTwo(),));
-                          },
-                        ),
+                         
+                        
                       ),
                       kHeight10,
                       Row(
@@ -267,7 +264,8 @@ class VendorSignUPScrnOne extends StatelessWidget {
       return;
     }
     Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) =>  UserOtpScreen(),
+      builder: (context) =>  VendorSignUpScrnTwo(fullName: fullName, userName: userName, email: email, phoneNumber: phoneNumber)
+
     ));
   }
 }
