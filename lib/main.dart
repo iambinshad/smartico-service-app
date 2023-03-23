@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/view/splash_screen.dart';
+import 'package:smartico/view/user/user_otp.dart';
 
 import 'application/user/user_provider.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           
         ),
-        home: const SplashScreen(),
+        home:  const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
