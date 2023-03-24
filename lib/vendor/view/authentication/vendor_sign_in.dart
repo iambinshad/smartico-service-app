@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/vendor/view/authentication/vendor_signup_firsrt_scrn.dart';
 
 
@@ -266,14 +267,10 @@ class VendorSignIn extends StatelessWidget {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
-      return;
-    }
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserSignUP(),
-        ));
+
+  VendorProvider().checkVendorSignIn(context, email, password);
+  
+    
   }
 
   bool emailValidation(value) {

@@ -3,12 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
-import 'package:smartico/user/view/authentication/user_sign_up.dart';
-import 'package:smartico/vendor/view/authentication/vendor_signup_firsrt_scrn.dart';
-import 'package:smartico/vendor/view/authentication/vendor_signup_secon_scrn.dart';
+import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
+import 'package:smartico/user/view/bottom_nav_screens/user_home.dart';
 
 import 'application/user/user_provider.dart';
-import 'common/roll_selecting.dart';
 
 
 
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           
         ),
-        home:   VendorSignUPScrnOne(),
+        home:   BottomNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

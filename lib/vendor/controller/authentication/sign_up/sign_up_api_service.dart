@@ -21,7 +21,7 @@ class VendorSignUpApiService{
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
         Provider.of<CommonProvider>(context, listen: false).userOtpSend(context);
-        return 'Success';
+        return 'success';
       }
     } on DioError catch (e) {
       log(e.error.toString());

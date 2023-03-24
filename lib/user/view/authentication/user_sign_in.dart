@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/common/roll_selecting.dart';
 
 import 'package:smartico/core/theme/theme.dart';
 import 'package:smartico/user/view/authentication/user_sign_up.dart';
@@ -254,8 +255,10 @@ class UserSignIn extends StatelessWidget {
                           
                         ],
                       ),
-                       const TextButton(
-                        onPressed: null,
+                        TextButton(
+                        onPressed: (){
+                           Navigator.push(context, MaterialPageRoute(builder: (context) => RollSelectingScreen(),));
+                        },
                         child: Text('Forgot Password',
                             style: TextStyle(
                                 fontSize: 18,

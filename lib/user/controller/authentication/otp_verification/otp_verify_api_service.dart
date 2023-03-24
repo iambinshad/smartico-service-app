@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 
-import '../../../../application/user/user_provider.dart';
 import '../../../../core/api/api_configration.dart';
 import '../../../model/authentication/user_sign_up_res.dart';
 import '../../../model/authentication/user_verify_otp.dart';

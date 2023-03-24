@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:smartico/vendor/view/authentication/vendor_signup_secon_scrn.dart';
 
 import '../../../core/widgets.dart';
-import '../../../user/view/authentication/user_otp.dart';
 
 
 class VendorSignUPScrnOne extends StatelessWidget {
@@ -13,7 +12,6 @@ class VendorSignUPScrnOne extends StatelessWidget {
   final userNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
-
 
   final _formKey = GlobalKey<FormState>();
 
@@ -25,7 +23,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(children: [
             const SizedBox(
-                height: 140,
+                height: 110,
                 child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 250,),),
               ),
             Center(
@@ -50,7 +48,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
                            style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-
+        
                           controller: fullNameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -82,7 +80,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
                                                       style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-
+        
                           controller: userNameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -114,7 +112,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
                                                       style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-
+        
                           controller: emailController,
                           validator: (value) {
                             var validatedEmail = emailValidation(value);
@@ -149,7 +147,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                         padding: const EdgeInsets.only(right: 20, left: 20),
                         child: TextFormField(
                                                       style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
-
+        
                           keyboardType: TextInputType.number,
                           controller: phoneController,
                           validator: (value) {

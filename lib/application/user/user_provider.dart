@@ -12,7 +12,7 @@ import '../../user/model/authentication/user_sign_up_model.dart';
 import '../../user/model/authentication/user_sign_up_res.dart';
 import '../../user/model/authentication/user_verify_otp.dart';
 import '../../user/view/authentication/user_sign_in.dart';
-import '../../user/view/home/user_home.dart';
+import '../../user/view/bottom_nav_screens/user_home.dart';
 class UserProvider with ChangeNotifier {
 
   bool userSignInPswdVisiblity = false;
@@ -34,7 +34,7 @@ class UserProvider with ChangeNotifier {
         UserSignInReqModel(password: email, email: password);
     final tokenData = await UserSignInApiService().userSignIn(signInUserDatas, context);
     if (tokenData?.token != null) {
-      storage.write(key: "signInToken", value: jsonEncode(tokenData?.token));
+      storage.write(key: "UsersignInToken", value: jsonEncode(tokenData?.token));
 
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
@@ -87,7 +87,7 @@ class UserProvider with ChangeNotifier {
 
     log(tokenData.toString());
     if (tokenData != null) {
-      storage.write(key: 'signUpToken', value: jsonEncode(tokenData.token));
+      storage.write(key: 'UsersignUpToken', value: jsonEncode(tokenData.token));
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return  RollSelectingScreen();

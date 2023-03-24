@@ -48,13 +48,13 @@ class RollSelectingScreen extends StatelessWidget {
                           kHeight40,
                           const Center(
                             child: Text(
-                              'To place any type of order',
+                              'To place any type of order to',
                               style: TextStyle(
                                   fontSize: 25, fontWeight: FontWeight.w500),
                             ),
                           ),
                           const Text(
-                            'to search for a performer',
+                            'search for a performer',
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.w500),
                           ),

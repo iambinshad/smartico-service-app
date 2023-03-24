@@ -41,6 +41,8 @@ dependencies:
   dio: ^5.0.1
   flutter_secure_storage: ^8.0.0
   top_snackbar_flutter: ^3.0.0+1
+  carousel_slider: ^4.2.1
+  
 
 
 dev_dependencies:
@@ -69,7 +71,11 @@ flutter:
   assets:
     - assets/authentication/google-logo-9808.png
     - assets/splash/logo_size.jpg
-    - assets\splash\logo3.webp
+    - assets/splash/logo3.webp
+    - assets/user_home/service banner 2.jpg
+    - assets/user_home/banner image 3.webp
+    - assets/user_home/Service Banner 1.jpg
+
     
     
 

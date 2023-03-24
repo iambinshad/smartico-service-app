@@ -91,7 +91,7 @@ class UserOtpScreen extends StatelessWidget {
                                     field4.text+
                                     field5.text+
                                     field6.text;
-                                    // '563315';
+                                    
                                   UserProvider().verifyUserOtp(context, oTP);
                                   
                                

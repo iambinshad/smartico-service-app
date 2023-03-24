@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
 import '../../../application/user/user_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import '../../../core/widgets.dart';
@@ -294,7 +293,12 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                           ),
                           kHeight15,
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                  
+                                  signUpButtonClicked(context);
+                                }
+                            },
                             style: ButtonStyle(
                               fixedSize: MaterialStateProperty.all(
                                 const Size(310, 50),
@@ -308,7 +312,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: TextButton(
+                            
                               child: const Text(
                                 'Agree & Sign Up',
                                 style: TextStyle(
@@ -316,13 +320,8 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                   fontSize: 24,
                                 ),
                               ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  log('validated');
-                                  signUpButtonClicked(context);
-                                }
-                              },
-                            ),
+                             
+                            
                           ),
                           kHeight10,
                           Row(
