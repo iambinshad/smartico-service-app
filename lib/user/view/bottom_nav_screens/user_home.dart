@@ -1,20 +1,40 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smartico/core/widgets.dart';
+import 'package:searchbar_animation/searchbar_animation.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
-
   @override
   State<UserHomePage> createState() => _UserHomePageState();
 }
-
 class _UserHomePageState extends State<UserHomePage> {
-  List imageList = [
-    {},
-    {
-      'https://static.vecteezy.com/system/resources/previews/008/915/938/non_2x/horizontal-banner-with-image-of-cleaning-products-soap-bubbles-home-or-office-plumbing-advertising-sale-of-cleaning-products-editable-text-vector.jpg'
-    }
+  List serviceCategoryIcons =<Widget> [
+const Icon(Icons.plumbing),
+const Icon(Icons.delivery_dining_sharp),
+const Icon(Icons.cake),
+const Icon(Icons.format_paint),
+const Icon(Icons.tv_rounded),
+const Icon(Icons.electrical_services_outlined),
+const Icon(Icons.iron),
+const Icon(Icons.dry_cleaning),
+  ];
+  List serviceCategoryNames = [
+    'Plumber',
+    'Delivery',
+    'Cake Maker',
+    'Painter',
+    'Tv repair',
+    'Electrician',
+    'Dress iron',
+    'Dress dry Clean'
+  ];
+  List recomendedServiceImage = [
+    'assets/splash/painter.jpeg',
+    'assets/splash/plumbing.jpeg',
+    'assets/works/driver 2.jpg',
+    'assets/splash/tree cutting.jpeg',
+    'assets/splash/tv repair.jpeg',
+    'assets/works/driver.jpg',
   ];
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
@@ -29,52 +49,53 @@ class _UserHomePageState extends State<UserHomePage> {
             actions: const [
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: CircleAvatar(),
+                child: CircleAvatar(radius: 30,backgroundImage: AssetImage('assets/works/profile pic.jpg'),),
               )
             ],
-            title: const Text(
-              'Hi Username',
-              style: TextStyle(
-                  fontFamily: 'ROBOTO',
-                  fontSize: 23,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
+            title: SearchBarAnimation(
+                          textEditingController: TextEditingController(),
+                          isOriginalAnimation: true,
+                          enableKeyboardFocus: true,
+                          trailingWidget: const Icon(
+                            Icons.search,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                          secondaryButtonWidget: const Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                          buttonWidget: const Icon(
+                            Icons.search,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                        ),
           ),
           body: Column(
+            
             children: [
               CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,
-                  height: 160.0,
+                  height: 135.0,
                   enlargeCenterPage: true,
-                  aspectRatio: 16/9,
+                  
                   autoPlayCurve: Curves.fastOutSlowIn,
-                  viewportFraction: 0.8,
+                  viewportFraction: 0.97,
                   enableInfiniteScroll: true,
                   autoPlayAnimationDuration:
-                      const Duration(microseconds: 800),
+                      const Duration(microseconds: 5000),
                 ),
                 carouselController: carouselController,
                 items: [
-                  Padding(
-                    padding: const EdgeInsets.all(2),
-                    child: Card(
-                      elevation: 6.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: const DecorationImage(
-                              image: AssetImage(
-                                  'assets/user_home/service banner 2.jpg'),
-                              fit: BoxFit.cover),
-                        ),
-                      ),
-                    ),
-                  ),
+                  BannerCard(imageAddress: 'assets/splash/review.webp',),
+                  BannerCard(imageAddress: 'assets/user_home/banner image 3.webp',),
+                  BannerCard(imageAddress: 'assets/user_home/service banner 2.jpg')
                 ],
               ),
-              kHeight10,
+              
              Card(
                 child: Container(
               decoration: BoxDecoration(
@@ -119,7 +140,7 @@ class _UserHomePageState extends State<UserHomePage> {
               ),
                 ),
               ),
-              kHeight10,
+              
               Row(                
                 children: const[
               Padding(
@@ -136,8 +157,7 @@ class _UserHomePageState extends State<UserHomePage> {
               
               ],),
               SizedBox(
-                height: height/7.2,
-                
+                height: height/7.2,  
                 width: double.infinity,
                 child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -145,23 +165,19 @@ class _UserHomePageState extends State<UserHomePage> {
                 itemBuilder: (context, index) {
                   return SizedBox(
                       child: Column(
-                    children: const [
+                    children:  [
                       Padding(
-                        padding: EdgeInsets.all(9.0),
+                        padding: const EdgeInsets.all(9.0),
                         child: CircleAvatar(
                           radius: 34,
-                          child: Icon(
-                            Icons.plumbing,
-                            color: Colors.red,
-                            size: 30,
-                          ),
+                          child:serviceCategoryIcons[index],
                         ),
                       ),
-                      Text('Work'),
+                      Text(serviceCategoryNames[index]),
                     ],
                   ));
                 },
-                itemCount: 20,
+                itemCount: 8,
                 scrollDirection: Axis.horizontal,
               ),
                 ),
@@ -171,7 +187,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:const [
                Padding(
-                 padding: EdgeInsets.only(left: 20),
+                 padding: EdgeInsets.only(left: 17),
                  child: Text(
                               "Recomended services",
                               style: TextStyle(
@@ -181,50 +197,87 @@ class _UserHomePageState extends State<UserHomePage> {
                             ),
                ),
                  Padding(
-                   padding: EdgeInsets.only(right: 20),
+                   padding: EdgeInsets.only(right:17),
                    child: Text(
                               "View All",
                               style: TextStyle(
-                                fontSize: 21,
-                                fontWeight: FontWeight.bold,                               
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold, 
+                                color: Color.fromARGB(255, 123, 230, 219),                              
                               ),
                             ),
                  ),
                 ],
               ),
               Expanded(
-                child: GridView.builder(gridDelegate:const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent:200,childAspectRatio: 3/2,crossAxisSpacing: 20,mainAxisSpacing: 20), itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 200,
-                    width: width/2,
-                    child:Column(children: [
-                      Image.asset('assets/user_home/service banner 2.jpg'),
-                      const Text('Driving',style: TextStyle(color: Colors.blue,),),
-                      const Text('Destination Droping',style: TextStyle(color: Colors.blue,fontSize: 25,fontWeight: FontWeight.bold),),
-                      Row(
-                        children: const [
-                          Icon(Icons.star,color: Colors.yellow,),
-                          Text('4.9(1.2k + reviews)'),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7,right: 13,left: 13),
+                  child: GridView.builder(gridDelegate:const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent:200,childAspectRatio: 3/3.4,crossAxisSpacing: 10,mainAxisSpacing: 10), itemBuilder: (context, index) {
+                    return SizedBox(
                       
-                        ],
-                      ),
-                      Row(
-                        children: const [
-                          Icon(Icons.monetization_on,color: Color.fromARGB(255, 58, 201, 15),),
-                          Text("100-1000"),
+                      width: width/2,
+                      child:Column(children: [
+                        Container(
+                          height: height/7.7,
+                          width: width/2.1,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(9),image: DecorationImage(image: AssetImage(recomendedServiceImage[index]),fit:BoxFit.cover)),),
+                        Row(
+                          children:const [
+                             Text('Driving',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                        Row(
+                          children:const [
+                             Text('Destination Droping',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            Icon(Icons.star_rate_rounded,color: Colors.yellow,size: 23,),
+                            Text('4.9(1.2k + reviews)',style: TextStyle(fontWeight: FontWeight.bold),),
+                        
+                          ],
+                        ),
+                        Row(
+                          children: const [
+                            Icon(Icons.monetization_on,color: Color.fromARGB(255, 58, 201, 15),size: 23,),
+                            Text("100-1000",style: TextStyle(fontWeight: FontWeight.bold),),
+                        
+                          ],
+                        ),
+                        
+                      ],)
                       
-                        ],
-                      ),
-                      
-                    ],)
-                    
-                  );
-                },itemCount: 10,),
+                    );
+                  },itemCount: 6,),
+                ),
               )
               
-      
+              
             ],
           )),
+    );
+  }
+}
+
+class BannerCard extends StatelessWidget {
+   BannerCard({
+    required this.imageAddress, super.key,
+  });
+String imageAddress;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 5.0,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image:  DecorationImage(
+              image: AssetImage(
+                  imageAddress),
+              fit: BoxFit.cover),
+        ),
+      ),
     );
   }
 }
