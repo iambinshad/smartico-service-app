@@ -34,9 +34,10 @@ ProfilePage()
         },
         type: BottomNavigationBarType.shifting,
         elevation:20.0,
+        backgroundColor: Colors.red,
         currentIndex: currentIndex,
-        selectedItemColor:Colors.black,
-        unselectedItemColor: const Color.fromARGB(255, 121, 216, 206),
+        selectedItemColor:Color.fromARGB(255, 149, 226, 218),
+        unselectedItemColor:  Color.fromARGB(255, 185, 183, 183),
         
         items:const [
           BottomNavigationBarItem(icon:Icon(Icons.home_filled),label: 'Home'),
