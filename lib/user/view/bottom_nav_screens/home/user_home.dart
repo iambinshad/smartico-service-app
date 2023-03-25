@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:searchbar_animation/searchbar_animation.dart';
+import 'package:smartico/core/widgets.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -45,61 +48,52 @@ const Icon(Icons.dry_cleaning),
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 121, 216, 206),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: CircleAvatar(radius: 30,backgroundImage: AssetImage('assets/works/profile pic.jpg'),),
-              )
-            ],
-            title: SearchBarAnimation(
-                          textEditingController: TextEditingController(),
-                          isOriginalAnimation: true,
-                          enableKeyboardFocus: true,
-                          trailingWidget: const Icon(
-                            Icons.search,
-                            size: 20,
-                            color: Colors.black,
-                          ),
-                          secondaryButtonWidget: const Icon(
-                            Icons.close,
-                            size: 20,
-                            color: Colors.black,
-                          ),
-                          buttonWidget: const Icon(
-                            Icons.search,
-                            size: 20,
-                            color: Colors.black,
-                          ),
-                        ),
+            backgroundColor: Color.fromARGB(255, 121, 216, 206),
+            
+            title: const Padding(
+             padding: EdgeInsets.only(top: 5,right: 13,left: 13),
+             child: CupertinoSearchTextField(
+              backgroundColor: Colors.white,
+             )
+           
+           ),
           ),
           body: Column(
             
             children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  height: 135.0,
-                  enlargeCenterPage: true,
-                  
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  viewportFraction: 0.97,
-                  enableInfiniteScroll: true,
-                  autoPlayAnimationDuration:
-                      const Duration(microseconds: 5000),
-                ),
-                carouselController: carouselController,
-                items: [
-                  BannerCard(imageAddress: 'assets/splash/review.webp',),
-                  BannerCard(imageAddress: 'assets/user_home/banner image 3.webp',),
-                  BannerCard(imageAddress: 'assets/user_home/service banner 2.jpg')
-                ],
-              ),
               
+              ColoredBox(
+                
+                color: const Color.fromARGB(255, 121, 216, 206),
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom:5),
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      height: 150.0,
+                      enlargeCenterPage: true,
+                      
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      viewportFraction: 0.8,
+                     
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration:
+                          const Duration(microseconds: 5000),
+                    ),
+                    carouselController: carouselController,
+                    items: [
+                      BannerCard(imageAddress: 'assets/splash/cake banner.jpeg',),
+                      BannerCard(imageAddress: 'assets/splash/painting banner.jpeg',),
+                      BannerCard(imageAddress: 'assets/splash/carpenter banner.webp')
+                    ],
+                  ),
+                ),
+              ),
+              kHeight10,
              Card(
                 child: Container(
               decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 123, 230, 219),
+                  image: const DecorationImage(image: AssetImage('assets/splash/bgImage.jpeg'),fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(10)),
               height: height / 11,
               width: width / 1.1,
@@ -123,10 +117,12 @@ const Icon(Icons.dry_cleaning),
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text(
-                          "lets's Get Started",
+                          "Lets's Get Started",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            
+                            
                           ),
                         ),
                         Icon(
@@ -140,7 +136,7 @@ const Icon(Icons.dry_cleaning),
               ),
                 ),
               ),
-              
+              kHeight10,
               Row(                
                 children: const[
               Padding(
@@ -152,7 +148,7 @@ const Icon(Icons.dry_cleaning),
                               fontWeight: FontWeight.bold,                               
                             ),
                           ),
-             ),
+                         ),
                        
               
               ],),
@@ -173,7 +169,7 @@ const Icon(Icons.dry_cleaning),
                           child:serviceCategoryIcons[index],
                         ),
                       ),
-                      Text(serviceCategoryNames[index]),
+                      Text(serviceCategoryNames[index],style: TextStyle(fontWeight: FontWeight.bold),),
                     ],
                   ));
                 },
@@ -185,8 +181,8 @@ const Icon(Icons.dry_cleaning),
               
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children:const [
-               Padding(
+                children: [
+               const Padding(
                  padding: EdgeInsets.only(left: 17),
                  child: Text(
                               "Recomended services",
@@ -197,15 +193,14 @@ const Icon(Icons.dry_cleaning),
                             ),
                ),
                  Padding(
-                   padding: EdgeInsets.only(right:17),
-                   child: Text(
-                              "View All",
-                              style: TextStyle(
+                   padding: const EdgeInsets.only(right:17),
+                   child: TextButton(onPressed:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>ViewAllScreen() ,));
+                   }, child: const Text('View All',style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold, 
                                 color: Color.fromARGB(255, 123, 230, 219),                              
-                              ),
-                            ),
+                              ),))
                  ),
                 ],
               ),
@@ -213,41 +208,44 @@ const Icon(Icons.dry_cleaning),
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7,right: 13,left: 13),
                   child: GridView.builder(gridDelegate:const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent:200,childAspectRatio: 3/3.4,crossAxisSpacing: 10,mainAxisSpacing: 10), itemBuilder: (context, index) {
-                    return SizedBox(
-                      
-                      width: width/2,
-                      child:Column(children: [
-                        Container(
-                          height: height/7.7,
-                          width: width/2.1,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(9),image: DecorationImage(image: AssetImage(recomendedServiceImage[index]),fit:BoxFit.cover)),),
-                        Row(
-                          children:const [
-                             Text('Driving',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                        Row(
-                          children:const [
-                             Text('Destination Droping',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-                          ],
-                        ),
-                        Row(
-                          children: const [
-                            Icon(Icons.star_rate_rounded,color: Colors.yellow,size: 23,),
-                            Text('4.9(1.2k + reviews)',style: TextStyle(fontWeight: FontWeight.bold),),
+                    return GestureDetector(
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDescriptionScrn(),)),
+                      child: SizedBox(
                         
-                          ],
-                        ),
-                        Row(
-                          children: const [
-                            Icon(Icons.monetization_on,color: Color.fromARGB(255, 58, 201, 15),size: 23,),
-                            Text("100-1000",style: TextStyle(fontWeight: FontWeight.bold),),
+                        width: width/2,
+                        child:Column(children: [
+                          Container(
+                            height: height/7.7,
+                            width: width/2.1,
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(9),image: DecorationImage(image: AssetImage(recomendedServiceImage[index]),fit:BoxFit.cover)),),
+                          Row(
+                            children:const [
+                               Text('Driving',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                          Row(
+                            children:const [
+                               Text('Destination Droping',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                          Row(
+                            children: const [
+                              Icon(Icons.star_rate_rounded,color: Colors.yellow,size: 23,),
+                              Text('4.9(1.2k + reviews)',style: TextStyle(fontWeight: FontWeight.bold),),
+                          
+                            ],
+                          ),
+                          Row(
+                            children: const [
+                              Icon(Icons.monetization_on,color: Color.fromARGB(255, 58, 201, 15),size: 23,),
+                              Text("100-1000",style: TextStyle(fontWeight: FontWeight.bold),),
+                          
+                            ],
+                          ),
+                          
+                        ],)
                         
-                          ],
-                        ),
-                        
-                      ],)
-                      
+                      ),
                     );
                   },itemCount: 6,),
                 ),

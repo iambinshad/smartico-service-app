@@ -10,7 +10,7 @@ import 'package:smartico/vendor/model/authentication/vendor_verify_otp.dart';
 import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
 import 'package:smartico/vendor/view/home/vendor_home.dart';
 import '../../user/view/authentication/user_sign_in.dart';
-import '../../user/view/bottom_nav_screens/user_home.dart';
+import '../../user/view/bottom_nav_screens/home/user_home.dart';
 import '../../vendor/controller/authentication/sign_in/sign_in_api_service.dart';
 import '../../vendor/controller/authentication/sign_up/sign_up_api_service.dart';
 import '../../vendor/model/authentication/vendor_sign_in_req_model.dart';

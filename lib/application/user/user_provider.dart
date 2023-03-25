@@ -12,7 +12,7 @@ import '../../user/model/authentication/user_sign_up_model.dart';
 import '../../user/model/authentication/user_sign_up_res.dart';
 import '../../user/model/authentication/user_verify_otp.dart';
 import '../../user/view/authentication/user_sign_in.dart';
-import '../../user/view/bottom_nav_screens/user_home.dart';
+import '../../user/view/bottom_nav_screens/home/user_home.dart';
 class UserProvider with ChangeNotifier {
 
   bool userSignInPswdVisiblity = false;

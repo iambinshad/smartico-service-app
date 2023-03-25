@@ -4,7 +4,7 @@ import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
-import 'package:smartico/user/view/bottom_nav_screens/user_home.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/user_home.dart';
 
 import 'application/user/user_provider.dart';
 
