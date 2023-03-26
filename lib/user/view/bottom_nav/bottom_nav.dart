@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartico/user/view/bottom_nav_screens/account.dart';
 import 'package:smartico/user/view/bottom_nav_screens/all_category.dart';
-import 'package:smartico/user/view/bottom_nav_screens/chat_screen.dart';
+import 'package:smartico/user/view/bottom_nav_screens/chat/chats.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/user_home.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -17,7 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List bottomNavScreens = [
    const UserHomePage(),
     AllCategroryList(),
-   const ChatScreen(),
+    ChatsScreen(),
     const ProfilePage()
   ];
 
@@ -34,8 +34,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
-        selectedItemColor: Color.fromARGB(255, 52, 37, 168),
-        unselectedItemColor: Color.fromARGB(255, 149, 226, 218),
+        selectedItemColor: const Color.fromARGB(255, 52, 37, 168),
+        unselectedItemColor: const Color.fromARGB(255, 149, 226, 218),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(

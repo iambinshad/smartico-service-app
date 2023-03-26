@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 
 class ViewAllScreen extends StatelessWidget {
    ViewAllScreen({super.key});
@@ -21,7 +20,7 @@ class ViewAllScreen extends StatelessWidget {
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
-        title:Text('Recomended Services',style: TextStyle(fontWeight: FontWeight.bold),),
+        title:const Text('Recomended Services',style: TextStyle(fontWeight: FontWeight.bold),),
         
       ),
       body: ListView.builder(itemBuilder: (context, index) {
@@ -40,7 +39,7 @@ class ViewAllScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Text('Full Painting',style: TextStyle(fontFamily: 'Roboto',fontSize: 23,fontWeight: FontWeight.bold),),
+                       const Text('Full Painting',style: TextStyle(fontFamily: 'Roboto',fontSize: 23,fontWeight: FontWeight.bold),),
                        Row(
                         children:const [
                           Icon(Icons.star_rounded,color: Colors.blue,),
@@ -52,8 +51,8 @@ class ViewAllScreen extends StatelessWidget {
                     ],
                   ),
                   Row(
-                    children: [
-                      Text('\$40',style: TextStyle(fontSize: 21,color: Colors.blue),)
+                    children:const [
+                       Text('\$40',style: TextStyle(fontSize: 21,color: Colors.blue),)
                     ],
                   )
                 ],
