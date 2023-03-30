@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart' show BuildContext, Colors, MaterialApp, StatelessWidget, ThemeData, Widget, runApp;
-import 'package:overlay_support/overlay_support.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'application/user/user_provider.dart';
 
 void main() {
   
-  runApp(const MyApp());
+    WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle( const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // transparent status bar
+  ));
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+ 
+   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +28,8 @@ class MyApp extends StatelessWidget {
       providers: [ListenableProvider(create: (context) => UserProvider(),),
       ListenableProvider(create: (context) => VendorProvider(),
       ),
-      ListenableProvider(create: (context) => CommonProvider(),)
+      ListenableProvider(create: (context) => CommonProvider(),),
+      ListenableProvider(create: (context) => AdminProvider(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -31,7 +40,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           
         ),
-        home:  const SplashScreen(),
+        home:  const VendorBottomNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

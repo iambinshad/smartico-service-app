@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
-
 import '../user/view/bottom_nav/bottom_nav.dart';
 
 class RollSelectingScreen extends StatefulWidget {
@@ -55,11 +54,12 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                       onChanged: (value) {
                         setState(() {
                           customerCheckboxValue = !customerCheckboxValue;
-                          serviceProviderCheckBoxValue =!customerCheckboxValue;
+                          serviceProviderCheckBoxValue = !customerCheckboxValue;
                         });
                       },
                       shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
                     ),
                     Text(
                       'Customer',
@@ -85,12 +85,14 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                       value: serviceProviderCheckBoxValue,
                       onChanged: (value) {
                         setState(() {
-                          serviceProviderCheckBoxValue = !serviceProviderCheckBoxValue;
+                          serviceProviderCheckBoxValue =
+                              !serviceProviderCheckBoxValue;
                           customerCheckboxValue = !serviceProviderCheckBoxValue;
                         });
                       },
                       shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
                     ),
                     Text(
                       'Service Provider',
@@ -102,31 +104,43 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       image: const DecorationImage(
-                        image: AssetImage('assets/splash/service provider.jpeg'),
+                        image:
+                            AssetImage('assets/splash/service provider.jpeg'),
                         fit: BoxFit.cover,
                       )),
                   width: width / 1,
                   height: width / 2,
                 ),
-                SizedBox(height: width/10,),
+                SizedBox(
+                  height: width / 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      
                       onPressed: () {
-                        if(customerCheckboxValue==true){
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => const BottomNavBar(),), (route) => false);
-                        }else if(serviceProviderCheckBoxValue==true){
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => VendorSignIn(),), (route) => false);
-          
+                        if (customerCheckboxValue == true) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const UserBottomNavBar(),
+                              ),
+                              (route) => false);
+                        } else if (serviceProviderCheckBoxValue == true) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VendorSignIn(),
+                              ),
+                              (route) => false);
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         elevation: 5.0,
                         padding: EdgeInsets.symmetric(
                             horizontal: width / 4, vertical: width / 27),
-                        backgroundColor: const Color.fromARGB(255, 123, 230, 219),
+                        backgroundColor:
+                            const Color.fromARGB(255, 123, 230, 219),
                       ),
                       child: const Text(
                         'Get Started',
@@ -136,7 +150,9 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    SizedBox(height: 30,)
+                    const SizedBox(
+                      height: 30,
+                    )
                   ],
                 )
               ],

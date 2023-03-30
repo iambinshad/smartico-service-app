@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/core/theme/theme.dart';
 import 'package:smartico/user/view/authentication/user_sign_up.dart';
@@ -198,7 +199,7 @@ class UserSignIn extends StatelessWidget {
                   return const SizedBox();
                   }),
                   kHeight10,
-                            // Row(
+                            // Row(j
                             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             //   children: const [
                             //     Expanded(
@@ -293,7 +294,7 @@ class UserSignIn extends StatelessWidget {
   }
 
   Future<void> signInClicked(BuildContext context) async {
- Provider.of<CommonProvider>(context,listen: false).onloading();
+ 
     log('signin clicked');
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
@@ -301,9 +302,18 @@ class UserSignIn extends StatelessWidget {
     if (email.isEmpty || password.isEmpty) {
       return;
     }
-    log('checkUserSignIn called');
-    Provider.of<UserProvider>(context, listen: false)
+    
+    if(email == 'smarticoapp23@gmail.com'){
+      log('You are Admin');
+      Provider.of<CommonProvider>(context,listen: false).onloading();
+
+      Provider.of<AdminProvider>(context,listen: false).checkAdminSignIn(context, email, password);
+    }else{
+      Provider.of<CommonProvider>(context,listen: false).onloading();
+      log('You are someone else');
+      Provider.of<UserProvider>(context, listen: false)
         .checkUserSignIn(context, password, email);
+    }
   }
 
   bool emailValidation(value) {

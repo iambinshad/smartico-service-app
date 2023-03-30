@@ -8,9 +8,8 @@ import 'package:smartico/vendor/model/authentication/vendor_sign_up_model.dart';
 import 'package:smartico/vendor/model/authentication/vendor_sign_up_res.dart';
 import 'package:smartico/vendor/model/authentication/vendor_verify_otp.dart';
 import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
-import 'package:smartico/vendor/view/home/vendor_home.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../user/view/authentication/user_sign_in.dart';
-import '../../user/view/bottom_nav_screens/home/user_home.dart';
 import '../../vendor/controller/authentication/sign_in/sign_in_api_service.dart';
 import '../../vendor/controller/authentication/sign_up/sign_up_api_service.dart';
 import '../../vendor/model/authentication/vendor_sign_in_req_model.dart';
@@ -33,11 +32,11 @@ class VendorProvider extends ChangeNotifier {
         VendorSignInReqModel(password: password, email: email);
     final tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
     if (tokenData?.token != null) {
-      storage.write(key: "VendorsignInToken", value: jsonEncode(tokenData?.token));
+      await storage.write(key: "VendorsignInToken", value: jsonEncode(tokenData?.token));
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const VendorHomeScreen();
+          return const VendorBottomNavBar();
         },
       ), (route) => false);
       UserSignIn().disposeTextFiled();
@@ -84,10 +83,10 @@ log(signUpVendorDatas.toString());
     VendorSignUpResModel? tokenData = await VendorOtpVerifyApiService().VendorOtpVerification(otp, context);
     log(tokenData.toString());
     if(tokenData != null){
-      storage.write(key: 'VendorsignUpToken', value: jsonEncode(tokenData.token));
+      await storage.write(key: 'VendorsignUpToken', value: jsonEncode(tokenData.token));
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return  const VendorHomeScreen();
+          return  const VendorBottomNavBar();
         },
       ), (route) => false);
 

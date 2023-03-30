@@ -7,7 +7,8 @@ import 'package:smartico/application/common/common_provider.dart';
 import '../../../../core/api/api_configration.dart';
 import '../../../model/authentication/vendor_sign_in_req_model.dart';
 import '../../../model/authentication/vendor_sign_in_res_model.dart';
-import '../../../view/home/vendor_home.dart';
+import '../../../view/bottom_nav/vendor_bottom_nav.dart';
+import '../../../view/bottom_nav_screens/dashboard.dart';
 
 class VendorSignInApiService{
   Dio dio = Dio();
@@ -31,7 +32,7 @@ class VendorSignInApiService{
       log(e.message.toString());
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const VendorHomeScreen();
+          return const VendorBottomNavBar();
         },
       ), (route) => false);
     }

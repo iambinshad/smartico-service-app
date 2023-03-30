@@ -22,7 +22,7 @@ class UserProvider with ChangeNotifier {
   bool isOtpValidator = true;
   FlutterSecureStorage storage = const FlutterSecureStorage();
   
-  //----User Authentification Mehtods----//
+  //----User Authentication Mehtods----//
 
   // UserSignIn Method
   Future<void> checkUserSignIn(
@@ -34,12 +34,12 @@ class UserProvider with ChangeNotifier {
         UserSignInReqModel(password: email, email: password);
     final tokenData = await UserSignInApiService().userSignIn(signInUserDatas, context);
     if (tokenData?.token != null) {
-      storage.write(key: "UsersignInToken", value: jsonEncode(tokenData?.token));
+     await storage.write(key: "UsersignInToken", value: jsonEncode(tokenData?.token));
 
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const BottomNavBar();
+          return const UserBottomNavBar();
         },
       ), (route) => false);
       UserSignIn().disposeTextFiled();
@@ -47,6 +47,7 @@ class UserProvider with ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+
 
 // User Sign Up Method
   Future<void> signUPNewUser(
@@ -87,7 +88,7 @@ class UserProvider with ChangeNotifier {
 
     log(tokenData.toString());
     if (tokenData != null) {
-      storage.write(key: 'UsersignUpToken', value: jsonEncode(tokenData.token));
+     await storage.write(key: 'UsersignUpToken', value: jsonEncode(tokenData.token));
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return  const RollSelectingScreen();
