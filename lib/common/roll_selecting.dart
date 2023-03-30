@@ -1,160 +1,143 @@
 import 'package:flutter/material.dart';
+import 'package:smartico/core/constants.dart';
+import 'package:smartico/core/widgets.dart';
+import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 
-import '../core/widgets.dart';
-import '../vendor/view/authentication/vendor_sign_in.dart';
+import '../user/view/bottom_nav/bottom_nav.dart';
 
-class RollSelectingScreen extends StatelessWidget {
-  RollSelectingScreen({super.key});
+class RollSelectingScreen extends StatefulWidget {
+  const RollSelectingScreen({super.key});
 
+  @override
+  State<RollSelectingScreen> createState() => _RollSelectingScreenState();
+}
+
+class _RollSelectingScreenState extends State<RollSelectingScreen> {
+  bool customerCheckboxValue = false;
+  bool serviceProviderCheckBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text(
-            'Select A Role',
-            style: TextStyle(
-                fontSize: 25,
-                fontFamily: 'ROBOTO',
-                fontWeight: FontWeight.bold),
+          title: Image(
+            image: const AssetImage('assets/splash/logo3.webp'),
+            height: width / 12,
           ),
           centerTitle: true,
           backgroundColor: const Color.fromARGB(255, 123, 230, 219),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SafeArea(
+          padding: const EdgeInsets.only(right: 23, left: 23),
+          child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Card(
-                      elevation: 4.0,
-                      child: Column(
-                        children: [
-                          kHeight40,
-                          kHeight10,
-                          const Text(
-                            'Looking For A Worker',
-                            style: TextStyle(
-                                fontSize: 35,
-                                color: Color.fromARGB(255, 123, 230, 219),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold),
-                          ),
-                          kHeight40,
-                          const Center(
-                            child: Text(
-                              'To place any type of order to',
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          const Text(
-                            'search for a performer',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w500),
-                          ),
-                          kHeight40,
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VendorSignIn(),
-                                  ));
-                            },
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(5.0),
-                              fixedSize: MaterialStateProperty.all(
-                                const Size(280, 45),
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 123, 230, 219),
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'I Need Service',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 25),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                kHeight10,
+                const Text(
+                  'You are',
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Card(
-                      elevation: 4.0,
-                      child: Column(
-                        children: [
-                          kHeight40,
-                          kHeight10,
-                          const Text(
-                            'I Want To Find A Job',
-                            style: TextStyle(
-                                fontSize: 35,
-                                color: Color.fromARGB(255, 123, 230, 219),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold),
-                          ),
-                          kHeight40,
-                          const Center(
-                            child: Text(
-                              'Search And Execute Orders In',
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          const Text(
-                            'your field of activity',
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w500),
-                          ),
-                          kHeight40,
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VendorSignIn(),
-                                  ));
-                            },
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(5.0),
-                              fixedSize: MaterialStateProperty.all(
-                                const Size(280, 45),
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 123, 230, 219),
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                              'I Need Job',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 25),
-                            ),
-                          ),
-                        ],
+                kHeight10,
+                const Text(
+                  'Please select your role for this app',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                kHeight10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                      value: customerCheckboxValue,
+                      onChanged: (value) {
+                        setState(() {
+                          customerCheckboxValue = !customerCheckboxValue;
+                          serviceProviderCheckBoxValue =!customerCheckboxValue;
+                        });
+                      },
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    ),
+                    Text(
+                      'Customer',
+                      style: mediumText,
+                    )
+                  ],
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/splash/customer.jpeg'),
+                        fit: BoxFit.cover,
+                      )),
+                  width: width / 1,
+                  height: width / 2,
+                ),
+                kHeight20,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                      value: serviceProviderCheckBoxValue,
+                      onChanged: (value) {
+                        setState(() {
+                          serviceProviderCheckBoxValue = !serviceProviderCheckBoxValue;
+                          customerCheckboxValue = !serviceProviderCheckBoxValue;
+                        });
+                      },
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    ),
+                    Text(
+                      'Service Provider',
+                      style: mediumText,
+                    )
+                  ],
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/splash/service provider.jpeg'),
+                        fit: BoxFit.cover,
+                      )),
+                  width: width / 1,
+                  height: width / 2,
+                ),
+                SizedBox(height: width/10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      
+                      onPressed: () {
+                        if(customerCheckboxValue==true){
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => const BottomNavBar(),), (route) => false);
+                        }else if(serviceProviderCheckBoxValue==true){
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) => VendorSignIn(),), (route) => false);
+          
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 5.0,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width / 4, vertical: width / 27),
+                        backgroundColor: const Color.fromARGB(255, 123, 230, 219),
+                      ),
+                      child: const Text(
+                        'Get Started',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 30,)
+                  ],
                 )
               ],
             ),

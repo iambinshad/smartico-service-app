@@ -12,21 +12,16 @@ class ChatsScreen extends StatelessWidget {
     'Rajubhai Malhotra',
     'Akshay rav',
     'Robin jeda',
-    'Drona chariya',
     'Jasir Ali',
-    'Rajubhai Malhotra',
-    'Akshay rav',
-    'Robin jeda',
+    'Rajubhai Malhotra'
   ];
  List recomendedServiceImage = [
     'assets/splash/painter.jpeg',
-    'assets/works/driver 2.jpg',
     'assets/splash/tv repair.jpeg',  
     'assets/works/profile pic.jpg'
-    'assets/works/driver.jpg',
+    
     'assets/splash/painter.jpeg',
-    'assets/works/driver 2.jpg',
-    'assets/splash/tv repair.jpeg',
+    'assets/splash/tv repair.jpeg'
   ];
 
 
@@ -39,6 +34,7 @@ class ChatsScreen extends StatelessWidget {
         backgroundColor: mainColor,
         title: Text('Messages',style:headText ),),
         body: Column(
+          
           children: [
             Expanded(
               child: ListView.builder(itemBuilder: (context, index) {
@@ -59,7 +55,7 @@ class ChatsScreen extends StatelessWidget {
             
                 );
                 
-              },itemCount: 8,),
+              },itemCount: 6,),
             )
           ],
         ),

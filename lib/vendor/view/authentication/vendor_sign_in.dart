@@ -31,7 +31,7 @@ class VendorSignIn extends StatelessWidget {
             child: Column(children: [
             const SizedBox(
                 height: 115,
-                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 100,width: 230,),),
+                child: Center(child: Image(image: AssetImage('assets/splash/logo3.webp',),height: 70,width: 200,),),
               ),
               Center(
                 child: Padding(
@@ -169,58 +169,58 @@ class VendorSignIn extends StatelessWidget {
                         ),
                       ),
                       kHeight20,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Expanded(
-                              child: Padding(
-                            padding: EdgeInsets.only(right: 18, left: 18),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                              height: 5,
-                            ),
-                          )),
-                          Text(
-                            'Or',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Expanded(
-                              child: Padding(
-                            padding: EdgeInsets.only(right: 22, left: 22),
-                            child: Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                              height: 5,
-                            ),
-                          )),
-                        ],
-                      ),
-                      kHeight10,
-                      Container(
-                        width: 315,
-                        height: 55,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                          children:  [
-                            kWidth10,
-                            const Center(
-                                child: Image(
-                              image: AssetImage(
-                                  'assets/authentication/google-logo-9808.png'),
-                              height: 35.0,
-                              width: 35.0,
-                            )),
-                            kWidth20,
-                            const Text(
-                              'Continue With Google',
-                              style: TextStyle(fontSize: 22,fontFamily: 'Roboto',fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: const [
+                      //     Expanded(
+                      //         child: Padding(
+                      //       padding: EdgeInsets.only(right: 18, left: 18),
+                      //       child: Divider(
+                      //         thickness: 1,
+                      //         color: Colors.black,
+                      //         height: 5,
+                      //       ),
+                      //     )),
+                      //     Text(
+                      //       'Or',
+                      //       style: TextStyle(fontSize: 20),
+                      //     ),
+                      //     Expanded(
+                      //         child: Padding(
+                      //       padding: EdgeInsets.only(right: 22, left: 22),
+                      //       child: Divider(
+                      //         thickness: 1,
+                      //         color: Colors.black,
+                      //         height: 5,
+                      //       ),
+                      //     )),
+                      //   ],
+                      // ),
+                      // kHeight10,
+                      // Container(
+                      //   width: 315,
+                      //   height: 55,
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(),
+                      //       borderRadius: BorderRadius.circular(8)),
+                      //   child: Row(
+                      //     children:  [
+                      //       kWidth10,
+                      //       const Center(
+                      //           child: Image(
+                      //         image: AssetImage(
+                      //             'assets/authentication/google-logo-9808.png'),
+                      //         height: 35.0,
+                      //         width: 35.0,
+                      //       )),
+                      //       kWidth20,
+                      //       const Text(
+                      //         'Continue With Google',
+                      //         style: TextStyle(fontSize: 22,fontFamily: 'Roboto',fontWeight: FontWeight.bold),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       kHeight10,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -244,13 +244,13 @@ class VendorSignIn extends StatelessWidget {
                           
                         ],
                       ),
-                       const TextButton(
-                        onPressed: null,
-                        child: Text('Forgot Password',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 121, 216, 206))),
-                                           ),
+                      //  const TextButton(
+                      //   onPressed: null,
+                      //   child: Text('Forgot Password',
+                      //       style: TextStyle(
+                      //           fontSize: 18,
+                      //           color: Color.fromARGB(255, 121, 216, 206))),
+                      //                      ),
                       
                     ],
                   )),

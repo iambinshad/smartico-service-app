@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/common/roll_selecting.dart';
 import 'package:smartico/user/model/authentication/usersignin_req.dart';
 import 'package:smartico/user/view/authentication/user_otp.dart';
+import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 import '../../user/controller/authentication/otp_verification/otp_verify_api_service.dart';
 import '../../user/controller/authentication/sign_in/sign_in_api_service.dart';
 import '../../user/controller/authentication/sign_up/sign_up_api_service.dart';
@@ -12,7 +13,6 @@ import '../../user/model/authentication/user_sign_up_model.dart';
 import '../../user/model/authentication/user_sign_up_res.dart';
 import '../../user/model/authentication/user_verify_otp.dart';
 import '../../user/view/authentication/user_sign_in.dart';
-import '../../user/view/bottom_nav_screens/home/user_home.dart';
 class UserProvider with ChangeNotifier {
 
   bool userSignInPswdVisiblity = false;
@@ -39,7 +39,7 @@ class UserProvider with ChangeNotifier {
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const UserHomePage();
+          return const BottomNavBar();
         },
       ), (route) => false);
       UserSignIn().disposeTextFiled();
@@ -90,7 +90,7 @@ class UserProvider with ChangeNotifier {
       storage.write(key: 'UsersignUpToken', value: jsonEncode(tokenData.token));
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return  RollSelectingScreen();
+          return  const RollSelectingScreen();
         },
       ), (route) => false);
     }

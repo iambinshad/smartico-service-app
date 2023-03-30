@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
+import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -48,7 +49,7 @@ const Icon(Icons.dry_cleaning),
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Color.fromARGB(255, 121, 216, 206),
+            backgroundColor: const Color.fromARGB(255, 121, 216, 206),
             
             title: const Padding(
              padding: EdgeInsets.only(top: 5,right: 13,left: 13),
@@ -95,7 +96,7 @@ const Icon(Icons.dry_cleaning),
               decoration: BoxDecoration(
                   image: const DecorationImage(image: AssetImage('assets/splash/bgImage.jpeg'),fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(10)),
-              height: height / 11,
+              height: height / 10,
               width: width / 1.1,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -111,21 +112,22 @@ const Icon(Icons.dry_cleaning),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10)),
-                    height: height / 23.5,
-                    width: width / 2.2,
+                    height: height / 22.5,
+                    width: width / 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
+                      children:  [
+                        TextButton(onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => VendorSignIn(),));
+                        }, child: const Text(
                           "Lets's Get Started",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                             
-                            
                           ),
-                        ),
-                        Icon(
+                        ),),
+                        const Icon(
                           Icons.arrow_forward,
                           size: 20,
                         )
@@ -153,7 +155,7 @@ const Icon(Icons.dry_cleaning),
               
               ],),
               SizedBox(
-                height: height/7.2,  
+                height: height/6,  
                 width: double.infinity,
                 child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -165,11 +167,11 @@ const Icon(Icons.dry_cleaning),
                       Padding(
                         padding: const EdgeInsets.all(9.0),
                         child: CircleAvatar(
-                          radius: 34,
+                          radius: 32,
                           child:serviceCategoryIcons[index],
                         ),
                       ),
-                      Text(serviceCategoryNames[index],style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(serviceCategoryNames[index],style: const TextStyle(fontWeight: FontWeight.bold),),
                     ],
                   ));
                 },
@@ -220,12 +222,12 @@ const Icon(Icons.dry_cleaning),
                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(9),image: DecorationImage(image: AssetImage(recomendedServiceImage[index]),fit:BoxFit.cover)),),
                           Row(
                             children:const [
-                               Text('Driving',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),),
+                               Text('Driving',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),overflow:TextOverflow.ellipsis ,),
                             ],
                           ),
                           Row(
                             children:const [
-                               Text('Destination Droping',style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                               Text('Destination Droping',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),overflow:TextOverflow.ellipsis ),
                             ],
                           ),
                           Row(

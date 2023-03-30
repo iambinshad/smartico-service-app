@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/user/user_provider.dart';
 
+import '../../../application/common/common_provider.dart';
 import '../../../core/widgets.dart';
 
 class UserOtpScreen extends StatelessWidget {
@@ -44,7 +45,7 @@ class UserOtpScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 380,
+                      height: 390,
                       width: 350,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -84,7 +85,7 @@ class UserOtpScreen extends StatelessWidget {
                             onPressed: () {
                               String otpvalidated =  otpFieldValidation(context);
                               if (otpvalidated == 'false') {
-                               
+                                Provider.of<CommonProvider>(context,listen: false).onloading();
                                 var oTP = field1.text +
                                     field2.text +
                                     field3.text +
@@ -118,6 +119,13 @@ class UserOtpScreen extends StatelessWidget {
                             ),
                           ),
                           kHeight10,
+                                  Consumer<CommonProvider>(
+                builder: (context, value, child){
+                  if(value.loading){
+                    return const Center( child: CircularProgressIndicator(),);
+      }
+                  return const SizedBox();
+                  }),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

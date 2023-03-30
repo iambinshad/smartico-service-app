@@ -1,17 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show BuildContext, Colors, MaterialApp, StatelessWidget, ThemeData, Widget, runApp;
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
-import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/user_home.dart';
-
 import 'application/user/user_provider.dart';
 
-
-
-
 void main() {
+  
   runApp(const MyApp());
 }
 
@@ -27,7 +23,7 @@ class MyApp extends StatelessWidget {
       ListenableProvider(create: (context) => CommonProvider(),)
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Smartico Service Provider',
         theme: ThemeData(
           
           useMaterial3: true,
@@ -35,7 +31,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           
         ),
-        home:   BottomNavBar(),
+        home:  const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

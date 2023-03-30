@@ -19,11 +19,13 @@ class UserOtpVerifyApiService{
       Response response = await dio.post(path, data: jsonEncode(otp.toJson()));
       log(response.toString());
       if (response.statusCode == 401) {
+         Provider.of<CommonProvider>(context,listen: false).offLoading();
         log(response.statusCode.toString());
         Provider.of<CommonProvider>(context, listen: false)
             .showInvalidOtpSnack(context);
         return null;
       } else if (response.statusCode == 200 || response.statusCode == 201) {
+         Provider.of<CommonProvider>(context,listen: false).offLoading();
         log('success');
         if (response.data['token'] != null) {
           Provider.of<CommonProvider>(context, listen: false)
@@ -37,9 +39,11 @@ class UserOtpVerifyApiService{
 
         return null;
       }
-      Provider.of<CommonProvider>(context, listen: false)
-          .showSomethingWentWrongSnack(context);
+      
     } on DioError catch (e) {
+       Provider.of<CommonProvider>(context,listen: false).offLoading();
+        Provider.of<CommonProvider>(context, listen: false)
+            .showInvalidOtpSnack(context);
       log(e.message.toString());
     }
     return null;

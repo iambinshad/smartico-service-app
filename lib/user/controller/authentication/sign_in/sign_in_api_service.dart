@@ -20,6 +20,7 @@ class UserSignInApiService{
           await dio.post(path, data: jsonEncode(userSignInReqModel.toJson()));
       // log(response.statusMessage.toString());
       if (response.statusCode == 200 || response.statusCode == 201) {
+       Provider.of<CommonProvider>(context,listen: false).offLoading();
          final UserSignInResModel returnsignInResModel =
             UserSignInResModel.fromJson(response.data);
         return returnsignInResModel;
@@ -27,6 +28,7 @@ class UserSignInApiService{
        
       } 
     } on DioError catch (e) {
+      Provider.of<CommonProvider>(context,listen: false).offLoading();
       Provider.of<CommonProvider>(context, listen: false).userNotExist(context);
       log(e.message.toString());
     }

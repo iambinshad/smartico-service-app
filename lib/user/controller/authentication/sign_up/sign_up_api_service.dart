@@ -18,11 +18,15 @@ class UserSignUpApiService{
           await dio.post(path, data: jsonEncode(userSignUpModel.toJson()));
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
+         Provider.of<CommonProvider>(context,listen: false).loading = false;
         // ignore: use_build_context_synchronously
         Provider.of<CommonProvider>(context, listen: false).userOtpSend(context);
         return 'Success';
+      }else{
+        Provider.of<CommonProvider>(context,listen: false).offLoading();
       }
     } on DioError catch (e) {
+      Provider.of<CommonProvider>(context,listen: false).loading = false;
       log(e.error.toString());
       Provider.of<CommonProvider>(context, listen: false)
           .userAlreadyExist(context);

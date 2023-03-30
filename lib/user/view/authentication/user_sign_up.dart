@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/common/common_provider.dart';
 
 
 import '../../../application/user/user_provider.dart';
@@ -24,13 +25,14 @@ class UserSignUP extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            const SizedBox(
-              height: 40,
+             SizedBox(
+              height: height/30,
             ),
             Center(
               child: Padding(
@@ -65,8 +67,9 @@ class UserSignUP extends StatelessWidget {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                focusedBorder:  OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(
                                         color: Color.fromARGB(
                                             255, 123, 230, 219))),
                                 enabledBorder: const OutlineInputBorder(
@@ -99,8 +102,9 @@ class UserSignUP extends StatelessWidget {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                focusedBorder:  OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                    borderSide:const BorderSide(
                                         color: Color.fromARGB(
                                             255, 123, 230, 219))),
                                 enabledBorder: const OutlineInputBorder(
@@ -136,8 +140,9 @@ class UserSignUP extends StatelessWidget {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                focusedBorder:  OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                    borderSide: const BorderSide(
                                         color: Color.fromARGB(
                                             255, 123, 230, 219))),
                                 enabledBorder: const OutlineInputBorder(
@@ -173,8 +178,9 @@ class UserSignUP extends StatelessWidget {
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                focusedBorder:  OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                    borderSide:const BorderSide(
                                         color: Color.fromARGB(
                                             255, 123, 230, 219))),
                                 enabledBorder: const OutlineInputBorder(
@@ -222,8 +228,9 @@ class UserSignUP extends StatelessWidget {
                                           value.userSignUpPswdVisiblity);
                                     },
                                   ),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                  focusedBorder:  OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                      borderSide:const BorderSide(
                                           color: Color.fromARGB(
                                               255, 123, 230, 219))),
                                   enabledBorder: const OutlineInputBorder(
@@ -279,8 +286,9 @@ class UserSignUP extends StatelessWidget {
                                           value.userSignUpConfPswdVisiblity);
                                     },
                                   ),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
+                                  focusedBorder:  OutlineInputBorder(
+                                    borderRadius:BorderRadius.circular(20),
+                                      borderSide: const BorderSide(
                                           color: Color.fromARGB(
                                               255, 123, 230, 219))),
                                   enabledBorder: const OutlineInputBorder(
@@ -363,6 +371,14 @@ class UserSignUP extends StatelessWidget {
                             ),
                           ),
                           kHeight10,
+                                    Consumer<CommonProvider>(
+                builder: (context, value, child){
+                  if(value.loading){
+                    return const Center( child: CircularProgressIndicator(),);
+      }
+                  return const SizedBox();
+                  }),
+                  kHeight10,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -401,6 +417,7 @@ class UserSignUP extends StatelessWidget {
   }
 
   signUpButtonClicked(context) {
+    Provider.of<CommonProvider>(context,listen: false).loading = true;
     log('inside signUpbuttonClicked');
     final fullName = fullNameController.text.trim();
     final userName = userNameController.text.trim();

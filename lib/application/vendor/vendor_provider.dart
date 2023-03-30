@@ -30,14 +30,14 @@ class VendorProvider extends ChangeNotifier {
     final email = emailData;
     final password = passwordData;
     final signInVendorDatas =
-        VendorSignInReqModel(password: email, email: password);
+        VendorSignInReqModel(password: password, email: email);
     final tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
     if (tokenData?.token != null) {
       storage.write(key: "VendorsignInToken", value: jsonEncode(tokenData?.token));
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return const UserHomePage();
+          return const VendorHomeScreen();
         },
       ), (route) => false);
       UserSignIn().disposeTextFiled();
@@ -77,7 +77,7 @@ log(signUpVendorDatas.toString());
   }
 
 // User Otp Verification Method
-  Future<void> VerifyVendorOtp(context , otpNumber)async{
+  Future<void> verifyVendorOtp(context , otpNumber)async{
 
     final otp = VendorOtpVerifyModel(otp:int.parse(otpNumber));
 
