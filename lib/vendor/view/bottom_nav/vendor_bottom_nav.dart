@@ -4,7 +4,7 @@ import 'package:smartico/user/view/bottom_nav_screens/all_category.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/chats.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/user_home.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/dashboard.dart';
-import 'package:smartico/vendor/view/bottom_nav_screens/gigs_scrn.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/manage_orders.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/vendor_msg.dart';
 
@@ -20,7 +20,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
 
   List bottomNavScreens = [
    const DashboardScrn(),
-    const GigsScreen(),
+     GigsScreen(),
     const VendorMsgScrn(),
     const ManageOrders(),
      ProfilePage()
@@ -47,7 +47,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
               icon: Icon(
                 Icons.add_box_outlined,
               ),
-              label: 'Gigs Add'),
+              label: 'Add Gig'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.message_rounded,

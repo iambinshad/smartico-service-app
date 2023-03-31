@@ -89,9 +89,9 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                     isExpanded: true,
                                     hint: const Text('Select Gender'),
                                     items: genderListObject,
-                                    value: value.choosedGender,
+                                    value: value.chooseGender,
                                     onChanged: (newValue) {
-                                      value.dropdownvalue(newValue);
+                                      value.dropdownvalue(newValue,1);
                                       genderController.text =
                                           newValue.toString();
                                       log(genderController.text);

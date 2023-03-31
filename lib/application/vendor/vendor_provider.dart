@@ -16,7 +16,10 @@ import '../../vendor/model/authentication/vendor_sign_in_req_model.dart';
 
 class VendorProvider extends ChangeNotifier {
   var dateController = TextEditingController();
-  String? choosedGender;
+  String? chooseGender;
+  String? chooseType;
+  String? chooseCatogory;
+  
     FlutterSecureStorage storage = const FlutterSecureStorage();
 
 
@@ -95,8 +98,15 @@ log(signUpVendorDatas.toString());
 
 
 //----User Additional Methods----//
-  void dropdownvalue(newValue) {
-    choosedGender = newValue.toString();
+  void dropdownvalue(newValue,item) {
+
+    if(item==1){
+      chooseGender = newValue.toString();
+    }else if(item == 2){
+      chooseType =newValue.toString();
+    }else if(item == 3){
+      chooseCatogory =newValue.toString();
+    }
     notifyListeners();
   }
 }

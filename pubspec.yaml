@@ -45,6 +45,7 @@ dependencies:
   searchbar_animation: ^0.0.4
   overlay_support: ^2.1.0
   google_fonts: ^4.0.3
+  image_picker: ^0.8.7
   
 
   
