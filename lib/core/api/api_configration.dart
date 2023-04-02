@@ -1,5 +1,5 @@
 class ApiConfigration{
-  static const kIpAddress = '10.4.3.119';
+  static const kIpAddress = '10.0.12.2';
   static const kBaseUrl = "http://$kIpAddress:3500";
 
   //----User Endpoints---
@@ -7,14 +7,17 @@ class ApiConfigration{
   static const otp = '/OTP';
   static const verifyOtp = '/verifyOTP';
 
-
   //---Vendor Endpoints---
 
   //after kBaseUrl 
   static const vendor = '/vendor'; //add this /vendor before adding endopoints listed down
+
   static const vendorLogin = '/login';
   static const vendorOTP = '/vendorOTP';
   static const verifyVendorOTP = '/verifyVendorOTP';
+
+  //gig create 
+  static const newGIgCreate = '/newGig';
 
   
   //---Admin Endpoints---

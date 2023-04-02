@@ -170,6 +170,8 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) =>  GigsAddScreen(imagePath: galleryImage),
           ));
+            log(galleryImage.toString());
+          log(galleryImage!.path.toString());
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -189,6 +191,8 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) =>  GigsAddScreen(imagePath: cameraImage),
           ));
+          log(cameraImage.toString());
+          log(cameraImage!.path.toString());
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }

@@ -27,16 +27,17 @@ class VendorOtpVerifyApiService{
         return null;
       }else if(response.statusCode == 200 || response.statusCode == 201){
         log('success');
-        if(response.data['token'] != null){
+        
           Provider.of<CommonProvider>(context, listen: false)
               .showSuccessSnackBar(context);
           log(response.data['token']);
           final VendorSignUpResModel returnsignUpResModel =
               VendorSignUpResModel.fromJson(response.data);
+              
           log(returnsignUpResModel.token);
           return returnsignUpResModel;
-        }
-        return null;
+        
+        
       }
 
     }on DioError catch (e) {

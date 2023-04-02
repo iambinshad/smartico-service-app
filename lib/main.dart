@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
+import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'application/user/user_provider.dart';
 
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           
         ),
-        home:  const VendorBottomNavBar(),
+        home:   VendorBottomNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

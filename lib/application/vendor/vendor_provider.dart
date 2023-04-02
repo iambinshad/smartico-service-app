@@ -20,12 +20,12 @@ class VendorProvider extends ChangeNotifier {
   String? chooseType;
   String? chooseCatogory;
   
-    FlutterSecureStorage storage = const FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage();
 
 
-//----User Authentification Mehtods----//
+//----Vendor Authentification Mehtods----//
 
- // UserSignIn Method
+ // VendorSignIn Method
   Future<void> checkVendorSignIn(
       BuildContext context, emailData, passwordData) async {
     
@@ -34,8 +34,9 @@ class VendorProvider extends ChangeNotifier {
     final signInVendorDatas =
         VendorSignInReqModel(password: password, email: email);
     final tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
-    if (tokenData?.token != null) {
-      await storage.write(key: "VendorsignInToken", value: jsonEncode(tokenData?.token));
+    log(tokenData.toString());
+    if (tokenData != null) {
+      await storage.write(key: "VendorsignInToken", value: jsonEncode(tokenData.token));
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
@@ -48,7 +49,7 @@ class VendorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// User Sign Up Method
+// Vendor Sign Up Method
   Future<void> signUpNewVendor(
       {required fullName,
       required userName,
@@ -78,7 +79,7 @@ log(signUpVendorDatas.toString());
     }
   }
 
-// User Otp Verification Method
+// Vendor Otp Verification Method
   Future<void> verifyVendorOtp(context , otpNumber)async{
 
     final otp = VendorOtpVerifyModel(otp:int.parse(otpNumber));
@@ -87,6 +88,7 @@ log(signUpVendorDatas.toString());
     log(tokenData.toString());
     if(tokenData != null){
       await storage.write(key: 'VendorsignUpToken', value: jsonEncode(tokenData.token));
+      await storage.write(key: 'vendorId', value: tokenData.data.user.id);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return  const VendorBottomNavBar();
@@ -97,7 +99,7 @@ log(signUpVendorDatas.toString());
   }
 
 
-//----User Additional Methods----//
+//----Vendor Additional Methods----//
   void dropdownvalue(newValue,item) {
 
     if(item==1){

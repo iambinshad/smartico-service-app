@@ -18,6 +18,9 @@ class VendorSignUpApiService{
       Response response =
           await dio.post(path, data: jsonEncode(vendorSignUpModel.toJson()));
       log(response.statusCode.toString());
+      log(response.data.toString());
+      log(response.data.toString());
+      log(response.toString());
       if (response.statusCode == 200) {
         // ignore: use_build_context_synchronously
         Provider.of<CommonProvider>(context, listen: false).userOtpSend(context);

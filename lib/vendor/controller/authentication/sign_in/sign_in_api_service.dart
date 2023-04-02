@@ -8,25 +8,29 @@ import '../../../../core/api/api_configration.dart';
 import '../../../model/authentication/vendor_sign_in_req_model.dart';
 import '../../../model/authentication/vendor_sign_in_res_model.dart';
 import '../../../view/bottom_nav/vendor_bottom_nav.dart';
-import '../../../view/bottom_nav_screens/dashboard.dart';
 
-class VendorSignInApiService{
+class VendorSignInApiService {
   Dio dio = Dio();
-
-   Future<VendorSignInResModel?> vendorSignIn(
+  Future<VendorSignInResModel?> vendorSignIn(
       VendorSignInReqModel userSignInReqModel, BuildContext context) async {
-    String path = ApiConfigration.kBaseUrl + ApiConfigration.vendor + ApiConfigration.vendorLogin;
+    String path = ApiConfigration.kBaseUrl +
+        ApiConfigration.vendor +
+        ApiConfigration.vendorLogin;
     try {
+      log('inside try');
       Response response =
           await dio.post(path, data: jsonEncode(userSignInReqModel.toJson()));
       log(response.toString());
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final VendorSignInResModel returnsignInResModel =
-            VendorSignInResModel.fromJson(response.data);
-        return returnsignInResModel;
-        
-      } else if (response.statusMessage=="Wrong Password") {
-        Provider.of<CommonProvider>(context, listen: false).userNotExist(context);
+ if (response.statusMessage == "Wrong Password") {
+        Provider.of<CommonProvider>(context, listen: false)
+            .userNotExist(context);
+      }else if (response.statusCode == 200 || response.statusCode == 201) {
+        log(response.data.toString());
+        if (response.data['token'] != null) {
+          final VendorSignInResModel returnsignInResModel =
+              VendorSignInResModel.fromJson(response.data);
+          return returnsignInResModel;
+        }
       }
     } on DioError catch (e) {
       log(e.message.toString());

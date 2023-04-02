@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/vendor/view/authentication/vendor_signup_firsrt_scrn.dart';
-
-
 import '../../../application/user/user_provider.dart';
 import '../../../core/widgets.dart';
-import '../../../user/view/authentication/user_sign_up.dart';
 
 class VendorSignIn extends StatelessWidget {
    VendorSignIn({super.key});
@@ -15,8 +12,6 @@ class VendorSignIn extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -229,9 +224,7 @@ class VendorSignIn extends StatelessWidget {
                             "Don't have an account?",
                             style: TextStyle(fontSize: 18),
                           ),
-                          
                            TextButton(
-    
                               child: const Text('Sign Up',
                               style: TextStyle(
                                   fontSize: 18,
@@ -266,13 +259,8 @@ class VendorSignIn extends StatelessWidget {
   Future<void> signInClicked(context) async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-
-
   VendorProvider().checkVendorSignIn(context, email, password);
-  
-    
   }
-
   bool emailValidation(value) {
     bool emailResult = EmailValidator.validate(value);
     return emailResult;
