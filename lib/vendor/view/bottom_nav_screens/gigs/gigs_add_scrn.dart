@@ -1,41 +1,58 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-
+import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/vendor/model/category/get_all_category.dart';
 import 'package:smartico/vendor/model/new_gig/new_gig_create_model.dart';
-
 import '../../../../application/vendor/vendor_provider.dart';
 import '../../../controller/gig/new_gig.dart';
+import 'package:cloudinary_public/cloudinary_public.dart';
 
-class GigsAddScreen extends StatelessWidget {
+class GigsAddScreen extends StatefulWidget {
   GigsAddScreen({super.key, required this.imagePath});
 
-  List categoryList = [
-    'Cake',
-    'Baking',
-    'Electrician',
-    'Painter',
-    'Logo Maker',
-  ];
+
+
+  File? imagePath;
+
+  @override
+  State<GigsAddScreen> createState() => _GigsAddScreenState();
+}
+
+class _GigsAddScreenState extends State<GigsAddScreen> {
+  
+
   List serviceList = ['Service', "product"];
+  
 
   final titleController = TextEditingController();
+
   final serviceTypeController = TextEditingController();
+
   final overViewController = TextEditingController();
+
   final descriptionController = TextEditingController();
+
   final priceController = TextEditingController();
+
   final categoryController = TextEditingController();
 
-  // ignore: prefer_typing_uninitialized_variables
-  File? imagePath;
   final _formKey = GlobalKey<FormState>();
+List<CatogoryResModel?>?cat;
+@override
+  void initState() {
+     getAllCategory();
+    
+  }
+final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
 
   @override
   Widget build(BuildContext context) {
+    
+    // List categoryList =Provider.of<NewGIgCreateProvider>(context).categories![0]!.data.newCategory.name as List;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -54,7 +71,7 @@ class GigsAddScreen extends StatelessWidget {
               height: width / 1.5,
               width: width,
               child: Image.file(
-                imagePath!,
+                widget.imagePath!,
                 fit: BoxFit.cover,
               ),
             ),
@@ -180,7 +197,7 @@ class GigsAddScreen extends StatelessWidget {
                     ),
                   ),
                   TextFieldName(value: 'Type'),
-                  Consumer<VendorProvider>(builder: (context, value, child) {
+                  Consumer2<VendorProvider,NewGIgCreateProvider>(builder: (context, value,value2, child) {
                     List<DropdownMenuItem<Object>> typeListObject = serviceList
                         .map((valueItem) => DropdownMenuItem(
                             value: valueItem, child: Text(valueItem)))
@@ -212,11 +229,12 @@ class GigsAddScreen extends StatelessWidget {
                     );
                   }),
                   TextFieldName(value: 'Category'),
-                  Consumer<VendorProvider>(builder: (context, value, child) {
+                  Consumer2<VendorProvider,NewGIgCreateProvider>(builder: (context, value,value2, child) {
                     List<DropdownMenuItem<Object>> categoryListObject =
-                        categoryList
-                            .map((valueItem) => DropdownMenuItem(
-                                value: valueItem, child: Text(valueItem)))
+                           serviceList.map((valueItem) {
+                           return  DropdownMenuItem(
+                                value: valueItem, child: Text(valueItem.toString()));
+                           } )
                             .toList();
                     return Padding(
                       padding: const EdgeInsets.only(top: 2),
@@ -238,6 +256,7 @@ class GigsAddScreen extends StatelessWidget {
                             onChanged: (newValue) {
                               value.dropdownvalue(newValue, 3);
                               categoryController.text = newValue.toString();
+                              
                             },
                           ),
                         ),
@@ -278,24 +297,24 @@ class GigsAddScreen extends StatelessWidget {
     var price = priceController.text.trim();
     FlutterSecureStorage storage = const FlutterSecureStorage();
     var vendorId = await storage.read(key: 'vendorId');
-    log(price);
-    log(overView);
-    log(serviceTypeController.text.toString());
-    log(categoryController.text.toString());
-
-log(vendorId.toString());
-
-    var gigCreateDatas = NewGigCreateModel(
+    
+      CloudinaryResponse response = await cloudinary.uploadFile(CloudinaryFile.fromFile(widget.imagePath!.path,resourceType:  CloudinaryResourceType.Image));
+       final url = response.secureUrl;
+       log(url);
+       var gigCreateDatas = NewGigCreateModel(
         title: title,
         overview: overView,
-        image: imagePath!.path,
+        image: url,
         type: serviceTypeController.text.toString(),
         description: description,
         price: price,
         category: categoryController.text.toString(),
         vendorId: vendorId.toString());
-        
-        NewGigCreateApiService().newGigCreate(gigCreateDatas);
+        Provider.of<NewGIgCreateProvider>(context).createNewGig(gigCreateDatas,context);
+  }
+  
+  void getAllCategory() {
+    NewGigCreateApiService().getAllCategory(context);
   }
 }
 

@@ -30,7 +30,7 @@ class AdminProvider with ChangeNotifier {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const AdminPage(),
+            builder: (context) =>  AdminPage(),
           ),
           (route) => false);
     }

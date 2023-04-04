@@ -28,3 +28,42 @@ Widget kHeight10 = const SizedBox(
     width: 40,
   );
 
+
+
+class MyTextFormField extends StatelessWidget {
+  const MyTextFormField({
+    super.key, this.validator,required this.hintText,required this.labelText, required this.controller, this.keyboardType =TextInputType.text,
+  });
+final String? Function(String?)? validator;
+final String? hintText;
+final String? labelText;
+final TextEditingController? controller;
+final TextInputType? keyboardType;
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType:keyboardType,
+      controller:controller ,
+       style: const TextStyle(fontSize: 19,fontWeight: FontWeight.bold),
+        
+      validator: validator,
+      decoration: InputDecoration(
+         filled: true,
+        fillColor:Colors.white ,
+        focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Color.fromARGB(255, 123, 230, 219))),
+        enabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        hintText: hintText,
+        labelText: labelText,
+        hintStyle: const TextStyle(
+          color: Color.fromARGB(255, 111, 111, 111),
+        ),
+      ),
+    );
+  }
+}

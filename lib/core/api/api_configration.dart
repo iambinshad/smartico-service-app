@@ -1,5 +1,5 @@
 class ApiConfigration{
-  static const kIpAddress = '10.0.12.2';
+  static const kIpAddress = '10.4.3.119';
   static const kBaseUrl = "http://$kIpAddress:3500";
 
   //----User Endpoints---
@@ -18,6 +18,7 @@ class ApiConfigration{
 
   //gig create 
   static const newGIgCreate = '/newGig';
+  static const getallCategories = '/categories';
 
   
   //---Admin Endpoints---
@@ -27,5 +28,6 @@ class ApiConfigration{
   static const adminSignUp = '/adminSignup';
   static const adminLogin = '/login';
 
+  static const addCategory = '/addCategory';
  
 }

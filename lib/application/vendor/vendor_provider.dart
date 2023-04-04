@@ -19,6 +19,7 @@ class VendorProvider extends ChangeNotifier {
   String? chooseGender;
   String? chooseType;
   String? chooseCatogory;
+ 
   
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
@@ -91,7 +92,7 @@ log(signUpVendorDatas.toString());
       await storage.write(key: 'vendorId', value: tokenData.data.user.id);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return  const VendorBottomNavBar();
+          return   VendorBottomNavBar();
         },
       ), (route) => false);
 
