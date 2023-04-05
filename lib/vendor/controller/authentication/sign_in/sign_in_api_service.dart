@@ -34,11 +34,7 @@ class VendorSignInApiService {
       }
     } on DioError catch (e) {
       log(e.message.toString());
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) {
-          return const VendorBottomNavBar();
-        },
-      ), (route) => false);
+      
     }
     return null;
   }

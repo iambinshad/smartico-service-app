@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/admin/model/catogory/catogory_req.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
@@ -41,12 +42,9 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
   final categoryController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
-List<CatogoryResModel?>?cat;
-@override
-  void initState() {
-     getAllCategory();
-    
-  }
+
+
+
 final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
 
   @override
@@ -230,38 +228,59 @@ final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
                   }),
                   TextFieldName(value: 'Category'),
                   Consumer2<VendorProvider,NewGIgCreateProvider>(builder: (context, value,value2, child) {
-                    List<DropdownMenuItem<Object>> categoryListObject =
-                           serviceList.map((valueItem) {
-                           return  DropdownMenuItem(
-                                value: valueItem, child: Text(valueItem.toString()));
-                           } )
-                            .toList();
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: Container(
-                        height: 55,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.white),
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 5, left: 8, right: 8),
-                          child: DropdownButton(
-                            underline: const SizedBox(),
-                            isExpanded: true,
-                            hint: const Text('select category'),
-                            items: categoryListObject,
-                            value: value.chooseCatogory,
-                            onChanged: (newValue) {
-                              value.dropdownvalue(newValue, 3);
-                              categoryController.text = newValue.toString();
-                              
-                            },
-                          ),
+                    return DropdownButtonFormField<CategoryResModel>(
+                        value: value2.selectedCategory,
+                        items: value2.categories.
+                            map((category) => DropdownMenuItem<CategoryResModel>(
+                                  value: category,
+                                  child: Text(category!.name),
+                                ))
+                            .toList(),
+                        onChanged: (CategoryResModel? category) {
+                          setState(() {
+                            value2.selectedCategory = category;
+                            value2.selectedCategoryId = category!.id;
+
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          
+                          isDense: true,
+                          border: OutlineInputBorder(),
                         ),
-                      ),
-                    );
+                      );
+                    // List<DropdownMenuItem<Object>> categoryListObject =
+                    //        value2.categories!.map((valueItem) {
+                    //        return  DropdownMenuItem(
+                    //             value: valueItem.name, child: Text(valueItem.name));
+                    //        } )
+                    //         .toList();
+                    // return Padding(
+                    //   padding: const EdgeInsets.only(top: 2),
+                    //   child: Container(
+                    //     height: 55,
+                    //     decoration: BoxDecoration(
+                    //         border: Border.all(),
+                    //         borderRadius: BorderRadius.circular(5),
+                    //         color: Colors.white),
+                    //     child: Padding(
+                    //       padding:
+                    //           const EdgeInsets.only(top: 5, left: 8, right: 8),
+                    //       child: DropdownButton(
+                    //         underline: const SizedBox(),
+                    //         isExpanded: true,
+                    //         hint: const Text('select category'),
+                    //         items:value2.categories.map((e) => null)
+                    //         value: value.chooseCatogory,
+                    //         onChanged: (newValue) {
+                    //           value.dropdownvalue(newValue, 3);
+                    //           categoryController.text = newValue.toString();
+                              
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ),
+                    // );
                   }),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -301,6 +320,7 @@ final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
       CloudinaryResponse response = await cloudinary.uploadFile(CloudinaryFile.fromFile(widget.imagePath!.path,resourceType:  CloudinaryResourceType.Image));
        final url = response.secureUrl;
        log(url);
+      final gigProvider= Provider.of<NewGIgCreateProvider>(context,listen: false);
        var gigCreateDatas = NewGigCreateModel(
         title: title,
         overview: overView,
@@ -308,14 +328,12 @@ final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
         type: serviceTypeController.text.toString(),
         description: description,
         price: price,
-        category: categoryController.text.toString(),
+        category: gigProvider.selectedCategoryId,
         vendorId: vendorId.toString());
-        Provider.of<NewGIgCreateProvider>(context).createNewGig(gigCreateDatas,context);
+        gigProvider.createNewGig(gigCreateDatas,context);
   }
   
-  void getAllCategory() {
-    NewGigCreateApiService().getAllCategory(context);
-  }
+ 
 }
 
 class TextFieldName extends StatelessWidget {

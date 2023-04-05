@@ -19,6 +19,7 @@ class ApiConfigration{
   //gig create 
   static const newGIgCreate = '/newGig';
   static const getallCategories = '/categories';
+  static const showAllVendorGigs = '/viewGigs';
 
   
   //---Admin Endpoints---

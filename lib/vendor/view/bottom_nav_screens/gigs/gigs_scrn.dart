@@ -2,7 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
+import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_add_scrn.dart';
 
@@ -18,6 +22,12 @@ File? cameraImage;
 File? galleryImage;
 
 class _GigsScreenState extends State<GigsScreen> {
+  @override
+  void initState() {
+   
+     first();
+  }
+
   List recomendedServiceImage = [
     'assets/splash/painter.jpeg',
     'assets/splash/plumbing.jpeg',
@@ -62,7 +72,10 @@ class _GigsScreenState extends State<GigsScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => pickImageFromGallery(),
+                        onTap: () async {
+                          await pickImageFromGallery();
+                          
+                        },
                         child: Column(
                           children: const [
                             Icon(
@@ -82,7 +95,7 @@ class _GigsScreenState extends State<GigsScreen> {
                 ),
               ),
             );
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => GigsAddScreen(),));
+          
           },
           icon: const Icon(Icons.add),
           label: const Text('Add New Gigs')),
@@ -168,17 +181,15 @@ class _GigsScreenState extends State<GigsScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  GigsAddScreen(imagePath: galleryImage),
+            builder: (context) => GigsAddScreen(imagePath: galleryImage),
           ));
-            log(galleryImage.toString());
-          log(galleryImage!.path.toString());
+     
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
 
   Future pickImageFromCamera() async {
-    
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.camera);
       if (image == null) return;
@@ -189,12 +200,19 @@ class _GigsScreenState extends State<GigsScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>  GigsAddScreen(imagePath: cameraImage),
+            builder: (context) => GigsAddScreen(imagePath: cameraImage),
           ));
-          log(cameraImage.toString());
-          log(cameraImage!.path.toString());
+  
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+  
+  void first() async{
+    await context.read<ShowAllGigsProvider>().callApiServiceGigs();
+    await context.read<NewGIgCreateProvider>().getAllCategory(context);
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    final vendorId = await storage.read(key: 'vendorId');
+   
   }
 }

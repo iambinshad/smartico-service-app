@@ -6,8 +6,10 @@ import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
 import 'application/user/user_provider.dart';
 import 'application/vendor/gig_provider/new_gig_create_provider.dart';
+import 'application/vendor/gig_provider/show_all_gig_provider.dart';
 
 void main() {
   
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
       ),
       ListenableProvider(create: (context) => CommonProvider(),),
       ListenableProvider(create: (context) => AdminProvider(),),
-      ListenableProvider(create:(context) => NewGIgCreateProvider(), )
+      ListenableProvider(create:(context) => NewGIgCreateProvider(), ),
+      ListenableProvider(create: (context) => ShowAllGigsProvider(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',

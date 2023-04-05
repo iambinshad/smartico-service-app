@@ -259,7 +259,7 @@ class VendorSignIn extends StatelessWidget {
   Future<void> signInClicked(context) async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
-  VendorProvider().checkVendorSignIn(context, email, password);
+   Provider.of<VendorProvider>(context).checkVendorSignIn(context, email, password);
   }
   bool emailValidation(value) {
     bool emailResult = EmailValidator.validate(value);

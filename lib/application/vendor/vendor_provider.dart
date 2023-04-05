@@ -34,6 +34,7 @@ class VendorProvider extends ChangeNotifier {
     final password = passwordData;
     final signInVendorDatas =
         VendorSignInReqModel(password: password, email: email);
+        log(signInVendorDatas.toString());
     final tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
     log(tokenData.toString());
     if (tokenData != null) {
