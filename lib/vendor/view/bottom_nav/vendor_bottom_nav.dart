@@ -39,8 +39,8 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
-        selectedItemColor: const Color.fromARGB(255, 52, 37, 168),
-        unselectedItemColor: const Color.fromARGB(255, 149, 226, 218),
+        selectedItemColor:  const Color.fromARGB(255, 149, 226, 218),
+        unselectedItemColor:Colors.grey.shade400,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), label: 'Dashboard'),
           BottomNavigationBarItem(

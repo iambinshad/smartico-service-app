@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartico/core/constants.dart';
 import 'package:smartico/user/view/bottom_nav_screens/account.dart';
 import 'package:smartico/user/view/bottom_nav_screens/all_category.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/chats.dart';
@@ -34,8 +35,8 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
-        selectedItemColor: const Color.fromARGB(255, 52, 37, 168),
-        unselectedItemColor: const Color.fromARGB(255, 149, 226, 218),
+        selectedItemColor:mainColor,
+        unselectedItemColor:Colors.grey.shade600,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(

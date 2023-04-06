@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
@@ -41,6 +42,8 @@ class _GigsScreenState extends State<GigsScreen> {
 
     return Scaffold(
       floatingActionButton: ElevatedButton.icon(
+          style:
+              ButtonStyle(backgroundColor: MaterialStatePropertyAll(mainColor)),
           onPressed: () {
             showModalBottomSheet(
               context: context,
@@ -92,14 +95,21 @@ class _GigsScreenState extends State<GigsScreen> {
               ),
             );
           },
-          icon: const Icon(Icons.add),
-          label: const Text('Add New Gigs')),
+          icon: const Icon(
+            Icons.add,
+            color: Colors.black,
+          ),
+          label: Text(
+            'Add New Gigs',
+            style: GoogleFonts.sigmarOne(color: Colors.black),
+          )),
       appBar: AppBar(
+        elevation: 5.0,
         backgroundColor: const Color.fromARGB(255, 121, 216, 206),
         // ignore: prefer_const_constructors
         title: Text(
-          'Your Gigs',
-          style: headText,
+          'Gigs',
+          style: GoogleFonts.openSans(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
@@ -108,59 +118,109 @@ class _GigsScreenState extends State<GigsScreen> {
           Expanded(
             child: Consumer<ShowAllGigsProvider>(
               builder: (context, value, child) => ListView.separated(
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "${value.vendorGigs![index].title}",
-                              style: mediumText,
-                            ),
-                            const Icon(Icons.edit),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Container(
-                          width: width,
-                          height: width / 1.1,
-                          color: Colors.red,
-                          child:  Image.network(
-                              "${value.vendorGigs![index].image},",
-                            ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(right: 5, left: 5, bottom: 5),
+                      child: Card(
+                        elevation: 3.8,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "${value.vendorGigs![index].price}",
-                              style: normalText,
+                            Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        value.vendorGigs![index].image),
+                                    fit: BoxFit.fill,
+                                  ),
+                                  color: Colors.red,
+                                  borderRadius: const BorderRadius.only(
+                                      topLeft: Radius.circular(15),
+                                      topRight: Radius.circular(15))),
+                              width: width,
+                              height: width / 1.75,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  PopupMenuButton(
+                                    icon: const Icon(
+                                      Icons.more_vert_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                        value: 1,
+                                        child: const Text('Edit',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'poppins',
+                                                fontSize: 15)),
+                                        onTap: () {},
+                                      ),
+                                      const PopupMenuItem(
+                                        enabled: true,
+                                          value: 2,
+                                          child: Text(
+                                            'Delete',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'poppins',
+                                                fontSize: 15),
+                                                
+                                          ))
+                                          
+                                    ],
+                                    onSelected: (value) {
+                                      if (value == 2) {}
+                                    },
+                                    
+                                    elevation: 2,
+                                  ),
+                                 
+                                ],
+                              ),
                             ),
-                             Text(
-                              "${value.vendorGigs![index].overview}",
-                              style: const TextStyle(fontSize: 18),
-                              maxLines: 2,
-                            )
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        value.vendorGigs![index].title,
+                                        style:
+                                            GoogleFonts.sigmarOne(fontSize: 20),
+                                      ),
+                                      Text(
+                                        "\$${value.vendorGigs![index].price}",
+                                        style: GoogleFonts.notoSans(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    value.vendorGigs![index].type,
+                                    style: TextStyle(
+                                        color: Colors.grey.shade800,
+                                        fontSize: 18,
+                                        overflow: TextOverflow.ellipsis),
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                  );
-                },
-                itemCount: value.vendorGigs!.length,
-                separatorBuilder: (context, index) => const Divider(
-                  thickness: 3,
-                ),
-              ),
+                    );
+                  },
+                  itemCount: value.vendorGigs!.length,
+                  separatorBuilder: (context, index) => const SizedBox()),
             ),
           ),
         ],
