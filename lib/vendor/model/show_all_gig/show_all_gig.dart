@@ -1,41 +1,9 @@
+
+
+
+
 class GigResModel {
     GigResModel({
-        required this.status,
-        required this.data,
-    });
-
-    String status;
-    Data data;
-
-    factory GigResModel.fromJson(Map<String, dynamic> json) => GigResModel(
-        status: json["status"],
-        data: Data.fromJson(json["data"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "status": status,
-        "data": data.toJson(),
-    };
-}
-
-class Data {
-    Data({
-        required this.viewGig,
-    });
-
-    List<ViewGig> viewGig;
-
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        viewGig: List<ViewGig>.from(json["viewGig"].map((x) => ViewGig.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "viewGig": List<dynamic>.from(viewGig.map((x) => x.toJson())),
-    };
-}
-
-class ViewGig {
-    ViewGig({
         required this.id,
         required this.title,
         required this.overview,
@@ -61,7 +29,7 @@ class ViewGig {
     DateTime date;
     int v;
 
-    factory ViewGig.fromJson(Map<String, dynamic> json) => ViewGig(
+    factory GigResModel.fromJson(Map<String, dynamic> json) => GigResModel(
         id: json["_id"],
         title: json["title"],
         overview: json["overview"],

@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
@@ -24,8 +22,7 @@ File? galleryImage;
 class _GigsScreenState extends State<GigsScreen> {
   @override
   void initState() {
-   
-     first();
+    first();
   }
 
   List recomendedServiceImage = [
@@ -74,7 +71,6 @@ class _GigsScreenState extends State<GigsScreen> {
                       GestureDetector(
                         onTap: () async {
                           await pickImageFromGallery();
-                          
                         },
                         child: Column(
                           children: const [
@@ -95,7 +91,6 @@ class _GigsScreenState extends State<GigsScreen> {
                 ),
               ),
             );
-          
           },
           icon: const Icon(Icons.add),
           label: const Text('Add New Gigs')),
@@ -111,57 +106,60 @@ class _GigsScreenState extends State<GigsScreen> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.separated(
-              itemBuilder: (context, index) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Driving',
-                          style: mediumText,
+            child: Consumer<ShowAllGigsProvider>(
+              builder: (context, value, child) => ListView.separated(
+                itemBuilder: (context, index) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${value.vendorGigs![index].title}",
+                              style: mediumText,
+                            ),
+                            const Icon(Icons.edit),
+                          ],
                         ),
-                        const Icon(Icons.edit),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
-                    child: Container(
-                      width: width,
-                      height: width / 1.1,
-                      color: Colors.red,
-                      child: Image(
-                        image: AssetImage(recomendedServiceImage[index]),
-                        fit: BoxFit.cover,
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '\$40',
-                          style: normalText,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: Container(
+                          width: width,
+                          height: width / 1.1,
+                          color: Colors.red,
+                          child:  Image.network(
+                              "${value.vendorGigs![index].image},",
+                            ),
                         ),
-                        const Text(
-                          'We are providing good driving service in low service charge,and its excellent for all of you',
-                          style: TextStyle(fontSize: 18),
-                          maxLines: 2,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              itemCount: 7,
-              separatorBuilder: (context, index) => const Divider(
-                thickness: 3,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${value.vendorGigs![index].price}",
+                              style: normalText,
+                            ),
+                             Text(
+                              "${value.vendorGigs![index].overview}",
+                              style: const TextStyle(fontSize: 18),
+                              maxLines: 2,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                itemCount: value.vendorGigs!.length,
+                separatorBuilder: (context, index) => const Divider(
+                  thickness: 3,
+                ),
               ),
             ),
           ),
@@ -183,7 +181,6 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) => GigsAddScreen(imagePath: galleryImage),
           ));
-     
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -202,17 +199,13 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) => GigsAddScreen(imagePath: cameraImage),
           ));
-  
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
   }
-  
-  void first() async{
+
+  void first() async {
     await context.read<ShowAllGigsProvider>().callApiServiceGigs();
     await context.read<NewGIgCreateProvider>().getAllCategory(context);
-    FlutterSecureStorage storage = FlutterSecureStorage();
-    final vendorId = await storage.read(key: 'vendorId');
-   
   }
 }

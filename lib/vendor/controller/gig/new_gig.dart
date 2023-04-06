@@ -46,15 +46,14 @@ class NewGigCreateApiService {
       Response response = await dio.get(path,
           options: Options(headers: {"authorization": "Bearer $token"}));
       if (response.statusCode == 200) {
-        log(response.data['data']["categories"].toString(), name: "categories");
-        log(response.data.toString());
+        
+        
 
         final List<CategoryResModel> category =
             (response.data['data']['categories'] as List)
                 .map((e) => CategoryResModel.fromJson(e))
                 .toList();
-        log(category.length.toString());
-        log(token);
+      
         return category;
       }
     } on DioError catch (e) {
