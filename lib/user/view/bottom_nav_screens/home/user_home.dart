@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/widgets.dart';
@@ -28,7 +31,7 @@ class _UserHomePageState extends State<UserHomePage> {
   ];
   @override
   void initState() {
-    context.read<RecentServicesProvider>().FetchAllGigs();
+    context.read<RecentServicesProvider>().fetchAllGigs();
     super.initState();
   }
 
@@ -214,6 +217,7 @@ class _UserHomePageState extends State<UserHomePage> {
                       padding: const EdgeInsets.only(right: 17),
                       child: TextButton(
                           onPressed: () {
+                            
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -243,11 +247,15 @@ class _UserHomePageState extends State<UserHomePage> {
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () => Navigator.push(
+                          onTap: ()async{
+                           await context.read<SingleGigDetailsProvider>().getGig(value.allGigs![index].id);
+                
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ServiceDescriptionScrn(),
-                              )),
+                              ));
+                          },
                           child: SizedBox(
                               width: width / 2,
                               child: Column(
@@ -259,13 +267,13 @@ class _UserHomePageState extends State<UserHomePage> {
                                         borderRadius: BorderRadius.circular(9),
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                value.AllGigs![index].image),
+                                                value.allGigs![index].image),
                                             fit: BoxFit.cover)),
                                   ),
                                   Row(
                                     children: [
                                       Text(
-                                        value.AllGigs![index].category,
+                                        value.allGigs![index].category,
                                         style: const TextStyle(
                                             color: Colors.blue,
                                             fontWeight: FontWeight.bold),
@@ -275,7 +283,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                   ),
                                   Row(
                                     children: [
-                                      Text(value.AllGigs![index].title,
+                                      Text(value.allGigs![index].title,
                                           style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -297,14 +305,14 @@ class _UserHomePageState extends State<UserHomePage> {
                                     ],
                                   ),
                                   Row(
-                                    children:  [
+                                    children: [
                                       Icon(
                                         Icons.monetization_on,
                                         color: Color.fromARGB(255, 58, 201, 15),
                                         size: 23,
                                       ),
                                       Text(
-                                      '${value.AllGigs![index].price}',
+                                      '${value.allGigs![index].price}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -314,7 +322,7 @@ class _UserHomePageState extends State<UserHomePage> {
                               )),
                         );
                       },
-                      itemCount: value.AllGigs!.length,
+                      itemCount: value.allGigs!.length,
                     ),
                   ),
                 ),

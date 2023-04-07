@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
 class ViewAllScreen extends StatelessWidget {
   ViewAllScreen({super.key});
@@ -31,58 +33,79 @@ class ViewAllScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
-              child: Card(
-                child: Column(
-                  children: [
-                    Container(
-                      height: height / 4.5,
-                      width: width / 1.10,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft:Radius.circular(15),topRight: Radius.circular(15)),
-                          image: DecorationImage(
-                              image:
-                                  NetworkImage(value.AllGigs![index].image),
-                              fit: BoxFit.fill)),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          value.AllGigs![index].title,
-                          style: const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.star_rounded,
-                              color: Colors.blue,
-                            ),
+              child: GestureDetector(
+                onTap: () async {
+                  await context
+                      .read<SingleGigDetailsProvider>()
+                      .getGig(value.allGigs![index].id);
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ServiceDescriptionScrn(),
+                      ));
+                },
+                child: Card(
+                  child: Column(
+                    children: [
+                      Container(
+                        height: height / 4,
+                        width: width / 1.10,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                topRight: Radius.circular(15)),
+                            image: DecorationImage(
+                                image:
+                                    NetworkImage(value.allGigs![index].image),
+                                fit: BoxFit.fill)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text(
-                              '5.0',
-                              style: TextStyle(fontSize: 19),
+                              value.allGigs![index].title,
+                              style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold),
                             ),
+                            Row(
+                              children: const [
+                                Icon(
+                                  Icons.star_rounded,
+                                  color: Colors.blue,
+                                ),
+                                Text(
+                                  '5.0',
+                                  style: TextStyle(fontSize: 19),
+                                ),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          '${value.AllGigs![index].price}',
-                          style: const TextStyle(
-                              fontSize: 21, color: Colors.blue),
-                        )
-                      ],
-                    )
-                  ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        child: Row(
+                          children: [
+                            Text(
+                              '\$${value.allGigs![index].price}',
+                              style: const TextStyle(
+                                  fontSize: 21, color: Colors.blue),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
           },
-          itemCount: value.AllGigs!.length,
+          itemCount: value.allGigs!.length,
         ),
       ),
     );

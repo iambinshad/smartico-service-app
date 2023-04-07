@@ -56,7 +56,10 @@ class _GigsScreenState extends State<GigsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        onTap: () => pickImageFromCamera(),
+                        onTap: () {
+                          Navigator.pop(context);
+                          pickImageFromCamera();
+                        },
                         child: Column(
                           children: const [
                             Icon(
@@ -73,6 +76,7 @@ class _GigsScreenState extends State<GigsScreen> {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          Navigator.pop(context);
                           await pickImageFromGallery();
                         },
                         child: Column(
@@ -105,7 +109,7 @@ class _GigsScreenState extends State<GigsScreen> {
           )),
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: const Color.fromARGB(255, 121, 216, 206),
+        backgroundColor: Color.fromARGB(255, 1, 139, 253),
         // ignore: prefer_const_constructors
         title: Text(
           'Gigs',
@@ -117,7 +121,9 @@ class _GigsScreenState extends State<GigsScreen> {
         children: [
           Expanded(
             child: Consumer<ShowAllGigsProvider>(
-              builder: (context, value, child) => ListView.separated(
+              builder: (context, value, child) {
+                return value.vendorGigs!=null?
+                ListView.separated(
                   itemBuilder: (context, index) {
                     return Padding(
                       padding:
@@ -220,7 +226,9 @@ class _GigsScreenState extends State<GigsScreen> {
                     );
                   },
                   itemCount: value.vendorGigs!.length,
-                  separatorBuilder: (context, index) => const SizedBox()),
+                  separatorBuilder: (context, index) => const SizedBox()):const Center(child:Image(image: AssetImage('assets/vendor/113070-empty-box-blue.gif')));
+
+              },
             ),
           ),
         ],
@@ -241,6 +249,7 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) => GigsAddScreen(imagePath: galleryImage),
           ));
+         
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -259,6 +268,7 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) => GigsAddScreen(imagePath: cameraImage),
           ));
+          
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }

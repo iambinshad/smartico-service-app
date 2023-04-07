@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
 class AllCategroryList extends StatelessWidget {
-   AllCategroryList({super.key});
+  AllCategroryList({super.key});
 
   List recomendedServiceImage = [
     'assets/splash/painter.jpeg',
@@ -33,26 +35,13 @@ class AllCategroryList extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ColoredBox(
-            color: const Color.fromARGB(255, 121, 216, 206),
+          const ColoredBox(
+            color: Color.fromARGB(255, 121, 216, 206),
             child: Padding(
-              padding: const EdgeInsets.only(right: 13, left: 13, bottom: 5),
-              child: TextField(
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 123, 230, 219)),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.grey[800]),
-                    hintText: "Search Here",
-                    fillColor: Colors.white70),
-              ),
-            ),
+                padding: EdgeInsets.only(right: 13, left: 13, bottom: 5),
+                child: CupertinoSearchTextField(
+                  backgroundColor: Colors.white,
+                )),
           ),
           Expanded(
             child: Padding(
@@ -62,12 +51,16 @@ class AllCategroryList extends StatelessWidget {
                 left: 10,
               ),
               child: Consumer<RecentServicesProvider>(
-                builder: (context, value, child) =>
-                 ListView.builder(
+                builder: (context, value, child) => ListView.builder(
                   itemBuilder: (context, index) {
-                    
                     return GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>ServiceDescriptionScrn() ,)),
+                      onTap: ()async {
+                        await context.read<SingleGigDetailsProvider>().getGig(value.allGigs![index].id);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ServiceDescriptionScrn(),
+                          ));},
                       child: Row(
                         children: [
                           Column(
@@ -79,7 +72,7 @@ class AllCategroryList extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(9),
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                             value.AllGigs![index].image ),
+                                              value.allGigs![index].image),
                                           fit: BoxFit.fill)),
                                   height: width / 2.8,
                                   width: width / 3.2,
@@ -98,10 +91,10 @@ class AllCategroryList extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
-                                      children:  [
+                                      children: [
                                         Text(
-                                          value.AllGigs![index].title,
-                                          style: TextStyle(
+                                          value.allGigs![index].title,
+                                          style: const TextStyle(
                                               color: Colors.blue,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 19),
@@ -136,7 +129,8 @@ class AllCategroryList extends StatelessWidget {
                                       children: const [
                                         Icon(
                                           Icons.monetization_on,
-                                          color: Color.fromARGB(255, 58, 201, 15),
+                                          color:
+                                              Color.fromARGB(255, 58, 201, 15),
                                           size: 23,
                                         ),
                                         Text(
@@ -169,7 +163,7 @@ class AllCategroryList extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: value.AllGigs!.length,
+                  itemCount: value.allGigs!.length,
                 ),
               ),
             ),

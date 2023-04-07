@@ -6,13 +6,13 @@ import 'package:smartico/user/model/show_all_gigs/gig_model.dart';
 
 class RecentServicesProvider with ChangeNotifier{
 
-  List<ShowAllGigsToUserModle>? AllGigs = [];
+  List<ShowAllGigsToUserModle>? allGigs = [];
 
-  Future<void>FetchAllGigs()async{
+  Future<void>fetchAllGigs()async{
     ShowAllGigsService().showAllGigs().then((value){
-      AllGigs = value;
+      allGigs = value;
       notifyListeners();
-      log(AllGigs.toString(),name: 'allgigs');
+      log(allGigs.toString(),name: 'allgigs');
     });
   }
 

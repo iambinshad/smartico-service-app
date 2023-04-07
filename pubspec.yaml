@@ -76,6 +76,7 @@ flutter:
     - assets/splash/
     - assets/authentication/
     - assets/works/
+    - assets/vendor/
     
 
     

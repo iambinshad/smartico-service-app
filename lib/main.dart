@@ -12,13 +12,14 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
+import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
 import 'application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'application/vendor/gig_provider/show_all_gig_provider.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
         ),
         ListenableProvider(
           create: (context) => RecentServicesProvider(),
-        )
+        ),
+        ListenableProvider(create: (context) => SingleGigDetailsProvider(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -62,9 +64,10 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home: const SplashScreen(),
+        home: const VendorBottomNavBar (),
         debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
+

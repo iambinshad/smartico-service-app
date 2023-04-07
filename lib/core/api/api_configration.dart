@@ -7,6 +7,7 @@ class ApiConfigration{
   static const otp = '/OTP';
   static const verifyOtp = '/verifyOTP';
   static const fetchAllGigs = '/allGigs';
+  static const getSingleGigDetails = '/singleGig/';  // plus gig id need to send
 
   //---Vendor Endpoints---
 
