@@ -109,7 +109,7 @@ class _GigsScreenState extends State<GigsScreen> {
           )),
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor: Color.fromARGB(255, 1, 139, 253),
+        backgroundColor:const Color.fromARGB(255, 1, 139, 253),
         // ignore: prefer_const_constructors
         title: Text(
           'Gigs',

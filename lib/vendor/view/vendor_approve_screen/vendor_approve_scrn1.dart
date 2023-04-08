@@ -1,48 +1,58 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
+import 'package:provider/provider.dart';
+import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
+import 'package:smartico/vendor/view/vendor_approve_screen/vendor_approve_scrn2.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../core/widgets.dart';
 
-class VendorApproval extends StatefulWidget {
-  const VendorApproval({super.key});
+class VendorApprovalFirstScrn extends StatefulWidget {
+  const VendorApprovalFirstScrn({super.key});
+
+
 
   @override
-  State<VendorApproval> createState() => _VendorApprovalState();
+  State<VendorApprovalFirstScrn> createState() => _VendorApprovalFirstScrnState();
 }
+File? profile ;
+String unknown = 'assets/splash/unknown.jpg';
 
-class _VendorApprovalState extends State<VendorApproval> {
-  final address = TextEditingController();
-  final about = TextEditingController();
-  final country = TextEditingController();
-  final state = TextEditingController();
-  final city = TextEditingController();
-  final pincode = TextEditingController();
-  final skill = TextEditingController();
-  final googleDrive = TextEditingController();
-  final linkedIn = TextEditingController();
-  final gitHub = TextEditingController();
+class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
+  bool res = false;
+  final _formKey = GlobalKey<FormState>();
+  final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
 
-  String profile = 'assets/splash/unknown.jpg';
+  
 
   File? cameraImage;
   File? galleryImage;
 
   @override
   Widget build(BuildContext context) {
+    final prov = context.read<CompleteSignUpProvider>();
     final width = MediaQuery.of(context).size.width;
+
     return SafeArea(
       child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Profile Information'),
             backgroundColor: const Color.fromARGB(255, 123, 230, 219),
           ),
           body: SingleChildScrollView(
-            child: Card(
+            child: Form(
+              key: _formKey,
               child: Column(
                 children: [
-                  kHeight10,
+                  kHeight40,
+                  kHeight40,
                   Center(
                     child: CircleAvatar(
                       radius: 63,
@@ -51,18 +61,25 @@ class _VendorApprovalState extends State<VendorApproval> {
                           onTap: () {
                             showModelBottomSheet(context, width);
                           },
-                          child: CircleAvatar(
+                          child:  profile!=null?CircleAvatar(
                             radius: 60,
-                            backgroundImage: AssetImage(profile),
-                          )),
+                            backgroundImage: FileImage(profile!),
+                          ):
+                          CircleAvatar(
+                            radius: 60,
+                             backgroundImage: AssetImage(unknown,),
+                           
+                          )
+                          ),
                     ),
                   ),
-                  const Text(
-                    'Nicolas Adams',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  Text(
+                    prov.fullName.text,
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.bold),
                   ),
-                  const Text('binshadp999@gmail.com',
-                      style: TextStyle(
+                  Text(prov.email.text,
+                      style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: Color.fromARGB(255, 99, 99, 99))),
@@ -72,7 +89,7 @@ class _VendorApprovalState extends State<VendorApproval> {
                     child: Column(
                       children: [
                         MyTextFormField(
-                            controller: address,
+                            controller: prov.address,
                             validator: (p0) {
                               if (p0 == null || p0.isEmpty) {
                                 return 'Address is Required';
@@ -83,70 +100,47 @@ class _VendorApprovalState extends State<VendorApproval> {
                             labelText: 'Address'),
                         kHeight20,
                         MyTextFormField(
-                            controller: about,
+                            validator: (p0) {
+                              if (p0 == null || p0.isEmpty) {
+                                return 'About is required';
+                              }
+                              return null;
+                            },
+                            controller: prov.about,
                             hintText: 'About',
                             labelText: 'About'),
                         kHeight20,
-                        MyTextFormField(
-                            controller: country,
-                            hintText: 'Enter Country',
-                            labelText: 'Country'),
-                        kHeight20,
-                        MyTextFormField(
-                            controller: state,
-                            hintText: 'State',
-                            labelText: 'State'),
-                        kHeight20,
-                        MyTextFormField(
-                            controller: city,
-                            hintText: 'City',
-                            labelText: 'City'),
-                        kHeight20,
-                        MyTextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: pincode,
-                            hintText: 'Pincode',
-                            labelText: 'Pincode'),
-                        kHeight20,
-                        MyTextFormField(
-                            controller: skill,
-                            hintText: 'Enter Your Skills',
-                            labelText: 'Skill'),
-                        kHeight20,
-                        MyTextFormField(
-                            controller: googleDrive,
-                            hintText: 'Google Drive',
-                            labelText: 'Google Drive'),
-                        kHeight20,
-                        MyTextFormField(
-                            controller: linkedIn,
-                            hintText: 'LinkedIn',
-                            labelText: 'LinkedIN'),
-                        kHeight20,
-                        MyTextFormField(
-                            controller: gitHub,
-                            hintText: 'GitHub',
-                            labelText: 'GitHub'),
+                        cscPicker(),
                         kHeight20,
                       ],
                     ),
                   ),
-                  // ElevatedButton(
-                  //   style: ButtonStyle(shape: MaterialStatePropertyAll(BorderSide()),padding:MaterialStatePropertyAll(EdgeInsets.only(right: width/3,left: width/3))),
-                  //   onPressed: (){}, child:Text('SUBMIT',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
                   GestureDetector(
-                    onTap: () {
-                      submitButtonClicked();
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        res = cscPickerValidate();
+                      }
+                      if (res == false) {
+                        showTopSnackBar(
+                          Overlay.of(context),
+                          const CustomSnackBar.info(
+                            message: 'Complete filling!',
+                          ),
+                        );
+                      }
+                      if (res) {
+                        nextButtonClicked(profile);
+                      }
                     },
                     child: Container(
                       decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 123, 230, 219),
                           borderRadius: BorderRadius.circular(10)),
                       height: 50,
-                      width: width / 1.16,
+                      width: width / 1.11,
                       child: const Center(
                           child: Text(
-                        'SUBMIT',
+                        'Next',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )),
@@ -169,7 +163,7 @@ class _VendorApprovalState extends State<VendorApproval> {
       );
       setState(() {
         galleryImage = imageTemp;
-        profile = galleryImage!.path.toString();
+        profile = galleryImage;
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
@@ -185,7 +179,7 @@ class _VendorApprovalState extends State<VendorApproval> {
       );
       setState(() {
         cameraImage = imageTemp;
-        profile = cameraImage!.path.toString();
+        profile = cameraImage;
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
@@ -247,17 +241,21 @@ class _VendorApprovalState extends State<VendorApproval> {
       ),
     );
   }
+     
 
-  void submitButtonClicked() {
-    final completeSignUpdatas = CompleteSignUpModel(
-      skill: skill.text,
-      googleDrive: googleDrive.text,
-      linkedIn: linkedIn.text,
-      github: gitHub.text,
-      address: Address(pincode: pincode.text, country: country.text, currentAddress: address.text, city: city.text, state: state.text),
-      about: about.text,
-      profilePhoto: profile,
-      
-    );
+  bool cscPickerValidate() {
+    final prov = context.read<CompleteSignUpProvider>();
+    if (prov.countryValue != null &&
+        prov.stateValue != null &&
+        prov.cityValue != null && profile!=null) {
+      return true;
+    }
+    return false;
+  }
+
+  void nextButtonClicked(File? profile)async {
+     
+    Provider.of<CompleteSignUpProvider>(context,listen: false).profileImage = profile!.path;
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorApprovalSecondScrn(),));
   }
 }

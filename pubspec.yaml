@@ -45,6 +45,7 @@ dependencies:
   overlay_support: ^2.1.0
   google_fonts: ^4.0.3
   image_picker: ^0.8.7
+  csc_picker: 0.2.7
   cloudinary_public: 
 
 

@@ -14,12 +14,14 @@ import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
-import 'package:smartico/common/splash_screen.dart';
-import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
+import 'package:smartico/vendor/view/vendor_approve_screen/vendor_approve_scrn2.dart';
+
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
+import 'application/vendor/complete_signup/complete_signup_provider.dart';
 import 'application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'application/vendor/gig_provider/show_all_gig_provider.dart';
+import 'vendor/view/vendor_approve_screen/vendor_approve_scrn1.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -56,7 +58,8 @@ class MyApp extends StatelessWidget {
         ListenableProvider(
           create: (context) => RecentServicesProvider(),
         ),
-        ListenableProvider(create: (context) => SingleGigDetailsProvider(),)
+        ListenableProvider(create: (context) => SingleGigDetailsProvider(),),
+        ListenableProvider(create: (context) => CompleteSignUpProvider(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -64,7 +67,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home: const VendorBottomNavBar (),
+        home:  VendorApprovalSecondScrn (),
         debugShowCheckedModeBanner: false,
       ),
     );

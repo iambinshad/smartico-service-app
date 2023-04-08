@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
 import '../../../application/user/user_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import '../../../core/widgets.dart';
@@ -29,6 +30,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<CompleteSignUpProvider>(context,listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -92,7 +94,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                     value: value.chooseGender,
                                     onChanged: (newValue) {
                                       value.dropdownvalue(newValue,1);
-                                      genderController.text =
+                                     prov.gender.text =
                                           newValue.toString();
                                       log(genderController.text);
                                     },
@@ -363,13 +365,6 @@ class VendorSignUpScrnTwo extends StatelessWidget {
     final dob = dobController.text.trim();
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
-
-    // if (gender.isEmpty ||
-    //     dob.isEmpty ||
-    //     password.isEmpty ||
-    //     confirmPassword.isEmpty) {
-    //   return;
-    // }
 
     VendorProvider().signUpNewVendor(
       fullName: fullName,
