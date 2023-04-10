@@ -1,19 +1,22 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/user/controller/fetch_gigs/show_all_gig_service.dart';
 import 'package:smartico/user/model/show_all_gigs/gig_model.dart';
 
-class RecentServicesProvider with ChangeNotifier{
-
+class RecentServicesProvider with ChangeNotifier {
   List<ShowAllGigsToUserModle>? allGigs = [];
 
-  Future<void>fetchAllGigs()async{
-    ShowAllGigsService().showAllGigs().then((value){
+  Future<void> fetchAllGigs(context) async {
+    ShowAllGigsService().showAllGigs().then((value) {
       allGigs = value;
+      Provider.of<CommonProvider>(context, listen: false)
+          .setShimmerLoading(false);
+
       notifyListeners();
-      log(allGigs.toString(),name: 'allgigs');
+      log(allGigs.toString(), name: 'allgigs');
     });
   }
-
 }

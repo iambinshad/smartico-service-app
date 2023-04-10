@@ -78,7 +78,7 @@ class VendorApprovalSecondScrn extends StatelessWidget {
   }
   
   void SubmitClicked(context) {
-final prov =Provider.of<CompleteSignUpProvider>(context);
+final prov =Provider.of<CompleteSignUpProvider>(context,listen: false);
     // final vendorProfileModelData = CompleteSignUpModel(fullName:prov.fullName.text,  email:prov.email.text.trim(), address:prov.address[], about: about, profilePhoto: profilePhoto, phone: phone)
 
   }

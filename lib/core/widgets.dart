@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
 
+import 'constants.dart';
+
 Widget kHeight10 = const SizedBox(
   height: 10,
 );
@@ -38,12 +40,14 @@ class MyTextFormField extends StatelessWidget {
     this.validator,
     this.hintText,
     this.labelText,
+    this.prefixIcon,
     required this.controller,
     this.keyboardType = TextInputType.text,
   });
   final String? Function(String?)? validator;
   final String? hintText;
   final String? labelText;
+  final Widget? prefixIcon ;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   @override
@@ -65,6 +69,7 @@ class MyTextFormField extends StatelessWidget {
             borderSide:
                 const BorderSide(color: Color.fromARGB(255, 123, 230, 219))),
         hintText: hintText,
+        prefixIcon: prefixIcon,
         labelText: labelText,
         hintStyle: const TextStyle(
           color: Color.fromARGB(255, 111, 111, 111),
@@ -73,6 +78,27 @@ class MyTextFormField extends StatelessWidget {
     );
   }
 }
+
+class TextFieldName extends StatelessWidget {
+  TextFieldName({super.key, required this.value});
+  String value;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            value,
+            style: normalText,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 Consumer cscPicker() {
   return Consumer<CompleteSignUpProvider>(

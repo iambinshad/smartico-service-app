@@ -1,24 +1,21 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
-import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 
-class UserHomePage extends StatefulWidget {
-  const UserHomePage({super.key});
-  @override
-  State<UserHomePage> createState() => _UserHomePageState();
-}
+import 'banner_card.dart';
+import 'other_screens/shimmer_page.dart';
 
-class _UserHomePageState extends State<UserHomePage> {
+class UserHomePage extends StatelessWidget {
+  UserHomePage({super.key});
   List serviceCategoryIcons = <Widget>[
     const Icon(Icons.plumbing),
     const Icon(Icons.delivery_dining_sharp),
@@ -29,11 +26,6 @@ class _UserHomePageState extends State<UserHomePage> {
     const Icon(Icons.iron),
     const Icon(Icons.dry_cleaning),
   ];
-  @override
-  void initState() {
-    context.read<RecentServicesProvider>().fetchAllGigs();
-    super.initState();
-  }
 
   List serviceCategoryNames = [
     'Plumber',
@@ -45,18 +37,18 @@ class _UserHomePageState extends State<UserHomePage> {
     'Dress iron',
     'Dress dry Clean'
   ];
-  List recomendedServiceImage = [
-    'assets/splash/painter.jpeg',
-    'assets/splash/plumbing.jpeg',
-    'assets/works/driver 2.jpg',
-    'assets/splash/tree cutting.jpeg',
-    'assets/splash/tv repair.jpeg',
-    'assets/works/driver.jpg',
-  ];
+
   final CarouselController carouselController = CarouselController();
+
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<CommonProvider>()
+          .setShimmerLoading(true);
+      context.read<RecentServicesProvider>().fetchAllGigs(context);
+    });
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -102,6 +94,7 @@ class _UserHomePageState extends State<UserHomePage> {
               ),
               kHeight10,
               Card(
+                elevation: 3.0,
                 child: Container(
                   decoration: BoxDecoration(
                       image: const DecorationImage(
@@ -217,7 +210,6 @@ class _UserHomePageState extends State<UserHomePage> {
                       padding: const EdgeInsets.only(right: 17),
                       child: TextButton(
                           onPressed: () {
-                            
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -237,90 +229,90 @@ class _UserHomePageState extends State<UserHomePage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7, right: 13, left: 13),
-                  child: Consumer<RecentServicesProvider>(
-                    builder: (context, value, child) => GridView.builder(
+                  child: Consumer2<RecentServicesProvider, CommonProvider>(
+                    builder: (context, value, value2, child) =>
+                        GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
-                              childAspectRatio: 3 / 3.4,
+                              childAspectRatio: 3 / 3.1,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: ()async{
-                           await context.read<SingleGigDetailsProvider>().getGig(value.allGigs![index].id);
-                
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ServiceDescriptionScrn(),
-                              ));
-                          },
-                          child: SizedBox(
-                              width: width / 2,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: height / 7.7,
-                                    width: width / 2.1,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(9),
-                                        image: DecorationImage(
-                                            image: NetworkImage(
-                                                value.allGigs![index].image),
-                                            fit: BoxFit.cover)),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        value.allGigs![index].category,
-                                        style: const TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.bold),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(value.allGigs![index].title,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                          overflow: TextOverflow.ellipsis),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: const [
-                                      Icon(
-                                        Icons.star_rate_rounded,
-                                        color: Colors.yellow,
-                                        size: 23,
-                                      ),
-                                      Text(
-                                        '4.9(1.2k + reviews)',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.monetization_on,
-                                        color: Color.fromARGB(255, 58, 201, 15),
-                                        size: 23,
-                                      ),
-                                      Text(
-                                      '${value.allGigs![index].price}',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                        );
+                        return value2.shimmerLoading
+                            ? getGridShimmer(width, height)
+                            : GestureDetector(
+                                onTap: () async {
+                                  await context
+                                      .read<SingleGigDetailsProvider>()
+                                      .getGig(value.allGigs![index].id,context);
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ServiceDescriptionScrn(),
+                                      ));
+                                },
+                                child: SizedBox(
+                                    width: width / 2,
+                                    child: Column(
+                                      children: [
+                                        
+                                        Container(
+                                          height: height / 7.7,
+                                          width: width / 2.1,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(9),
+                                              image: DecorationImage(
+                                                  image: NetworkImage(value
+                                                      .allGigs![index].image),
+                                                  fit: BoxFit.cover),),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              value.allGigs![index].title,
+                                              style: const TextStyle(
+                                                  color: Colors.blue,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(value.allGigs![index].type,
+                                                style: const TextStyle(
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ],
+                                        ),
+                                     
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.monetization_on,
+                                              color: Color.fromARGB(
+                                                  255, 58, 201, 15),
+                                              size: 23,
+                                            ),
+                                            Text(
+                                              '${value.allGigs![index].price}',
+                                              style: const TextStyle(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )),
+                              );
                       },
                       itemCount: value.allGigs!.length,
                     ),
@@ -331,25 +323,8 @@ class _UserHomePageState extends State<UserHomePage> {
           )),
     );
   }
+
+
 }
 
-class BannerCard extends StatelessWidget {
-  BannerCard({
-    required this.imageAddress,
-    super.key,
-  });
-  String imageAddress;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5.0,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-              image: AssetImage(imageAddress), fit: BoxFit.cover),
-        ),
-      ),
-    );
-  }
-}
+

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -6,9 +7,10 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class CommonProvider extends ChangeNotifier{
-
+File? galleryImage;
+File? cameraImage;
 bool loading =false;
-
+bool shimmerLoading = false;
     void showSuccessSnackBar(context) {
     showTopSnackBar(
       Overlay.of(context),
@@ -17,6 +19,16 @@ bool loading =false;
       ),
     );
   }
+
+void storageSetting(value){
+galleryImage = value;
+notifyListeners();
+}
+
+void cameraSetting(value){
+  cameraImage = value;
+  notifyListeners();
+}
 
   void showInvalidOtpSnack(context) {
     showTopSnackBar(
@@ -67,6 +79,12 @@ bool loading =false;
         message: 'OTP sended',
       ),
     );
+  }
+  void setShimmerLoading(value){
+    
+    shimmerLoading =value;
+    notifyListeners();
+
   }
 
   void onloading (){

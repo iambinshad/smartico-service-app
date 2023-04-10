@@ -262,7 +262,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
   }
 
   signUpButtonClicked(context) {
-    final fullName = Provider.of<CompleteSignUpProvider>(context).fullName.text;
+    final fullName = Provider.of<CompleteSignUpProvider>(context,listen: false).fullName.text;
     final userName = userNameController.text;
     final email =
         Provider.of<CompleteSignUpProvider>(context).email.text.trim();

@@ -1,12 +1,17 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_complete_description.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_edit_scrn.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_add_scrn.dart';
 
 class GigsScreen extends StatefulWidget {
@@ -26,16 +31,6 @@ class _GigsScreenState extends State<GigsScreen> {
     first();
   }
 
-  List recomendedServiceImage = [
-    'assets/splash/painter.jpeg',
-    'assets/splash/plumbing.jpeg',
-    'assets/works/driver 2.jpg',
-    'assets/splash/tree cutting.jpeg',
-    'assets/splash/tv repair.jpeg',
-    'assets/works/driver.jpg',
-    'assets/splash/electrician 2.jpg'
-  ];
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -45,59 +40,7 @@ class _GigsScreenState extends State<GigsScreen> {
           style:
               ButtonStyle(backgroundColor: MaterialStatePropertyAll(mainColor)),
           onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              builder: (context) => SizedBox(
-                height: 95,
-                width: width / 1.1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          pickImageFromCamera();
-                        },
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.camera_alt_outlined,
-                              color: Colors.blue,
-                              size: 40,
-                            ),
-                            Text(
-                              'Camera',
-                              style: TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          Navigator.pop(context);
-                          await pickImageFromGallery();
-                        },
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.photo,
-                              color: Colors.blue,
-                              size: 40,
-                            ),
-                            Text(
-                              'Gallery',
-                              style: TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
+            bottomSheet(context, width);
           },
           icon: const Icon(
             Icons.add,
@@ -109,7 +52,7 @@ class _GigsScreenState extends State<GigsScreen> {
           )),
       appBar: AppBar(
         elevation: 5.0,
-        backgroundColor:const Color.fromARGB(255, 1, 139, 253),
+        backgroundColor:mainColor,
         // ignore: prefer_const_constructors
         title: Text(
           'Gigs',
@@ -117,123 +60,282 @@ class _GigsScreenState extends State<GigsScreen> {
         ),
         centerTitle: true,
       ),
-      body: Column(
+      body:  Column(
         children: [
           Expanded(
-            child: Consumer<ShowAllGigsProvider>(
-              builder: (context, value, child) {
-                return value.vendorGigs!=null?
-                ListView.separated(
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.only(right: 5, left: 5, bottom: 5),
-                      child: Card(
-                        elevation: 3.8,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                        value.vendorGigs![index].image),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  color: Colors.red,
-                                  borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(15),
-                                      topRight: Radius.circular(15))),
-                              width: width,
-                              height: width / 1.75,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  PopupMenuButton(
-                                    icon: const Icon(
-                                      Icons.more_vert_outlined,
-                                      color: Colors.white,
-                                    ),
-                                    itemBuilder: (context) => [
-                                      PopupMenuItem(
-                                        value: 1,
-                                        child: const Text('Edit',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'poppins',
-                                                fontSize: 15)),
-                                        onTap: () {},
-                                      ),
-                                      const PopupMenuItem(
-                                        enabled: true,
-                                          value: 2,
-                                          child: Text(
-                                            'Delete',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'poppins',
-                                                fontSize: 15),
-                                                
-                                          ))
-                                          
-                                    ],
-                                    onSelected: (value) {
-                                      if (value == 2) {}
-                                    },
-                                    
-                                    elevation: 2,
-                                  ),
-                                 
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
+            child: Consumer2<ShowAllGigsProvider,CommonProvider>(
+              builder: (context, value,value2, child) {
+                return value.vendorGigs != null
+                    ? ListView.separated(
+                        itemBuilder: (context, index) {
+                          return value2.shimmerLoading?gigScrnShimmer(width): Padding(
+                            padding: const EdgeInsets.only(
+                                right: 5, left: 5, bottom: 5),
+                            child: GestureDetector(
+                              onTap: () => Navigator.push(context, MaterialPageRoute(builder:(context) => GigDescripttion(index: index),)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        value.vendorGigs![index].title,
-                                        style:
-                                            GoogleFonts.sigmarOne(fontSize: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 6,left: 6),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                                value.vendorGigs![index].image),
+                                            fit: BoxFit.fill,
+                                          ),
+                                          color: Colors.red,
+                                          ),
+                                      width: width,
+                                      height: width / 1.75,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          PopupMenuButton(
+                                            icon: const Icon(
+                                              Icons.more_vert_outlined,
+                                              color: Colors.white,
+                                            ),
+                                            itemBuilder: (context) => [
+                                              const PopupMenuItem(
+                                                value: 1,
+                                                child: Text('Edit',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: 'poppins',
+                                                        fontSize: 15)),
+                                              ),
+                                              const PopupMenuItem(
+                                                  enabled: true,
+                                                  value: 2,
+                                                  child: Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily: 'poppins',
+                                                        fontSize: 15),
+                                                  ))
+                                            ],
+                                            onSelected: (popvalue) {
+                                              if (popvalue == 1) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          GigEditScreen(
+                                                              imagePath: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .image,
+                                                              title: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .title,
+                                                              overView: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .overview,
+                                                              description: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .description,
+                                                              price: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .price,
+                                                              type: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .type,
+                                                                 gigId: value.vendorGigs![index].id
+                                                            
+                                                                   ),
+                                                    ));
+                                              }else if(popvalue == 2){
+                                                showDialog(context: context, builder: (context) => Consumer2<NewGIgCreateProvider,ShowAllGigsProvider>(
+                                                  builder: (context, value,value2, child) => 
+                                                   AlertDialog(
+                                                    title: const Text('Are You sure You want to delete this gig?'),
+                                                    actions: [
+                                                      ElevatedButton(onPressed: (){
+                                                     value.deleteGig(value2.vendorGigs![index].id, context);
+                                                     
+                                                     
+                                                      }, child: const Text('Delete')),
+                                                      ElevatedButton(onPressed: (){
+                                                        Navigator.pop(context);
+                                                      }, child: const Text('Cancel')),
+                                                    ],
+                                                  ),
+                                                ),);
+                            
+                                              }
+                                            },
+                                            elevation: 2,
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        "\$${value.vendorGigs![index].price}",
-                                        style: GoogleFonts.notoSans(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                  Text(
-                                    value.vendorGigs![index].type,
-                                    style: TextStyle(
-                                        color: Colors.grey.shade800,
-                                        fontSize: 18,
-                                        overflow: TextOverflow.ellipsis),
-                                    maxLines: 2,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              value.vendorGigs![index].title,
+                                              style: GoogleFonts.sigmarOne(
+                                                  fontSize: 20),
+                                            ),
+                                            Text(
+                                              "\$${value.vendorGigs![index].price}",
+                                              style: GoogleFonts.notoSans(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          value.vendorGigs![index].type,
+                                          style: TextStyle(
+                                              color: Colors.grey.shade800,
+                                              fontSize: 18,
+                                              ),
+                                          maxLines: 2,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  itemCount: value.vendorGigs!.length,
-                  separatorBuilder: (context, index) => const SizedBox()):const Center(child:Image(image: AssetImage('assets/vendor/113070-empty-box-blue.gif')));
-
+                          );
+                        },
+                        itemCount: value.vendorGigs!.length,
+                        separatorBuilder: (context, index) => const SizedBox())
+                    : const Center(
+                        child: Image(
+                            image: AssetImage(
+                                'assets/vendor/113070-empty-box-blue.gif')));
               },
             ),
           ),
         ],
       ),
     );
+  }
+
+  Shimmer gigScrnShimmer(width){
+    return Shimmer.fromColors( baseColor: Colors.grey[300]!, highlightColor: Colors.grey[100]!,child:
+    Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 6,left: 6),
+                                    child: Container(
+                                      color: Colors.white,
+                                      width: width,
+                                      height: width / 1.75,
+                                      
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Container(
+                                              height: 15,
+                                              width: 140,
+                                              color: Colors.white,
+                                            ),
+                                            Container(
+                                              height: 15,
+                                              width: 40,
+                                              color: Colors.white,
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                              height: 15,
+                                              width: 140,
+                                              color: Colors.white,
+                                            )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+    ,);
+  }
+
+
+  Future<dynamic> bottomSheet(BuildContext context, double width) {
+    return showModalBottomSheet(
+            context: context,
+            builder: (context) => SizedBox(
+              height: 95,
+              width: width / 1.1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        pickImageFromCamera();
+                      },
+                      child: Column(
+                        children: const [
+                          Icon(
+                            Icons.camera_alt_outlined,
+                            color: Colors.blue,
+                            size: 40,
+                          ),
+                          Text(
+                            'Camera',
+                            style: TextStyle(fontSize: 20),
+                          )
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        Navigator.pop(context);
+                        await pickImageFromGallery();
+                      },
+                      child: Column(
+                        children: const [
+                          Icon(
+                            Icons.photo,
+                            color: Colors.blue,
+                            size: 40,
+                          ),
+                          Text(
+                            'Gallery',
+                            style: TextStyle(fontSize: 20),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 
   Future pickImageFromGallery() async {
@@ -243,15 +345,15 @@ class _GigsScreenState extends State<GigsScreen> {
       final imageTemp = File(
         image.path,
       );
+      
       setState(() => galleryImage = imageTemp);
       Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => GigsAddScreen(imagePath: galleryImage),
           ));
-         
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+       log(e.message.toString());
     }
   }
 
@@ -268,14 +370,14 @@ class _GigsScreenState extends State<GigsScreen> {
           MaterialPageRoute(
             builder: (context) => GigsAddScreen(imagePath: cameraImage),
           ));
-          
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      log(e.message.toString());
     }
   }
 
   void first() async {
-    await context.read<ShowAllGigsProvider>().callApiServiceGigs();
-    await context.read<NewGIgCreateProvider>().getAllCategory(context);
+    context.read<CommonProvider>().setShimmerLoading(true);
+     context.read<ShowAllGigsProvider>().callApiServiceGigs();
+     context.read<NewGIgCreateProvider>().getAllCategory(context);
   }
 }

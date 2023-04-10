@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smartico/core/constants.dart';
 import 'package:smartico/user/view/bottom_nav_screens/account.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/dashboard.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
@@ -36,8 +37,8 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
-        selectedItemColor:  const Color.fromARGB(255, 149, 226, 218),
-        unselectedItemColor:Colors.grey.shade400,
+        selectedItemColor: Colors.black,
+        unselectedItemColor:mainColor,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), label: 'Dashboard'),
           BottomNavigationBarItem(

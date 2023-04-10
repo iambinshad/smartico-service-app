@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/user/view/bottom_nav_screens/account.dart';
-import 'package:smartico/user/view/bottom_nav_screens/all_category.dart';
+import 'package:smartico/user/view/bottom_nav_screens/all_cateogory/all_category.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/chats.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/user_home.dart';
 
@@ -16,7 +16,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
   int currentIndex = 0;
 
   List bottomNavScreens = [
-   const UserHomePage(),
+    UserHomePage(),
     AllCategroryList(),
     ChatsScreen(),
      ProfilePage()

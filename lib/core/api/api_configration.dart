@@ -7,7 +7,7 @@ class ApiConfigration{
   static const otp = '/OTP';
   static const verifyOtp = '/verifyOTP';
   static const fetchAllGigs = '/allGigs';
-  static const getSingleGigDetails = '/singleGig/';  // plus gig id need to send
+  static const getSingleGigDetails = '/singleGig/';  // gig id needed after this endpoint
 
   //---Vendor Endpoints---
 
@@ -22,6 +22,10 @@ class ApiConfigration{
   static const newGIgCreate = '/newGig';
   static const getallCategories = '/categories';
   static const showAllVendorGigs = '/viewGigs';
+  static const deleteGig = '/deleteGig/'; // gig id needed after this endpoint
+    static const editGig = '/updateVendorGig'; 
+
+
 
   
   //---Admin Endpoints---

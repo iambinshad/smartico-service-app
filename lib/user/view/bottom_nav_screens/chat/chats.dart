@@ -8,21 +8,6 @@ import 'other_screens/messages.dart';
 class ChatsScreen extends StatelessWidget {
    ChatsScreen({super.key});
 
-  List vendorsName = [
-    'Rajubhai Malhotra',
-    'Akshay rav',
-    'Robin jeda',
-    'Jasir Ali',
-    'Rajubhai Malhotra'
-  ];
- List recomendedServiceImage = [
-    'assets/splash/painter.jpeg',
-    'assets/splash/tv repair.jpeg',  
-    'assets/works/profile pic.jpg'
-    
-    'assets/splash/painter.jpeg',
-    'assets/splash/tv repair.jpeg'
-  ];
 
 
   @override
@@ -40,8 +25,8 @@ class ChatsScreen extends StatelessWidget {
               child: ListView.builder(itemBuilder: (context, index) {
                 return  ListTile(
                   onTap:() =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const MessagesScreen(),)),
-                  leading: CircleAvatar(backgroundImage:AssetImage(recomendedServiceImage[index]),radius: 28,),
-                  title:Text(vendorsName[index],style: normalText,),
+                  leading: CircleAvatar(backgroundImage:AssetImage(''),radius: 28,),
+                  title:Text(''),
                   subtitle: const Text('You have to complete this..',),
                   trailing: Column(
                     children: [

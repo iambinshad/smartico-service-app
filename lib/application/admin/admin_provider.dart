@@ -26,11 +26,11 @@ class AdminProvider with ChangeNotifier {
           key: 'AdminSignInToken', value: jsonEncode(tokenData?.token));
 
       notifyListeners();
-      
+
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) =>  AdminPage(),
+            builder: (context) => AdminPage(),
           ),
           (route) => false);
     }
