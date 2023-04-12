@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +6,6 @@ import 'package:smartico/admin/controller/authentication/sign_in/sign_in_api_ser
 import 'package:smartico/admin/model/admin_sign_in_req_model.dart';
 import 'package:smartico/admin/view/admin_home_page.dart';
 import 'package:smartico/application/common/common_provider.dart';
-
 import '../../user/view/authentication/user_sign_in.dart';
 
 class AdminProvider with ChangeNotifier {
@@ -27,14 +25,18 @@ class AdminProvider with ChangeNotifier {
 
       notifyListeners();
 
-      Navigator.pushAndRemoveUntil(
+    if(context.mounted){
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => AdminPage(),
           ),
           (route) => false);
     }
+    }
     UserSignIn().disposeTextFiled();
-    Provider.of<CommonProvider>(context, listen: false).offLoading();
+   if(context.mounted){
+     Provider.of<CommonProvider>(context, listen: false).offLoading();
+   }
   }
 }

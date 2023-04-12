@@ -179,7 +179,7 @@ class OtpField extends StatelessWidget {
     required this.field,
   });
 
-final field;
+final  field;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

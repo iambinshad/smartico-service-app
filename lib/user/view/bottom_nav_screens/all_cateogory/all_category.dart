@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
-import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/all_cateogory/shimmer_page.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
@@ -18,7 +16,7 @@ class AllCategroryList extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<CommonProvider>(context,listen: false).setShimmerLoading(true);
-      Future.delayed(Duration(milliseconds: 700),(){
+      Future.delayed( const Duration(milliseconds: 700),(){
        context.read<CommonProvider>().setShimmerLoading(false);
 
       });
@@ -58,11 +56,14 @@ class AllCategroryList extends StatelessWidget {
                       onTap: ()async {
 
                         await context.read<SingleGigDetailsProvider>().getGig(value.allGigs![index].id,context);
-                        Navigator.push(
+                        if(context.mounted){
+                          Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  ServiceDescriptionScrn(),
-                          ));},
+                            builder: (context) =>   ServiceDescriptionScrn(),
+                          ));
+                        }
+                        },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

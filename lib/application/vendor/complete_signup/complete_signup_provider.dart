@@ -1,15 +1,13 @@
-
 import 'package:flutter/material.dart';
 
-class CompleteSignUpProvider with ChangeNotifier{
-  
-dynamic countryValue ;
-dynamic stateValue ;
-dynamic cityValue ;
+class CompleteSignUpProvider with ChangeNotifier {
+  dynamic countryValue;
+  dynamic stateValue;
+  dynamic cityValue;
 
-String? profileImage ;
-final fullName = TextEditingController();
-final email = TextEditingController();
+  String? profileImage;
+  final fullName = TextEditingController();
+  final email = TextEditingController();
   final address = TextEditingController();
   final about = TextEditingController();
   final country = TextEditingController();
@@ -22,20 +20,23 @@ final email = TextEditingController();
   final gitHub = TextEditingController();
   final gender = TextEditingController();
   final mobile = TextEditingController();
-  
 
-void setCountryValue (value){
-   countryValue= value;
-  notifyListeners();
-  
-}
-void setStateValue(value){
-  stateValue =value;
-  notifyListeners();
-  
-}
-void setCityValue(value){
-  cityValue = value;
-  notifyListeners();
-}
+  void setCountryValue(value) {
+    countryValue = value;
+    notifyListeners();
+  }
+
+  void setStateValue(value) {
+    stateValue = value;
+    notifyListeners();
+  }
+
+  void setCityValue(value) {
+    cityValue = value;
+    notifyListeners();
+  }
+
+  Future<void>completeSignUp()async{
+    
+  }
 }

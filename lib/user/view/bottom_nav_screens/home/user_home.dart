@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
@@ -45,8 +44,7 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<CommonProvider>()
-          .setShimmerLoading(true);
+      context.read<CommonProvider>().setShimmerLoading(true);
       context.read<RecentServicesProvider>().fetchAllGigs(context);
     });
     final width = MediaQuery.of(context).size.width;
@@ -213,7 +211,7 @@ class UserHomePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ViewAllScreen(),
+                                  builder: (context) => const ViewAllScreen(),
                                 ));
                           },
                           child: const Text(
@@ -245,30 +243,33 @@ class UserHomePage extends StatelessWidget {
                                 onTap: () async {
                                   await context
                                       .read<SingleGigDetailsProvider>()
-                                      .getGig(value.allGigs![index].id,context);
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ServiceDescriptionScrn(),
-                                      ));
+                                      .getGig(
+                                          value.allGigs![index].id, context);
+          
+                                  if (context.mounted) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                               ServiceDescriptionScrn(),
+                                        ));
+                                  }
                                 },
                                 child: SizedBox(
                                     width: width / 2,
                                     child: Column(
                                       children: [
-                                        
                                         Container(
                                           height: height / 7.7,
                                           width: width / 2.1,
                                           decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(9),
-                                              image: DecorationImage(
-                                                  image: NetworkImage(value
-                                                      .allGigs![index].image),
-                                                  fit: BoxFit.cover),),
+                                            borderRadius:
+                                                BorderRadius.circular(9),
+                                            image: DecorationImage(
+                                                image: NetworkImage(value
+                                                    .allGigs![index].image),
+                                                fit: BoxFit.cover),
+                                          ),
                                         ),
                                         Row(
                                           children: [
@@ -293,7 +294,6 @@ class UserHomePage extends StatelessWidget {
                                                     TextOverflow.ellipsis),
                                           ],
                                         ),
-                                     
                                         Row(
                                           children: [
                                             const Icon(
@@ -323,8 +323,4 @@ class UserHomePage extends StatelessWidget {
           )),
     );
   }
-
-
 }
-
-

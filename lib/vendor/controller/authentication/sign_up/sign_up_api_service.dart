@@ -10,7 +10,7 @@ import '../../../../core/api/api_configration.dart';
 import '../../../model/authentication/vendor_sign_up_model.dart';
 class VendorSignUpApiService{
   Dio dio = Dio();
-    Future<String> VendorSignUp(
+    Future<String> vendorSignUp(
       VendorSignUpModel vendorSignUpModel, BuildContext context) async {
     String path = ApiConfigration.kBaseUrl +ApiConfigration.vendor+ ApiConfigration.vendorOTP;
     try {

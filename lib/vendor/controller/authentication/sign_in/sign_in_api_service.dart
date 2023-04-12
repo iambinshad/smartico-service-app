@@ -21,8 +21,10 @@ class VendorSignInApiService {
           await dio.post(path, data: jsonEncode(vendorSignInReqModel.toJson()));
       log(response.toString());
       if (response.statusMessage == "Wrong Password") {
-        Provider.of<CommonProvider>(context, listen: false)
+        if(context.mounted){
+          Provider.of<CommonProvider>(context, listen: false)
             .userNotExist(context);
+        }
       } else if (response.statusCode == 200 || response.statusCode == 201) {
         log(response.data.toString());
         if (response.data['token'] != null) {

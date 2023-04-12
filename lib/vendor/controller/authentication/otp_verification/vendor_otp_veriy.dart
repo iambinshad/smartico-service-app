@@ -12,7 +12,7 @@ import '../../../../application/common/common_provider.dart';
 
 class VendorOtpVerifyApiService{
   Dio dio = Dio();
-  Future<VendorSignUpResModel?>VendorOtpVerification(VendorOtpVerifyModel otp,context)async{
+  Future<VendorSignUpResModel?>vendorOtpVerification(VendorOtpVerifyModel otp,context)async{
 
     String path = ApiConfigration.kBaseUrl + ApiConfigration.vendor + ApiConfigration.verifyVendorOTP;
 

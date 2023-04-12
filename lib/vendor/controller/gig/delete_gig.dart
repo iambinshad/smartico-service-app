@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -31,6 +32,7 @@ class DeleteGigService {
             message: 'Gig Delete Successfull',
           ),
         );
+     Navigator.pop(context);
       } else {
         log(response.statusMessage.toString());
       }

@@ -6,7 +6,7 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
 
 class VendorApprovalSecondScrn extends StatelessWidget {
-   VendorApprovalSecondScrn({super.key});
+  const  VendorApprovalSecondScrn({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class VendorApprovalSecondScrn extends StatelessWidget {
                   kHeight30,
                   GestureDetector(
                     onTap: () {
-                      SubmitClicked(context);
+                      submitClicked(context);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -77,9 +77,8 @@ class VendorApprovalSecondScrn extends StatelessWidget {
     );
   }
   
-  void SubmitClicked(context) {
-final prov =Provider.of<CompleteSignUpProvider>(context,listen: false);
-    // final vendorProfileModelData = CompleteSignUpModel(fullName:prov.fullName.text,  email:prov.email.text.trim(), address:prov.address[], about: about, profilePhoto: profilePhoto, phone: phone)
-
+  void submitClicked(context) {
+    final prov = Provider.of<CompleteSignUpProvider>(context,listen: false);
+    final vendorProfileModelData = CompleteSignUpModel(fullName:prov.fullName.text,  email:prov.email.text.trim(), address:Address( country:prov.country.text, currentAddress: prov.address.text, city: prov.city.text, state: prov.state.text), about: prov.about.text, profilePhoto:prov.profileImage.toString(), phone:prov.mobile.text);
   }
 }

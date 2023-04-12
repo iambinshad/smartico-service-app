@@ -69,14 +69,14 @@ class CompleteSignUpModel {
 }
 
 class Address {
-  String pincode;
+  String? pincode;
   String country;
   String currentAddress;
   String city;
   String state;
 
   Address({
-   required this.pincode,
+    this.pincode,
    required this.country,
    required this.currentAddress,
    required this.city,

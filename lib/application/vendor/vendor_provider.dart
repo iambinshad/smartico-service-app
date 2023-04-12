@@ -72,7 +72,7 @@ class VendorProvider extends ChangeNotifier {
       passwordConfirm: passwordConfirm,
     );
 log(signUpVendorDatas.toString());
-    final signUpResult = await VendorSignUpApiService().VendorSignUp(signUpVendorDatas, context);
+    final signUpResult = await VendorSignUpApiService().vendorSignUp(signUpVendorDatas, context);
     log(signUpResult.toString());
     if(signUpResult == 'Vendor with this email already exists!!!'){
      log('Vendor with this email already exist!!');
@@ -86,14 +86,14 @@ log(signUpVendorDatas.toString());
 
     final otp = VendorOtpVerifyModel(otp:int.parse(otpNumber));
 
-    VendorSignUpResModel? tokenData = await VendorOtpVerifyApiService().VendorOtpVerification(otp, context);
+    VendorSignUpResModel? tokenData = await VendorOtpVerifyApiService().vendorOtpVerification(otp, context);
     log(tokenData.toString());
     if(tokenData != null){
       await storage.write(key: 'VendorsignUpToken', value: jsonEncode(tokenData.token));
       await storage.write(key: 'vendorId', value: tokenData.data.user.id);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return   VendorBottomNavBar();
+          return  const VendorBottomNavBar();
         },
       ), (route) => false);
 

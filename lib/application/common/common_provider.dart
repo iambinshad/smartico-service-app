@@ -7,8 +7,10 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class CommonProvider extends ChangeNotifier{
-File? galleryImage;
-File? cameraImage;
+File? addGalleryImage;
+File? addCameraImage;
+File? editGalleryImage;
+File? editCameraImage;
 bool loading =false;
 bool shimmerLoading = false;
     void showSuccessSnackBar(context) {
@@ -20,13 +22,23 @@ bool shimmerLoading = false;
     );
   }
 
-void storageSetting(value){
-galleryImage = value;
+void addStorageSetting(value){
+addGalleryImage = value;
 notifyListeners();
 }
 
-void cameraSetting(value){
-  cameraImage = value;
+void addCameraSetting(value){
+  addCameraImage = value;
+  notifyListeners();
+}
+
+void editStorageSetting(value){
+editGalleryImage = value;
+notifyListeners();
+}
+
+void editCameraSetting(value){
+  editCameraImage = value;
   notifyListeners();
 }
 

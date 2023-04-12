@@ -8,9 +8,10 @@ import 'package:smartico/application/common/common_provider.dart';
 
 import '../../../../core/api/api_configration.dart';
 import '../../../model/authentication/user_sign_up_model.dart';
-class UserSignUpApiService{
+
+class UserSignUpApiService {
   Dio dio = Dio();
-    Future<String> userSignUp(
+  Future<String> userSignUp(
       UserSignUpModel userSignUpModel, BuildContext context) async {
     String path = ApiConfigration.kBaseUrl + ApiConfigration.otp;
     try {
@@ -18,15 +19,19 @@ class UserSignUpApiService{
           await dio.post(path, data: jsonEncode(userSignUpModel.toJson()));
       log(response.statusCode.toString());
       if (response.statusCode == 200) {
-         Provider.of<CommonProvider>(context,listen: false).loading = false;
-        // ignore: use_build_context_synchronously
-        Provider.of<CommonProvider>(context, listen: false).userOtpSend(context);
+        if (context.mounted) {
+          Provider.of<CommonProvider>(context, listen: false).loading = false;
+          Provider.of<CommonProvider>(context, listen: false)
+              .userOtpSend(context);
+        }
         return 'Success';
-      }else{
-        Provider.of<CommonProvider>(context,listen: false).offLoading();
+      } else {
+        if (context.mounted) {
+          Provider.of<CommonProvider>(context, listen: false).offLoading();
+        }
       }
     } on DioError catch (e) {
-      Provider.of<CommonProvider>(context,listen: false).loading = false;
+      Provider.of<CommonProvider>(context, listen: false).loading = false;
       log(e.error.toString());
       Provider.of<CommonProvider>(context, listen: false)
           .userAlreadyExist(context);
@@ -34,5 +39,4 @@ class UserSignUpApiService{
 
     return '';
   }
-
 }

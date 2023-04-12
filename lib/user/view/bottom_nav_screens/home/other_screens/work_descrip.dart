@@ -1,16 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/other_screens/messages.dart';
 
-class ServiceDescriptionScrn extends StatelessWidget {
-  const ServiceDescriptionScrn({
+class ServiceDescriptionScrn extends StatefulWidget {
+   ServiceDescriptionScrn({
     super.key,
   });
 
+
+
+
+  @override
+  State<ServiceDescriptionScrn> createState() => _ServiceDescriptionScrnState();
+}
+
+class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+_razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+_razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+_razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _razorpay.clear(); 
+  }
+ final _razorpay = Razorpay();
+ var options = {
+  'key': 'LcpMGI7JTMlHYh',
+  'amount': 100,
+  'name': 'Acme Corp.',
+  'description': 'Fine T-Shirt',
+  'prefill': {
+    'contact': '8888888888',
+    'email': 'test@razorpay.com'
+  }
+};
+ 
+ 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -180,7 +217,9 @@ class ServiceDescriptionScrn extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _razorpay.open(options);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 123, 230, 219),
                     padding: EdgeInsets.symmetric(
@@ -190,7 +229,7 @@ class ServiceDescriptionScrn extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    "Book Now",
+                    "Pay & Book ",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
@@ -201,6 +240,19 @@ class ServiceDescriptionScrn extends StatelessWidget {
       ),
     );
   }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  // Do something when payment succeeds
+}
+
+void _handlePaymentError(PaymentFailureResponse response) {
+  // Do something when payment fails
+}
+
+void _handleExternalWallet(ExternalWalletResponse response) {
+  // Do something when an external wallet is selected
+}
+
   Shimmer getjobdescriShimmerLoad(width){
     return Shimmer.fromColors( baseColor: Colors.grey[300]!, highlightColor: Colors.grey[100]!,
     child:Container(
@@ -217,8 +269,8 @@ class Containerr extends StatelessWidget {
     super.key,
     this.height,this.width,   this.color = Colors.white
   });
-var height;
-var width;
+dynamic height;
+dynamic width;
 Color color;
 
   @override

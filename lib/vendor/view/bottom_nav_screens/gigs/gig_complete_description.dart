@@ -26,7 +26,7 @@ class GigDescripttion extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               )),
-          Expanded(
+          Card(
             child: SizedBox(
               // width: width,
               // height: doub,

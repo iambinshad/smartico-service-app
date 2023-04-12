@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
+import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
 import 'package:smartico/vendor/model/new_gig/edit_gig_model.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../../../application/vendor/vendor_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
-import 'gigs_scrn.dart';
 
 class GigEditScreen extends StatefulWidget {
   GigEditScreen(
@@ -36,33 +38,35 @@ class GigEditScreen extends StatefulWidget {
 }
 
 class _GigEditScreenState extends State<GigEditScreen> {
-   TextEditingController titleController  = TextEditingController();
-   TextEditingController serviceTypeController = TextEditingController();
-   TextEditingController overViewController = TextEditingController();
-   TextEditingController descriptionController = TextEditingController();
-   TextEditingController priceController = TextEditingController();
-   TextEditingController categoryController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController serviceTypeController = TextEditingController();
+  TextEditingController overViewController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController categoryController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
-  bool serviceCheckBoxValue = false;
-  bool productCheckBoxValue = false;
-  String gigImage = '';
-  File? gigImageFile;
+
+
   int flag = 0;
 
-  @override
-  Widget build(BuildContext context) {
-   
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        typeCheck(widget.type);
-      });
-      gigImage = widget.imagePath;
-      titleController = TextEditingController(text: widget.title);
+@override
+  void initState() {
+     Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage = widget.imagePath;
+       titleController = TextEditingController(text: widget.title);
       overViewController = TextEditingController(text: widget.overView);
       descriptionController = TextEditingController(text: widget.description);
       priceController = TextEditingController(text: widget.price.toString());
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<NewGIgCreateProvider>(context, listen: false)
+          .typeCheck(widget.type);
+    
     });
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+
     final newGigProv =
         Provider.of<NewGIgCreateProvider>(context, listen: false);
     final width = MediaQuery.of(context).size.width;
@@ -81,98 +85,108 @@ class _GigEditScreenState extends State<GigEditScreen> {
         child: ListView(
           children: [
             flag != 0
-                ? Container(
-                    height: width / 1.5,
-                    width: width,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: FileImage(gigImageFile!), fit: BoxFit.fill)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              bottomSheet(context, width);
-                            },
-                            icon: Icon(
-                              Icons.edit,
-                              size: 30,
-                              color: mainColor,
-                            ))
-                      ],
+                ? Consumer<NewGIgCreateProvider>(
+                  builder: (context, value, child) => 
+                  Container(
+                      height: width / 1.5,
+                      width: width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: FileImage(value.gigImageFile!), fit: BoxFit.fill)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                bottomSheet(context, width);
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 30,
+                                color: mainColor,
+                              ))
+                        ],
+                      ),
                     ),
-                  )
-                : Container(
-                    height: width / 1.5,
-                    width: width,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(gigImage), fit: BoxFit.fill)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              bottomSheet(context, width);
-                            },
-                            icon: Icon(
-                              Icons.edit,
-                              size: 30,
-                              color: mainColor,
-                            ))
-                      ],
+                )
+                : Consumer<NewGIgCreateProvider>(
+                  builder: (context, value, child) => 
+                   Container(
+                      height: width / 1.5,
+                      width: width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(value.gigImage), fit: BoxFit.fill)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                bottomSheet(context, width);
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                size: 30,
+                                color: mainColor,
+                              ))
+                        ],
+                      ),
                     ),
-                  ),
+                ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  TextFieldName(value: 'Title'),
+                  TextFieldName(
+                    value: 'Title',
+                  ),
                   MyTextFormField(
-                      hintText: 'Title', controller: titleController),
+                    hintText: 'Title',
+                    controller: titleController,
+                  ),
                   TextFieldName(value: 'Overview'),
                   MyTextFormField(
                     controller: overViewController,
                   ),
                   TextFieldName(value: 'Description'),
-                  MyTextFormField(controller: descriptionController),
+                  MyTextFormField(
+                    controller: descriptionController,
+                
+                  ),
                   TextFieldName(value: 'Price'),
                   MyTextFormField(
                     controller: priceController,
+                  
                     keyboardType: TextInputType.number,
                   ),
                   TextFieldName(value: 'Type'),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: serviceCheckBoxValue,
-                        onChanged: (value) {
-                          setState(() {
-                            serviceCheckBoxValue = !serviceCheckBoxValue;
-                            productCheckBoxValue = !serviceCheckBoxValue;
-                          });
-                        },
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                      ),
-                      const Text('Service'),
-                      Checkbox(
-                        value: productCheckBoxValue,
-                        onChanged: (value) {
-                          setState(() {
-                            productCheckBoxValue = !productCheckBoxValue;
-                            serviceCheckBoxValue = !productCheckBoxValue;
-                          });
-                        },
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                      ),
-                      const Text('Product')
-                    ],
+                  Consumer<NewGIgCreateProvider>(
+                    builder: (context, values, child) => Row(
+                      children: [
+                        Checkbox(
+                          value: values.editserviceCheckBoxValue,
+                          onChanged: (value) {
+                            values.setEditServiceCheck();
+                          },
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                        ),
+                        const Text('Service'),
+                        Checkbox(
+                          value: values.editproductCheckBoxValue,
+                          onChanged: (value) {
+                            values.setEditProductCheck();
+                          },
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                        ),
+                        const Text('Product')
+                      ],
+                    ),
                   ),
                   !Provider.of<NewGIgCreateProvider>(context, listen: false)
                           .vendorSideTypeValidation
@@ -198,10 +212,7 @@ class _GigEditScreenState extends State<GigEditScreen> {
                               ))
                           .toList(),
                       onChanged: (CategoryResModel? category) {
-                        setState(() {
-                          value2.selectedCategory = category;
-                          value2.selectedCategoryId = category!.id;
-                        });
+                        value2.setCategory(category, category!.id);
                       },
                       validator: (value) {
                         if (value2.selectedCategory == null) {
@@ -324,40 +335,53 @@ class _GigEditScreenState extends State<GigEditScreen> {
     }
 
     if (flag == 0) {
-      editImagePath = gigImage;
+      editImagePath = Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage;
     } else {
-      editImagePath = gigImageFile!.path;
+      editImagePath = Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile!.path;
     }
     dynamic url;
-    if(flag !=0){
-      
-    CloudinaryResponse response = await cloudinary.uploadFile(
-        CloudinaryFile.fromFile(editImagePath,
-            resourceType: CloudinaryResourceType.Image));
-     url = response.secureUrl;
+    if (flag != 0) {
+      CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(editImagePath,
+              resourceType: CloudinaryResourceType.Image));
+      url = response.secureUrl;
     }
 
     dynamic type;
-    if (serviceCheckBoxValue) {
+    if (Provider.of<NewGIgCreateProvider>(context, listen: false)
+        .editserviceCheckBoxValue) {
       type = 'Service';
-    } else if (productCheckBoxValue) {
+    } else if (Provider.of<NewGIgCreateProvider>(context, listen: false)
+        .editproductCheckBoxValue) {
       type = 'Product';
     }
 
     var gigEditDatas = EditGigModel(
         title: title,
         overview: overView,
-        image:url??gigImage,
+        image: url ?? Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage,
         type: type,
         description: description,
         price: price,
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         gigId: gigId);
-     Provider.of<NewGIgCreateProvider>(context,listen: false).editGig(gigEditDatas, context);
-     newGigProv.getAllCategory(context);
-     context.read<NewGIgCreateProvider>().getAllCategory(context);
+    if (mounted) {
+      Provider.of<NewGIgCreateProvider>(context, listen: false)
+          .editGig(gigEditDatas, context);
+      newGigProv.getAllCategory(context);
+    }
+    if (mounted) {
+      context.read<NewGIgCreateProvider>().getAllCategory(context);
+    }
 
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => GigsScreen(),));
+    if (mounted) {
+      context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const VendorBottomNavBar(),
+          ));
+    }
   }
 
   Future pickImageFromGallery() async {
@@ -367,11 +391,19 @@ class _GigEditScreenState extends State<GigEditScreen> {
       final imageTemp = File(
         image.path,
       );
-      setState(() {
-        galleryImage = imageTemp;
-        gigImageFile = galleryImage;
-        flag = 1;
-      });
+      if (mounted) {
+        Provider.of<CommonProvider>(context,listen: false)
+            .editStorageSetting(imageTemp);
+        Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editGalleryImage;
+         flag = 1;
+      }
+
+     
+      // setState(() {
+      //   context.read<CommonProvider>().galleryImage = imageTemp;
+      //   gigImageFile = context.read<CommonProvider>().galleryImage;
+      //   flag = 1;
+      // });
     } on PlatformException catch (e) {
       log(e.message.toString());
     }
@@ -384,22 +416,20 @@ class _GigEditScreenState extends State<GigEditScreen> {
       final imageTemp = File(
         image.path,
       );
-      setState(() {
-        cameraImage = imageTemp;
-        gigImageFile = cameraImage;
+      if (mounted) {
+        Provider.of<CommonProvider>(context,listen: false)
+            .editCameraSetting(imageTemp);
+        Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editCameraImage;
         flag = 1;
-      });
+      }
+      
+      // setState(() {
+      //   context.read<CommonProvider>().cameraImage = imageTemp;
+      //   gigImageFile = context.read<CommonProvider>().cameraImage;
+      //   flag = 1;
+      // });
     } on PlatformException catch (e) {
       log(e.message.toString());
     }
   }
-
-  void typeCheck(type) {
-    if (type == 'Service') {
-      serviceCheckBoxValue = true;
-    } else if (type == 'Product') {
-      productCheckBoxValue = true;
-    }
-  }
 }
-

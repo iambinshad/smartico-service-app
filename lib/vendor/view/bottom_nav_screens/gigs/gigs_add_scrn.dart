@@ -2,13 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
 import 'package:smartico/vendor/model/new_gig/new_gig_create_model.dart';
-import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../../../application/vendor/vendor_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 
@@ -29,8 +28,9 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
   final categoryController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
-  bool serviceCheckBoxValue = false;
-  bool productCheckBoxValue = false;
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +40,7 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: mainColor,
         title: Text(
           'Add Gig',
@@ -83,35 +84,32 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                     keyboardType: TextInputType.number,
                   ),
                   TextFieldName(value: 'Type'),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: serviceCheckBoxValue,
-                        onChanged: (value) {
-                          setState(() {
-                            serviceCheckBoxValue = !serviceCheckBoxValue;
-                            productCheckBoxValue = !serviceCheckBoxValue;
-                          });
-                        },
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                      ),
-                      const Text('Service'),
-                      Checkbox(
-                        value: productCheckBoxValue,
-                        onChanged: (value) {
-                          setState(() {
-                            productCheckBoxValue = !productCheckBoxValue;
-                            serviceCheckBoxValue = !productCheckBoxValue;
-                          });
-                        },
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                      ),
-                      const Text('Product')
-                    ],
+                  Consumer<NewGIgCreateProvider>(
+                    builder: (context, values, child) => 
+                     Row(
+                      children: [
+                        Checkbox(
+                          value: values.addserviceCheckBoxValue,
+                          onChanged: (value) {
+                            values.setServiceCheck();
+                          },
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                        ),
+                        const Text('Service'),
+                        Checkbox(
+                          value: values.addproductCheckBoxValue,
+                          onChanged: (value) {
+                          values.setProductCheck();
+                          },
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                        ),
+                        const Text('Product')
+                      ],
+                    ),
                   ),
                   !Provider.of<NewGIgCreateProvider>(context, listen: false)
                           .vendorSideTypeValidation
@@ -138,10 +136,8 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                               ))
                           .toList(),
                       onChanged: (CategoryResModel? category) {
-                        setState(() {
-                          value2.selectedCategory = category;
-                          value2.selectedCategoryId = category!.id;
-                        });
+                        value2.setCategory(category, category!.id);
+  
                       },
                       validator: (value) {
                         if (value2.selectedCategory == null) {
@@ -168,17 +164,14 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                       ),
                     );
                   }),
-                  Consumer<CommonProvider>(
-                    builder: (context, value, child) => 
-                   Column(
+                  Column(
                      children: [
-                      value.loading?showLoadingDialog(context):SizedBox(),
                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  saveButtonPressed(newGigProv);
+                                  saveButtonPressed();
                                 }
                               },
                               style: ButtonStyle(
@@ -196,7 +189,7 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                         ),
                      ],
                    ),
-                  )
+               
                 ],
               ),
             ),
@@ -222,8 +215,7 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
   );
 }
 
-  void saveButtonPressed(newGigProv) async {
-    context.read<CommonProvider>().loading = true;
+  void saveButtonPressed() async {
     var title = titleController.text.trim();
     var overView = overViewController.text.trim();
     var description = descriptionController.text.trim();
@@ -240,12 +232,14 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
             resourceType: CloudinaryResourceType.Image));
     final url = response.secureUrl;
     dynamic type;
-    if (serviceCheckBoxValue) {
+ 
+     if (context.read<NewGIgCreateProvider>().addserviceCheckBoxValue) {
       type = 'Service';
-    } else if (productCheckBoxValue) {
+    } else if (context.read<NewGIgCreateProvider>().addproductCheckBoxValue) {
       type = 'Product';
-    }
+    
 
+ }
     var gigCreateDatas = NewGigCreateModel(
         title: title,
         overview: overView,
@@ -256,9 +250,13 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         vendorId: vendorId.toString());
         
-    newGigProv.createNewGig(gigCreateDatas, context);
-    newGigProv.getAllCategory(context);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GigsScreen(),));
+   
+      context.read<NewGIgCreateProvider>().createNewGig(gigCreateDatas, context);
+    context.read<NewGIgCreateProvider>().getAllCategory(context);
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => VendorBottomNavBar(),));
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const  VendorBottomNavBar(),));
+   
+    
   }
 }
 

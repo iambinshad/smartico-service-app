@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';

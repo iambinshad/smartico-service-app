@@ -19,7 +19,9 @@ class UserSignInApiService {
           await dio.post(path, data: jsonEncode(userSignInReqModel.toJson()));
       // log(response.statusMessage.toString());
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Provider.of<CommonProvider>(context, listen: false).offLoading();
+        if(context.mounted){
+          Provider.of<CommonProvider>(context, listen: false).offLoading();
+        }
         final UserSignInResModel returnsignInResModel =
             UserSignInResModel.fromJson(response.data);
         return returnsignInResModel;

@@ -80,7 +80,7 @@ class MyTextFormField extends StatelessWidget {
 }
 
 class TextFieldName extends StatelessWidget {
-  TextFieldName({super.key, required this.value});
+   TextFieldName({super.key, required this.value});
   String value;
   @override
   Widget build(BuildContext context) {

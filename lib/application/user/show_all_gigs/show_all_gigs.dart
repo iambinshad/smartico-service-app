@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
@@ -16,7 +14,7 @@ class RecentServicesProvider with ChangeNotifier {
           .setShimmerLoading(false);
 
       notifyListeners();
-      log(allGigs.toString(), name: 'allgigs');
+    
     });
   }
 }

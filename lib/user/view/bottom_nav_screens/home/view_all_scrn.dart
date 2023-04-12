@@ -14,7 +14,7 @@ class ViewAllScreen extends StatelessWidget {
   Widget build(BuildContext context) {
    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<CommonProvider>(context,listen: false).setShimmerLoading(true);
-      Future.delayed(Duration(milliseconds: 700),(){
+      Future.delayed(const Duration(milliseconds: 700),(){
        context.read<CommonProvider>().setShimmerLoading(false);
 
       });
@@ -41,11 +41,13 @@ class ViewAllScreen extends StatelessWidget {
                       .read<SingleGigDetailsProvider>()
                       .getGig(value.allGigs![index].id,context);
 
-                  Navigator.push(
+                 if(context.mounted){
+                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ServiceDescriptionScrn(),
+                        builder: (context) =>  ServiceDescriptionScrn(),
                       ));
+                 }
                 },
                 child: value2.shimmerLoading?getRecentShimmer(height, width): Card(
                   child: SingleChildScrollView(

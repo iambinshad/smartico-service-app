@@ -6,7 +6,7 @@ import 'package:smartico/core/constants.dart';
 import 'other_screens/messages.dart';
 
 class ChatsScreen extends StatelessWidget {
-   ChatsScreen({super.key});
+  const ChatsScreen({super.key});
 
 
 
@@ -25,8 +25,8 @@ class ChatsScreen extends StatelessWidget {
               child: ListView.builder(itemBuilder: (context, index) {
                 return  ListTile(
                   onTap:() =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const MessagesScreen(),)),
-                  leading: CircleAvatar(backgroundImage:AssetImage(''),radius: 28,),
-                  title:Text(''),
+                  leading: const CircleAvatar(backgroundImage:AssetImage(''),radius: 28,),
+                  title:const Text(''),
                   subtitle: const Text('You have to complete this..',),
                   trailing: Column(
                     children: [

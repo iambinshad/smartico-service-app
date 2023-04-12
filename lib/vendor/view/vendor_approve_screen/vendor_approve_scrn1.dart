@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -15,20 +14,18 @@ import '../../../core/widgets.dart';
 class VendorApprovalFirstScrn extends StatefulWidget {
   const VendorApprovalFirstScrn({super.key});
 
-
-
   @override
-  State<VendorApprovalFirstScrn> createState() => _VendorApprovalFirstScrnState();
+  State<VendorApprovalFirstScrn> createState() =>
+      _VendorApprovalFirstScrnState();
 }
-File? profile ;
+
+File? profile;
 String unknown = 'assets/splash/unknown.jpg';
 
 class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
   bool res = false;
   final _formKey = GlobalKey<FormState>();
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
-
-  
 
   File? cameraImage;
   File? galleryImage;
@@ -61,16 +58,17 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                           onTap: () {
                             showModelBottomSheet(context, width);
                           },
-                          child:  profile!=null?CircleAvatar(
-                            radius: 60,
-                            backgroundImage: FileImage(profile!),
-                          ):
-                          CircleAvatar(
-                            radius: 60,
-                             backgroundImage: AssetImage(unknown,),
-                           
-                          )
-                          ),
+                          child: profile != null
+                              ? CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: FileImage(profile!),
+                                )
+                              : CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: AssetImage(
+                                    unknown,
+                                  ),
+                                )),
                     ),
                   ),
                   Text(
@@ -166,7 +164,7 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
         profile = galleryImage;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      log(e.message.toString());
     }
   }
 
@@ -182,7 +180,7 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
         profile = cameraImage;
       });
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      log(e.message.toString());
     }
   }
 
@@ -241,21 +239,25 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
       ),
     );
   }
-     
 
   bool cscPickerValidate() {
     final prov = context.read<CompleteSignUpProvider>();
     if (prov.countryValue != null &&
         prov.stateValue != null &&
-        prov.cityValue != null && profile!=null) {
+        prov.cityValue != null &&
+        profile != null) {
       return true;
     }
     return false;
   }
 
-  void nextButtonClicked(File? profile)async {
-     
-    Provider.of<CompleteSignUpProvider>(context,listen: false).profileImage = profile!.path;
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorApprovalSecondScrn(),));
+  void nextButtonClicked(File? profile) async {
+    Provider.of<CompleteSignUpProvider>(context, listen: false).profileImage =
+        profile!.path;
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VendorApprovalSecondScrn(),
+        ));
   }
 }
