@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
@@ -6,7 +8,7 @@ import 'package:smartico/user/model/show_all_gigs/gig_model.dart';
 
 class RecentServicesProvider with ChangeNotifier {
   List<ShowAllGigsToUserModle>? allGigs = [];
-
+  List<ShowAllGigsToUserModle>? showList = [];
   Future<void> fetchAllGigs(context) async {
     ShowAllGigsService().showAllGigs().then((value) {
       allGigs = value;
@@ -16,5 +18,16 @@ class RecentServicesProvider with ChangeNotifier {
       notifyListeners();
     
     });
+  }
+
+  void filterGigList(String enteredText){
+    List<ShowAllGigsToUserModle>? filteredList = [];
+    if(enteredText.isEmpty){
+      filteredList = allGigs;
+    }else{
+      filteredList = allGigs!.where((element) => element.title.toLowerCase().contains(enteredText.toLowerCase())).toList();
+    }
+    showList =filteredList;
+    notifyListeners();
   }
 }

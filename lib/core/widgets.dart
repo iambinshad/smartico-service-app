@@ -38,12 +38,14 @@ class MyTextFormField extends StatelessWidget {
   const MyTextFormField({
     super.key,
     this.validator,
+    this.maxLines,
     this.hintText,
     this.labelText,
     this.prefixIcon,
     required this.controller,
     this.keyboardType = TextInputType.text,
   });
+  final int? maxLines;
   final String? Function(String?)? validator;
   final String? hintText;
   final String? labelText;
@@ -53,6 +55,7 @@ class MyTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines:maxLines ,
       keyboardType: keyboardType,
       controller: controller,
       style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),

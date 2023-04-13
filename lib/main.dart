@@ -15,6 +15,9 @@ import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
+import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/confirm_success.dart';
+import 'application/user/booking/book_gig_provider.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
 import 'application/vendor/complete_signup/complete_signup_provider.dart';
@@ -62,7 +65,8 @@ class MyApp extends StatelessWidget {
         ),
         ListenableProvider(
           create: (context) => CompleteSignUpProvider(),
-        )
+        ),
+        ListenableProvider(create: (context) => BookGigPrvider(),)
       ],
 
       child: MaterialApp(
@@ -71,7 +75,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home: const SplashScreen(),
+        home: const UserBottomNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

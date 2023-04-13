@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:smartico/core/constants.dart';
 
-import 'other_screens/messages.dart';
 
 class ChatsScreen extends StatelessWidget {
   const ChatsScreen({super.key});
@@ -21,27 +20,27 @@ class ChatsScreen extends StatelessWidget {
         body: Column(
           
           children: [
-            Expanded(
-              child: ListView.builder(itemBuilder: (context, index) {
-                return  ListTile(
-                  onTap:() =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const MessagesScreen(),)),
-                  leading: const CircleAvatar(backgroundImage:AssetImage(''),radius: 28,),
-                  title:const Text(''),
-                  subtitle: const Text('You have to complete this..',),
-                  trailing: Column(
-                    children: [
-                       const Text('10:40',),
-                      CircleAvatar(
-                        radius: 9,
-                        child: Text('$index',style: const TextStyle(fontSize: 12),),)
-                    ],
-                  ),
+            // Expanded(
+            //   child: ListView.builder(itemBuilder: (context, index) {
+            //     return  ListTile(
+            //       onTap:() =>  Navigator.push(context, MaterialPageRoute(builder: (context) => const MessagesScreen(),)),
+            //       leading: const CircleAvatar(radius: 28,),
+            //       title:const Text(''),
+            //       subtitle: const Text('You have to complete this..',),
+            //       trailing: Column(
+            //         children: [
+            //            const Text('10:40',),
+            //           CircleAvatar(
+            //             radius: 9,
+            //             child: Text('$index',style: const TextStyle(fontSize: 12),),)
+            //         ],
+            //       ),
                   
             
-                );
+            //     );
                 
-              },itemCount: 6,),
-            )
+            //   },itemCount: 6,),
+            // )
           ],
         ),
       );

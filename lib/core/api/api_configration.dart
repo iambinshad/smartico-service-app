@@ -8,6 +8,7 @@ class ApiConfigration{
   static const verifyOtp = '/verifyOTP';
   static const fetchAllGigs = '/allGigs';
   static const getSingleGigDetails = '/singleGig/';  // gig id needed after this endpoint
+  static const bookGig = '/reserveNow';
 
   //---Vendor Endpoints---
 
