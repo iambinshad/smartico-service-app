@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
+import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
@@ -66,7 +67,8 @@ class MyApp extends StatelessWidget {
         ListenableProvider(
           create: (context) => CompleteSignUpProvider(),
         ),
-        ListenableProvider(create: (context) => BookGigPrvider(),)
+        ListenableProvider(create: (context) => BookGigPrvider(),),
+        ListenableProvider(create: (context) => ReservedGigs(),)
       ],
 
       child: MaterialApp(

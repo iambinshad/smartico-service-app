@@ -214,7 +214,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        showConfirmBox(
+                        confirmClicked(
                             snapshot.data!.price, snapshot.data!.title);
                         final prov =
                             Provider.of<BookGigPrvider>(context, listen: false);
@@ -304,7 +304,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(
-        title:const Text('Confirm Booking'),
+        title: const Text('Confirm Booking'),
         children: [
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -318,9 +318,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: ElevatedButton(
-              onPressed: () {
-                confirmClicked(price, title);
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
@@ -343,7 +341,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
 
   void confirmClicked(price, title) {
     _openCheckout(price, title);
-    Navigator.pop(context);
+   
   }
 }
 

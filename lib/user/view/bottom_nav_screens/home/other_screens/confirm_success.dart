@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 
@@ -14,43 +11,37 @@ class BookingStatus extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text('Have any questions? Reach directly to our Customer Support'),
         ],
       ),
       body: Column(
         children: [
           kHeight40,
-          Center(
+          const Center(
             child: Image(
                 image:
                     AssetImage('assets/user_home/59945-success-confetti.gif')),
+          ),
+          const Text(
+            'Thank You',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           Text(
             'Booking Confirmed!',
             style: GoogleFonts.publicSans(
                 fontSize: 30, fontWeight: FontWeight.bold),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Your booking has been placed successfully.',
-                style: TextStyle(fontSize: 15),
-              ),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Booking History',
-                    style: TextStyle(color: mainColor),
-                  ))
-            ],
+          const Text(
+            'Your booking has been placed successfully.',
+            style: TextStyle(fontSize: 15),
           ),
           kHeight20,
           ElevatedButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => UserBottomNavBar()),
+                  MaterialPageRoute(
+                      builder: (context) => const UserBottomNavBar()),
                   (Route<dynamic> route) => false);
             },
             style: ElevatedButton.styleFrom(

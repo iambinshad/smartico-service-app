@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
+import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/core/widgets.dart';
@@ -46,6 +47,8 @@ class UserHomePage extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<CommonProvider>().setShimmerLoading(true);
       context.read<RecentServicesProvider>().fetchAllGigs(context);
+            Provider.of<ReservedGigs>(context, listen: false).getreservedGigs(context);
+
     });
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
