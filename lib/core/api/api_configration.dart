@@ -10,6 +10,7 @@ class ApiConfigration{
   static const getSingleGigDetails = '/singleGig/';  // gig id needed after this endpoint
   static const bookGig = '/reserveNow';
   static const bookedGigs = '/reservedGigs';
+  static const getAllVendors = '/getAllVendors';
 
   //---Vendor Endpoints---
 

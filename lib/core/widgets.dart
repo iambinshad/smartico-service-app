@@ -38,6 +38,7 @@ class MyTextFormField extends StatelessWidget {
   const MyTextFormField({
     super.key,
     this.validator,
+    this.suffixIcon,
     this.maxLines,
     this.hintText,
     this.labelText,
@@ -50,6 +51,7 @@ class MyTextFormField extends StatelessWidget {
   final String? hintText;
   final String? labelText;
   final Widget? prefixIcon ;
+  final Widget? suffixIcon;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   @override
@@ -65,6 +67,7 @@ class MyTextFormField extends StatelessWidget {
         filled: true,
         fillColor: Colors.white,
         focusedBorder: OutlineInputBorder(
+          
             borderRadius: BorderRadius.circular(15),
             borderSide: const BorderSide(color: Colors.black)),
         enabledBorder: OutlineInputBorder(
@@ -73,6 +76,7 @@ class MyTextFormField extends StatelessWidget {
                 const BorderSide(color: Color.fromARGB(255, 123, 230, 219))),
         hintText: hintText,
         prefixIcon: prefixIcon,
+        suffixIcon:suffixIcon ,
         labelText: labelText,
         hintStyle: const TextStyle(
           color: Color.fromARGB(255, 111, 111, 111),

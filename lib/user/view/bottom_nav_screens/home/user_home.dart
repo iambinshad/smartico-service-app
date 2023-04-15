@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
+import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
@@ -37,7 +38,6 @@ class UserHomePage extends StatelessWidget {
     'Dress iron',
     'Dress dry Clean'
   ];
-
   final CarouselController carouselController = CarouselController();
 
   int currentIndex = 0;
@@ -46,6 +46,7 @@ class UserHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<CommonProvider>().setShimmerLoading(true);
+      Provider.of<GetAllVendor>(context,listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
             Provider.of<ReservedGigs>(context, listen: false).getreservedGigs(context);
 
@@ -254,7 +255,7 @@ class UserHomePage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                               ServiceDescriptionScrn(),
+                                               const ServiceDescriptionScrn(),
                                         ));
                                   }
                                 },

@@ -9,7 +9,7 @@ import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/booking/booking_model.dart';
-import 'package:smartico/user/view/bottom_nav_screens/chat/other_screens/messages.dart';
+import 'package:smartico/user/view/bottom_nav_screens/chat/messages.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -191,11 +191,11 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const MessagesScreen(),
-                          )),
+                      // onTap: () => Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) =>  MessagesScreen(),
+                      //     )),
                       child: Container(
                         height: width / 7.5,
                         width: width / 5,

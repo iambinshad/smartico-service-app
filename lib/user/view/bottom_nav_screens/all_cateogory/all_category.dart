@@ -24,6 +24,7 @@ class AllCategroryList extends StatelessWidget {
     });
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 121, 216, 206),
         elevation: 1,

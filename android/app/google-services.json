@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "567250082750",
+    "project_id": "smartico-chat-app",
+    "storage_bucket": "smartico-chat-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567250082750:android:04937819ee72c43b3cf7ef",
+        "android_client_info": {
+          "package_name": "com.example.smartico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567250082750-pptloj6viohesq1ktcv10pv93smb50tu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP2Uke0YA7xzb_LgvkzjOrxEX7tOTrS9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567250082750-pptloj6viohesq1ktcv10pv93smb50tu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
