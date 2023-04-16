@@ -13,9 +13,10 @@ class BookingHistory extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<CommonProvider>(context, listen: false)
           .setShimmerLoading(true);
-      Provider.of<ReservedGigs>(context, listen: false).getreservedGigs(context);
-      
-            Provider.of<CommonProvider>(context, listen: false)
+      Provider.of<ReservedGigs>(context, listen: false)
+          .getReservedGigs(context);
+
+      Provider.of<CommonProvider>(context, listen: false)
           .setShimmerLoading(false);
     });
     return Scaffold(
@@ -25,23 +26,26 @@ class BookingHistory extends StatelessWidget {
         backgroundColor: mainColor,
       ),
       body: Consumer<ReservedGigs>(
-          builder: (context, value, child) =>Provider.of<CommonProvider>(context,listen: false).loading?shimmerLoading(): ListView.builder(
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(value.reservedGigs![index].title),
-                  trailing: Container(
-                    height: 70,
-                    width: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                value.reservedGigs![index].gigId.image),
-                            fit: BoxFit.fill)),
-                  ),
-                  subtitle: Text(value.reservedGigs![index].requirements),
-                ),
-                itemCount: value.reservedGigs!.length,
-              )),
+          builder: (context, value, child) =>
+              Provider.of<CommonProvider>(context, listen: false).loading
+                  ? shimmerLoading()
+                  : ListView.builder(
+                      itemBuilder: (context, index) => ListTile(
+                        title: Text(value.reservedGigs![index].title),
+                        trailing: Container(
+                          height: 70,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      value.reservedGigs![index].gigId.image),
+                                  fit: BoxFit.fill)),
+                        ),
+                        subtitle: Text(value.reservedGigs![index].requirements),
+                      ),
+                      itemCount: value.reservedGigs!.length,
+                    )),
     );
   }
 

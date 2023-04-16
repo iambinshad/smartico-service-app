@@ -6,3 +6,10 @@ Future<String> getAccesToken()async{
     String? token = accesToken!.replaceAll('"', '');
     return token;
 }
+
+Future<String> getCurrentUserId()async{
+    FlutterSecureStorage storage = const FlutterSecureStorage();
+    String? pId = await storage.read(key: 'currentUserId');
+    String? id = pId!.replaceAll('"', '');
+    return id;
+}

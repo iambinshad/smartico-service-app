@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:smartico/user/model/chat/message_model.dart';
 
-Widget message({required MessageModelTwo model,required BuildContext context ,required token}){
-  
+Widget message(
+    {required Map model, required BuildContext context, required currentUserId}) {
   return Container(
-     alignment:model.sendBy == token?Alignment.centerLeft:Alignment.centerRight ,
-    child: Column(
-      children: [
-        Text(model.message??""),
-        Row(
-          children: [
-            // Text(DateFormat.jm().format)
-            model.sendBy != token? const Icon(Icons.done_all):Text(''),
-          ],
-        )
-      ],
-    ),
-  );
+      width: MediaQuery.of(context).size.width * 5,
+      alignment: model["sendBy"] == currentUserId
+          ? Alignment.centerLeft
+          : Alignment.centerRight,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: model["sendBy"] == currentUserId
+                ? const BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10))
+                :const  BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
+            color: Colors.blue),
+        padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Text(model["message"]),
+      ));
 }

@@ -34,7 +34,10 @@ class UserProvider with ChangeNotifier {
         UserSignInReqModel(password: email, email: password);
     final tokenData = await UserSignInApiService().userSignIn(signInUserDatas, context);
     if (tokenData?.token != null) {
-     await storage.write(key: "UsersignInToken", value: jsonEncode(tokenData?.token));
+              await storage.write(
+            key: "UsersignInToken",
+            value: jsonEncode(tokenData?.token));
+     
 
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(

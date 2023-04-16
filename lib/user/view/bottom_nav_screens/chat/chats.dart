@@ -29,7 +29,7 @@ class ChatScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () async {
-                      String currentUserId = await getAccesToken();
+                      String currentUserId = await getCurrentUserId();
 
                       String chatRoomId = ChatMethods().checkingId(
                           vendorId: value.allVendors![index].id!,
@@ -45,7 +45,7 @@ class ChatScreen extends StatelessWidget {
                               builder: (context) => MessagesScreen(
                                 chatRoomId: chatRoomId,
                                 chatingVendor: chatingVendor,
-                                token: currentUserId,
+                                currentUserId: currentUserId,
                               ),
                             ));
                       }

@@ -265,15 +265,15 @@ class VendorSignUPScrnOne extends StatelessWidget {
     final fullName = Provider.of<CompleteSignUpProvider>(context,listen: false).fullName.text;
     final userName = userNameController.text;
     final email =
-        Provider.of<CompleteSignUpProvider>(context).email.text.trim();
-    final phoneNumber = phoneController.text.trim();
+        Provider.of<CompleteSignUpProvider>(context,listen: false).email.text.trim();
+    final phoneNumber =Provider.of<CompleteSignUpProvider>(context,listen: false).mobile.text ;
 
-    if (fullName.isEmpty ||
-        userName.isEmpty ||
-        email.isEmpty ||
-        phoneNumber.isEmpty) {
-      return;
-    }
+    // if (fullName.isEmpty ||
+    //     userName.isEmpty ||
+    //     email.isEmpty ||
+    //     phoneNumber.isEmpty) {
+    //   return;
+    // }
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => VendorSignUpScrnTwo(
             fullName: fullName,

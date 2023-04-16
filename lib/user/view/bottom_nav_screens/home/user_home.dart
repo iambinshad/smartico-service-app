@@ -48,7 +48,7 @@ class UserHomePage extends StatelessWidget {
       context.read<CommonProvider>().setShimmerLoading(true);
       Provider.of<GetAllVendor>(context,listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
-            Provider.of<ReservedGigs>(context, listen: false).getreservedGigs(context);
+            Provider.of<ReservedGigs>(context, listen: false).getReservedGigs(context);
 
     });
     final width = MediaQuery.of(context).size.width;

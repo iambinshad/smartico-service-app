@@ -13,3 +13,19 @@ class UserSignInResModel {
         "token": token,
     };
 }
+
+class UserIdModel {
+    UserIdModel({
+        required this.id,
+    });
+
+    String id;
+
+    factory UserIdModel.fromJson(Map<String, dynamic> json) => UserIdModel(
+        id: json["_id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "_id": id,
+    };
+}

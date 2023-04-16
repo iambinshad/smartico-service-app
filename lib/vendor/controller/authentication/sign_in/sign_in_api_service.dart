@@ -16,22 +16,21 @@ class VendorSignInApiService {
         ApiConfigration.vendor +
         ApiConfigration.vendorLogin;
     try {
-      log('inside try');
       Response response =
           await dio.post(path, data: jsonEncode(vendorSignInReqModel.toJson()));
-      log(response.toString());
-      if (response.statusMessage == "Wrong Password") {
-        if(context.mounted){
-          Provider.of<CommonProvider>(context, listen: false)
-            .userNotExist(context);
-        }
-      } else if (response.statusCode == 200 || response.statusCode == 201) {
-        log(response.data.toString());
+      if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['token'] != null) {
           final VendorSignInResModel returnsignInResModel =
               VendorSignInResModel.fromJson(response.data);
           return returnsignInResModel;
         }
+   
+      } else if (response.statusMessage == "Wrong Password") {
+             if(context.mounted){
+          Provider.of<CommonProvider>(context, listen: false)
+            .userNotExist(context);
+        }
+       
       }
     } on DioError catch (e) {
       log(e.message.toString());

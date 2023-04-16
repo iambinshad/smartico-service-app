@@ -18,7 +18,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
   List bottomNavScreens = [
  
      GigsScreen(),
-    const VendorMsgScrn(),
+     VendorMsgScrn(),
     const ManageOrders(),
      ProfilePage()
   ];

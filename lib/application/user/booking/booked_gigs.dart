@@ -6,7 +6,7 @@ class ReservedGigs with ChangeNotifier {
   // Future<BookedGigsModel?>? reservedGigs;
   List<BookedGigsModel>? reservedGigs;
 
-  Future<void> getreservedGigs(BuildContext context) async {
+  Future<void> getReservedGigs(BuildContext context) async {
     ReservedGigsService().fetchBookedGigs().then((value) {
       reservedGigs = value;
     });

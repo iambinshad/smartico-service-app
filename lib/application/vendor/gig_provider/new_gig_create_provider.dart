@@ -30,7 +30,6 @@ class NewGIgCreateProvider with ChangeNotifier {
     notifyListeners();
   }
   
-
   Future<void> createNewGig(gigCreateDatas, context) async {
     var response = await NewGigCreateApiService().newGigCreate(gigCreateDatas);
     if (response == 'success') {

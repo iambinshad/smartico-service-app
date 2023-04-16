@@ -86,134 +86,129 @@ class _GigsScreenState extends State<GigsScreen> {
                                               GigDescripttion(index: index),
                                         )),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 6, left: 6),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                image: NetworkImage(value
-                                                    .vendorGigs![index].image),
-                                                fit: BoxFit.fill,
-                                              ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(value
+                                                  .vendorGigs![index].image),
+                                              fit: BoxFit.cover,
                                             ),
-                                            width: width,
-                                            height: width / 1.75,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                PopupMenuButton(
-                                                  icon: const Icon(
-                                                    Icons.more_vert_outlined,
-                                                    color: Colors.white,
-                                                  ),
-                                                  itemBuilder: (context) => [
-                                                    const PopupMenuItem(
-                                                      value: 1,
-                                                      child: Text('Edit',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontFamily:
-                                                                  'poppins',
-                                                              fontSize: 15)),
-                                                    ),
-                                                    const PopupMenuItem(
-                                                        enabled: true,
-                                                        value: 2,
-                                                        child: Text(
-                                                          'Delete',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontFamily:
-                                                                  'poppins',
-                                                              fontSize: 15),
-                                                        ))
-                                                  ],
-                                                  onSelected: (popvalue) {
-                                                    if (popvalue == 1) {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) => GigEditScreen(
-                                                                imagePath: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .image,
-                                                                title: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .title,
-                                                                overView: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .overview,
-                                                                description: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .description,
-                                                                price: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .price,
-                                                                type: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .type,
-                                                                gigId: value
-                                                                    .vendorGigs![
-                                                                        index]
-                                                                    .id),
-                                                          ));
-                                                    } else if (popvalue == 2) {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) => Consumer2<
-                                                            NewGIgCreateProvider,
-                                                            ShowAllGigsProvider>(
-                                                          builder: (context,
-                                                                  value,
-                                                                  value2,
-                                                                  child) =>
-                                                              AlertDialog(
-                                                            title: const Text(
-                                                                'Are You sure You want to delete this gig?'),
-                                                            actions: [
-                                                              ElevatedButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    value.deleteGig(
-                                                                        value2
-                                                                            .vendorGigs![index]
-                                                                            .id,
-                                                                        context);
-                                                                  },
-                                                                  child:
-                                                                      const Text(
-                                                                          'Yes')),
-                                                              ElevatedButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: const Text(
-                                                                      'Cancel')),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }
-                                                  },
-                                                  elevation: 2,
+                                          ),
+                                          width: width,
+                                          height: width / 1.75,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              PopupMenuButton(
+                                                icon: const Icon(
+                                                  Icons.more_vert_outlined,
+                                                  color: Colors.white,
                                                 ),
-                                              ],
-                                            ),
+                                                itemBuilder: (context) => [
+                                                  const PopupMenuItem(
+                                                    value: 1,
+                                                    child: Text('Edit',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black,
+                                                            fontFamily:
+                                                                'poppins',
+                                                            fontSize: 15)),
+                                                  ),
+                                                  const PopupMenuItem(
+                                                      enabled: true,
+                                                      value: 2,
+                                                      child: Text(
+                                                        'Delete',
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black,
+                                                            fontFamily:
+                                                                'poppins',
+                                                            fontSize: 15),
+                                                      ))
+                                                ],
+                                                onSelected: (popvalue) {
+                                                  if (popvalue == 1) {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) => GigEditScreen(
+                                                              imagePath: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .image,
+                                                              title: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .title,
+                                                              overView: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .overview,
+                                                              description: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .description,
+                                                              price: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .price,
+                                                              type: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .type,
+                                                              gigId: value
+                                                                  .vendorGigs![
+                                                                      index]
+                                                                  .id),
+                                                        ));
+                                                  } else if (popvalue == 2) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (context) => Consumer2<
+                                                          NewGIgCreateProvider,
+                                                          ShowAllGigsProvider>(
+                                                        builder: (context,
+                                                                value,
+                                                                value2,
+                                                                child) =>
+                                                            AlertDialog(
+                                                          title: const Text(
+                                                              'Are You sure You want to delete this gig?'),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                                onPressed:
+                                                                    () {
+                                                                  value.deleteGig(
+                                                                      value2
+                                                                          .vendorGigs![index]
+                                                                          .id,
+                                                                      context);
+                                                                },
+                                                                child:
+                                                                    const Text(
+                                                                        'Yes')),
+                                                            ElevatedButton(
+                                                                onPressed:
+                                                                    () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: const Text(
+                                                                    'Cancel')),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                                elevation: 2,
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         Padding(
