@@ -7,51 +7,39 @@ import 'package:provider/provider.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
+import 'package:smartico/user/view/bottom_nav_screens/chat/other_screens/message_tile.dart';
 import '../../../../core/constants.dart';
-import 'other_screens/message_tile.dart';
 
-class UserMessagesScreen extends StatelessWidget {
-  UserMessagesScreen(
-      {super.key,
-      required this.chatRoomId,
-      required this.chatingVendor,
-      this.currentUserId,
-      this.currentUserName});
+class VendorMessagesScreen extends StatelessWidget {
+  VendorMessagesScreen({
+    super.key,
+    required this.chatRoomId,
+    required this.chatingUser,
+    this.currentVendorId,
+  });
 
   dynamic chatRoomId;
-  dynamic currentUserId;
-  dynamic currentUserName;
-  String chatedCount = 'No';
+  dynamic currentVendorId;
   FlutterSecureStorage storage = const FlutterSecureStorage();
-  // CollectionReference vendormsgCollection = FirebaseFirestore.instance.collection('forVendor');
-  final ChatingVendor chatingVendor;
+  final ChatingUser chatingUser;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      chatedCount = await checkChatCount();
-    });
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 223, 206, 158),
       appBar: AppBar(
         backgroundColor: mainColor,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Row(
           children: [
             const CircleAvatar(
               backgroundImage: AssetImage('assets/works/profile pic.jpg'),
-              radius: 23,
+              radius: 24,
             ),
             const SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
-              chatingVendor.vendorName!,
+              chatingUser.userName!,
               style: mediumText,
             )
           ],
@@ -86,62 +74,41 @@ class UserMessagesScreen extends StatelessWidget {
               Expanded(
                 flex: 10,
                 child: ListView.builder(
-                  reverse: false,
+                  reverse: true,
                   itemBuilder: (context, index) {
                     Map<String, dynamic> map =
                         snapshot.data!.docs[index].data();
                     return message(
-                        model: map, context: context, currentId: currentUserId);
+                        model: map,
+                        context: context,
+                        currentId: currentVendorId);
                   },
                   itemCount: snapshot.data!.docs.length,
                 ),
               ),
-              Consumer<MessageProvider>(
-                  builder: (context, value, child) => Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: MyTextFormField(
-                          prefixIcon: const Icon(
-                            Icons.tag_faces_outlined,
-                            size: 28,
-                          ),
-                          hintText: 'message',
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Consumer<MessageProvider>(
+                    builder: (context, value, child) => MyTextFormField(
                           controller: Provider.of<MessageProvider>(context,
                                   listen: false)
                               .messageController,
                           suffixIcon: IconButton(
-                              onPressed: () async {
-                                if (chatedCount == 'No') {
-                                  chatedCount = 'Yes';
-                                  await storage.write(
-                                      key: chatingVendor.id.toString(),
-                                      value: chatedCount);
-                                  await _firestore.collection('chats').add({
-                                    'vendor': chatingVendor.id,
-                                    'senderName': currentUserName,
-                                    'senderId': currentUserId,
-                                  });
-
-                                  log('startPrco');
-                                }
+                              onPressed: () {
                                 value.sendButtonClicked(
-                                    userId: chatingVendor.id!,
+                                    userId: chatingUser.id!,
                                     chatRoomId: chatRoomId);
                               },
                               icon: const Icon(
                                 Icons.send,
                                 size: 26,
                               )),
-                        ),
-                      ))
+                        )),
+              )
             ],
           );
         },
       ),
     );
-  }
-
-  Future<String> checkChatCount() async {
-    final countS = await storage.read(key: chatingVendor.toString());
-    return countS ?? 'No';
   }
 }

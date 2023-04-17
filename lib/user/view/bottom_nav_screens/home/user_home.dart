@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
@@ -11,6 +12,7 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 
 import 'banner_card.dart';
 import 'other_screens/shimmer_page.dart';
@@ -27,7 +29,7 @@ class UserHomePage extends StatelessWidget {
     const Icon(Icons.iron),
     const Icon(Icons.dry_cleaning),
   ];
-
+  FlutterSecureStorage storage = FlutterSecureStorage();
   List serviceCategoryNames = [
     'Plumber',
     'Delivery',
@@ -46,10 +48,10 @@ class UserHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<CommonProvider>().setShimmerLoading(true);
-      Provider.of<GetAllVendor>(context,listen: false).fetchAllVendors();
+      Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
-            Provider.of<ReservedGigs>(context, listen: false).getReservedGigs(context);
-
+      Provider.of<ReservedGigs>(context, listen: false)
+          .getReservedGigs(context);
     });
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -125,12 +127,26 @@ class UserHomePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VendorSignIn(),
-                                    ));
+                              onPressed: () async {
+                                final storageTokenData = await storage.read(
+                                    key: 'VendorsignUpToken');
+                                if (storageTokenData != null &&
+                                    context.mounted) {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const VendorBottomNavBar(),
+                                      ),
+                                      (route) => false);
+                                } else {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VendorSignIn(),
+                                      ),
+                                      (route) => false);
+                                }
                               },
                               child: const Text(
                                 "Lets's Get Started",
@@ -249,13 +265,13 @@ class UserHomePage extends StatelessWidget {
                                       .read<SingleGigDetailsProvider>()
                                       .getGig(
                                           value.allGigs![index].id, context);
-          
+
                                   if (context.mounted) {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                               const ServiceDescriptionScrn(),
+                                              const ServiceDescriptionScrn(),
                                         ));
                                   }
                                 },

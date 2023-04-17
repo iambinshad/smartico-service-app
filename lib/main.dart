@@ -18,10 +18,7 @@ import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
-import 'package:smartico/common/splash_screen.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
-import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
-import 'package:smartico/vendor/view/authentication/vendor_signup_firsrt_scrn.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'application/user/booking/book_gig_provider.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
@@ -79,8 +76,12 @@ class MyApp extends StatelessWidget {
         ListenableProvider(
           create: (context) => ReservedGigs(),
         ),
-        ListenableProvider(create:(context) => GetAllVendor(),),
-        ListenableProvider(create: (context) => MessageProvider(),)
+        ListenableProvider(
+          create: (context) => GetAllVendor(),
+        ),
+        ListenableProvider(
+          create: (context) => MessageProvider(),
+        )
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -88,7 +89,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home:  UserBottomNavBar(),
+        home: const UserBottomNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

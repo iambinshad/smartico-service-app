@@ -13,3 +13,18 @@ Future<String> getCurrentUserId()async{
     String? id = pId!.replaceAll('"', '');
     return id;
 }
+
+Future<String>getCurrentUserName()async{
+     FlutterSecureStorage storage = const FlutterSecureStorage();
+    String? pId = await storage.read(key: 'currentUserName');
+    String? id = pId!.replaceAll('"', '');
+    return id;
+}
+
+Future<String>getCurrentVendorId()async{
+     FlutterSecureStorage storage = const FlutterSecureStorage();
+    String? pId = await storage.read(key: 'currentVendorId');
+    String? id = pId!.replaceAll('"', '');
+    return id;
+}
+

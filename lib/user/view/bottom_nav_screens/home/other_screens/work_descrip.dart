@@ -7,8 +7,11 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/user/booking/book_gig_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
+import 'package:smartico/user/controller/chat_function/chat_methods.dart';
 import 'package:smartico/user/model/booking/booking_model.dart';
+import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/messages.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -205,10 +208,20 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                             border: Border.all(
                                 color:
                                     const Color.fromARGB(255, 123, 230, 219))),
-                        child: const Icon(
-                          Icons.message_rounded,
-                          size: 30,
-                          color: Color.fromARGB(255, 123, 230, 219),
+                        child:  IconButton(
+                           icon:const Icon(Icons.message_rounded,size: 30),
+                          onPressed: () async{
+                           final currentUserId = await getCurrentUserId();
+                            ChatingVendor chatingVendor = ChatingVendor(
+                          id: snapshot.data!.vendorId.id,
+                          vendorName:snapshot.data!.vendorId.fullName);
+
+                            final chatRoomId =ChatMethods().checkingId(vendorId: snapshot.data!.vendorId.id, currentUser: currentUserId);
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>UserMessagesScreen(chatRoomId: chatRoomId, chatingVendor:chatingVendor,currentUserId: currentUserId,),));
+                          },
+                          color:const Color.fromARGB(255, 123, 230, 219),
+                         
                         ),
                       ),
                     ),

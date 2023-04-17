@@ -1,14 +1,16 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
-import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/user/model/booking/booked_gigs_model.dart';
 
 class ReservedGigsService {
   Dio dio = Dio();
   Future<List<BookedGigsModel>?> fetchBookedGigs() async {
     String path = ApiConfigration.kBaseUrl + ApiConfigration.bookedGigs;
-    String token = await getAccesToken();
+   FlutterSecureStorage storage = const FlutterSecureStorage();
+    String? accesToken = await storage.read(key: 'UsersignInToken');
+    String? token = accesToken!.replaceAll('"', '');
 
     try {
       Response response = await dio.get(path,

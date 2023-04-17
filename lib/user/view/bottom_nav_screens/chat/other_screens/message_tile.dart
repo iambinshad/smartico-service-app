@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 Widget message(
-    {required Map model, required BuildContext context, required currentUserId}) {
+    {required Map model, required BuildContext context, required currentId}) {
   return Container(
       width: MediaQuery.of(context).size.width * 5,
-      alignment: model["sendBy"] == currentUserId
+      alignment: model["sendBy"] == currentId
           ? Alignment.centerLeft
           : Alignment.centerRight,
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: model["sendBy"] == currentUserId
+            borderRadius: model["sendBy"] == currentId
                 ? const BorderRadius.only(
                     topRight: Radius.circular(10),
                     bottomLeft: Radius.circular(10),

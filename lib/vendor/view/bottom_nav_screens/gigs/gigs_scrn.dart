@@ -71,7 +71,6 @@ class _GigsScreenState extends State<GigsScreen> {
               builder: (context, value, value2, child) {
                 return value.vendorGigs != null
                     ? ListView.separated(
-                      
                         itemBuilder: (context, index) {
                           return value2.shimmerLoading
                               ? gigScrnShimmer(width)
@@ -86,7 +85,6 @@ class _GigsScreenState extends State<GigsScreen> {
                                               GigDescripttion(index: index),
                                         )),
                                     child: Column(
-                                      
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
@@ -112,8 +110,7 @@ class _GigsScreenState extends State<GigsScreen> {
                                                     value: 1,
                                                     child: Text('Edit',
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.black,
+                                                            color: Colors.black,
                                                             fontFamily:
                                                                 'poppins',
                                                             fontSize: 15)),
@@ -124,8 +121,7 @@ class _GigsScreenState extends State<GigsScreen> {
                                                       child: Text(
                                                         'Delete',
                                                         style: TextStyle(
-                                                            color:
-                                                                Colors.black,
+                                                            color: Colors.black,
                                                             fontFamily:
                                                                 'poppins',
                                                             fontSize: 15),
@@ -181,11 +177,11 @@ class _GigsScreenState extends State<GigsScreen> {
                                                               'Are You sure You want to delete this gig?'),
                                                           actions: [
                                                             ElevatedButton(
-                                                                onPressed:
-                                                                    () {
+                                                                onPressed: () {
                                                                   value.deleteGig(
                                                                       value2
-                                                                          .vendorGigs![index]
+                                                                          .vendorGigs![
+                                                                              index]
                                                                           .id,
                                                                       context);
                                                                 },
@@ -193,8 +189,7 @@ class _GigsScreenState extends State<GigsScreen> {
                                                                     const Text(
                                                                         'Yes')),
                                                             ElevatedButton(
-                                                                onPressed:
-                                                                    () {
+                                                                onPressed: () {
                                                                   Navigator.pop(
                                                                       context);
                                                                 },
@@ -415,13 +410,14 @@ class _GigsScreenState extends State<GigsScreen> {
     }
   }
 
-  void fetchDatas()async {
-    Provider.of<CommonProvider>(context,listen:false).setShimmerLoading(true);
-    context.read<ShowAllGigsProvider>()
-        .callApiServiceGigs(context);
-    await context.read<NewGIgCreateProvider>()
-        .getAllCategory(context);
-    Provider.of<CommonProvider>(context,listen: false).setShimmerLoading(false);
+  void fetchDatas() async {
+    Provider.of<CommonProvider>(context, listen: false).setShimmerLoading(true);
+    context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
+    await context.read<NewGIgCreateProvider>().getAllCategory(context);
+    if (mounted) {
+      Provider.of<CommonProvider>(context, listen: false)
+          .setShimmerLoading(false);
+    }
   }
 }
 
