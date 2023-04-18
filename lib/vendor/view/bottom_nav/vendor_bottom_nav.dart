@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/user/view/bottom_nav_screens/account.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
-import 'package:smartico/vendor/view/bottom_nav_screens/manage_orders.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/bookings_tabs/tab_bar.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/chats/chats.dart';
 
 class VendorBottomNavBar extends StatefulWidget {
@@ -19,7 +19,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
  
      GigsScreen(),
      VendorChatScrn(),
-    const ManageOrders(),
+     ManageOrdersTab(),
      ProfilePage()
   ];
 

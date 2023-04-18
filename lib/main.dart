@@ -15,14 +15,18 @@ import 'package:smartico/application/admin/admin_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
+import 'package:smartico/application/user/booking/cancel_booking.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
+import 'package:smartico/application/vendor/all_booking/cancel_user_bookings.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
+import 'package:smartico/common/splash_screen.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'application/user/booking/book_gig_provider.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
+import 'application/vendor/all_booking/all_bookings.dart';
 import 'application/vendor/complete_signup/complete_signup_provider.dart';
 import 'application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'application/vendor/gig_provider/show_all_gig_provider.dart';
@@ -81,7 +85,12 @@ class MyApp extends StatelessWidget {
         ),
         ListenableProvider(
           create: (context) => MessageProvider(),
-        )
+        ),
+        ListenableProvider(
+          create: (context) => CancelBookingprovider(),
+        ),
+        ListenableProvider(create: (context) =>AllBookingProvider(),),
+        ListenableProvider(create: (context) => CancelUserBookingsProvider(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',

@@ -11,6 +11,7 @@ class ApiConfigration{
   static const bookGig = '/reserveNow';
   static const bookedGigs = '/reservedGigs';
   static const getAllVendors = '/getAllVendors';
+  static const cancelBooking = '/cancelOrder';
 
   //---Vendor Endpoints---
 
@@ -21,15 +22,17 @@ class ApiConfigration{
   static const vendorOTP = '/vendorOTP';
   static const verifyVendorOTP = '/verifyVendorOTP';
 
+
   //gig create 
   static const newGIgCreate = '/newGig';
   static const getallCategories = '/categories';
   static const showAllVendorGigs = '/viewGigs';
   static const deleteGig = '/deleteGig/'; // gig id needed after this endpoint
     static const editGig = '/updateVendorGig'; 
-
-
-
+    static const allBookings = '/fetchAllOrders';
+    static const completeService  = '/completeUserOrder';
+    static const completedOrderByData = '/completed-orders-by-date';
+    static const cancelUserBooking = '/cancelUserOrder';
   
   //---Admin Endpoints---
 

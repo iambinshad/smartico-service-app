@@ -18,7 +18,7 @@ Widget message(
                     topLeft: Radius.circular(10),
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10)),
-            color: Colors.blue),
+            color: model["sendBy"] == currentId ?Colors.white:const Color.fromARGB(255, 96, 171, 232)),
         padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Text(model["message"]),

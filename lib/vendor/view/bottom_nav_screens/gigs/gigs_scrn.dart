@@ -74,181 +74,178 @@ class _GigsScreenState extends State<GigsScreen> {
                         itemBuilder: (context, index) {
                           return value2.shimmerLoading
                               ? gigScrnShimmer(width)
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: 2, left: 2, bottom: 5),
-                                  child: GestureDetector(
-                                    onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              GigDescripttion(index: index),
-                                        )),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: NetworkImage(value
-                                                  .vendorGigs![index].image),
-                                              fit: BoxFit.cover,
+                              : GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          GigDescripttion(index: index),
+                                    )),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(value
+                                              .vendorGigs![index].image),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      width: width,
+                                      height: width / 1.75,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          PopupMenuButton(
+                                            icon: const Icon(
+                                              Icons.more_vert_outlined,
+                                              color: Colors.white,
                                             ),
-                                          ),
-                                          width: width,
-                                          height: width / 1.75,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              PopupMenuButton(
-                                                icon: const Icon(
-                                                  Icons.more_vert_outlined,
-                                                  color: Colors.white,
-                                                ),
-                                                itemBuilder: (context) => [
-                                                  const PopupMenuItem(
-                                                    value: 1,
-                                                    child: Text('Edit',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                'poppins',
-                                                            fontSize: 15)),
-                                                  ),
-                                                  const PopupMenuItem(
-                                                      enabled: true,
-                                                      value: 2,
-                                                      child: Text(
-                                                        'Delete',
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontFamily:
-                                                                'poppins',
-                                                            fontSize: 15),
-                                                      ))
-                                                ],
-                                                onSelected: (popvalue) {
-                                                  if (popvalue == 1) {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) => GigEditScreen(
-                                                              imagePath: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .image,
-                                                              title: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .title,
-                                                              overView: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .overview,
-                                                              description: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .description,
-                                                              price: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .price,
-                                                              type: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .type,
-                                                              gigId: value
-                                                                  .vendorGigs![
-                                                                      index]
-                                                                  .id),
-                                                        ));
-                                                  } else if (popvalue == 2) {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (context) => Consumer2<
-                                                          NewGIgCreateProvider,
-                                                          ShowAllGigsProvider>(
-                                                        builder: (context,
-                                                                value,
-                                                                value2,
-                                                                child) =>
-                                                            AlertDialog(
-                                                          title: const Text(
-                                                              'Are You sure You want to delete this gig?'),
-                                                          actions: [
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  value.deleteGig(
-                                                                      value2
-                                                                          .vendorGigs![
-                                                                              index]
-                                                                          .id,
-                                                                      context);
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                        'Yes')),
-                                                            ElevatedButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: const Text(
-                                                                    'Cancel')),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                                elevation: 2,
+                                            itemBuilder: (context) => [
+                                              const PopupMenuItem(
+                                                value: 1,
+                                                child: Text('Edit',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'poppins',
+                                                        fontSize: 15)),
                                               ),
+                                              const PopupMenuItem(
+                                                  enabled: true,
+                                                  value: 2,
+                                                  child: Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontFamily:
+                                                            'poppins',
+                                                        fontSize: 15,),
+                                                  ))
                                             ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    value.vendorGigs![index]
-                                                        .title,
-                                                    style:
-                                                        GoogleFonts.sigmarOne(
-                                                            fontSize: 20),
+                                            onSelected: (popvalue) {
+                                              if (popvalue == 1) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => GigEditScreen(
+                                                          imagePath: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .image,
+                                                          title: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .title,
+                                                          overView: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .overview,
+                                                          description: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .description,
+                                                          price: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .price,
+                                                          type: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .type,
+                                                          gigId: value
+                                                              .vendorGigs![
+                                                                  index]
+                                                              .id),
+                                                    ));
+                                              } else if (popvalue == 2) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) => Consumer2<
+                                                      NewGIgCreateProvider,
+                                                      ShowAllGigsProvider>(
+                                                    builder: (context,
+                                                            value,
+                                                            value2,
+                                                            child) =>
+                                                        AlertDialog(
+                                                      title: const Text(
+                                                          'Are You sure You want to delete this gig?'),
+                                                      actions: [
+                                                        ElevatedButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                'Cancel')),
+                                                        ElevatedButton(
+                                                            onPressed: () {
+                                                              value.deleteGig(
+                                                                  value2
+                                                                      .vendorGigs![
+                                                                          index]
+                                                                      .id,
+                                                                  context);
+                                                            },
+                                                            child:
+                                                                const Text(
+                                                                    'Yes',style: TextStyle(color: Colors.red),)),
+                                                        
+                                                      ],
+                                                    ),
                                                   ),
-                                                  kHeight10,
-                                                  Text(
-                                                    "\$${value.vendorGigs![index].price}",
-                                                    style: GoogleFonts.notoSans(
-                                                        fontSize: 24,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                ],
-                                              ),
-                                              Text(
-                                                value.vendorGigs![index].type,
-                                                style: TextStyle(
-                                                  color: Colors.grey.shade800,
-                                                  fontSize: 18,
-                                                ),
-                                                maxLines: 2,
-                                              ),
-                                            ],
+                                                );
+                                              }
+                                            },
+                                            elevation: 2,
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              Text(
+                                                value.vendorGigs![index]
+                                                    .title,
+                                                style:
+                                                    GoogleFonts.sigmarOne(
+                                                        fontSize: 20),
+                                              ),
+                                              kHeight10,
+                                              Text(
+                                                "\$${value.vendorGigs![index].price}",
+                                                style: GoogleFonts.notoSans(
+                                                    fontSize: 24,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            value.vendorGigs![index].type,
+                                            style: TextStyle(
+                                              color: Colors.grey.shade800,
+                                              fontSize: 18,
+                                            ),
+                                            maxLines: 2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
                         },
                         itemCount: value.vendorGigs!.length,
                         separatorBuilder: (context, index) => const SizedBox())

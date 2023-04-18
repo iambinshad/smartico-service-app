@@ -53,7 +53,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
       body: Column(
         children: [
           SizedBox(
-              height: width / 1.1 + 30,
+              height: width / 1.2,
               width: width,
               child: Consumer<SingleGigDetailsProvider>(
                 builder: (context, value, child) => FutureBuilder(
@@ -74,7 +74,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
               )),
           SizedBox(
             width: width,
-            height: width,
+            height: width +60,
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Consumer<SingleGigDetailsProvider>(
@@ -208,20 +208,29 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                             border: Border.all(
                                 color:
                                     const Color.fromARGB(255, 123, 230, 219))),
-                        child:  IconButton(
-                           icon:const Icon(Icons.message_rounded,size: 30),
-                          onPressed: () async{
-                           final currentUserId = await getCurrentUserId();
+                        child: IconButton(
+                          icon: const Icon(Icons.message_rounded, size: 30),
+                          onPressed: () async {
+                            final currentUserId = await getCurrentUserId();
                             ChatingVendor chatingVendor = ChatingVendor(
-                          id: snapshot.data!.vendorId.id,
-                          vendorName:snapshot.data!.vendorId.fullName);
+                                id: snapshot.data!.vendorId.id,
+                                vendorName: snapshot.data!.vendorId.fullName);
 
-                            final chatRoomId =ChatMethods().checkingId(vendorId: snapshot.data!.vendorId.id, currentUser: currentUserId);
+                            final chatRoomId = ChatMethods().checkingId(
+                                vendorId: snapshot.data!.vendorId.id,
+                                currentUser: currentUserId);
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>UserMessagesScreen(chatRoomId: chatRoomId, chatingVendor:chatingVendor,currentUserId: currentUserId,),));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserMessagesScreen(
+                                    chatRoomId: chatRoomId,
+                                    chatingVendor: chatingVendor,
+                                    currentUserId: currentUserId,
+                                  ),
+                                ));
                           },
-                          color:const Color.fromARGB(255, 123, 230, 219),
-                         
+                          color: const Color.fromARGB(255, 123, 230, 219),
                         ),
                       ),
                     ),
@@ -240,7 +249,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                         backgroundColor:
                             const Color.fromARGB(255, 123, 230, 219),
                         padding: EdgeInsets.symmetric(
-                            horizontal: width / 4, vertical: width / 27),
+                            horizontal: width / 5, vertical: width / 27),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0),
                         ),
@@ -354,7 +363,6 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
 
   void confirmClicked(price, title) {
     _openCheckout(price, title);
-   
   }
 }
 

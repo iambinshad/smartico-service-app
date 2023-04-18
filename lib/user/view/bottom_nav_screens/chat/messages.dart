@@ -86,7 +86,7 @@ class UserMessagesScreen extends StatelessWidget {
               Expanded(
                 flex: 10,
                 child: ListView.builder(
-                  reverse: false,
+                  reverse: true,
                   itemBuilder: (context, index) {
                     Map<String, dynamic> map =
                         snapshot.data!.docs[index].data();
