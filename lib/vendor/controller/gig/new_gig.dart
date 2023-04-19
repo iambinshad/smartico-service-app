@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
 import '../../../core/api/api_configration.dart';
 
@@ -11,9 +11,7 @@ class NewGigCreateApiService {
     String path = ApiConfigration.kBaseUrl +
         ApiConfigration.vendor +
         ApiConfigration.newGIgCreate;
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    String? accesToken = await storage.read(key: 'VendorsignUpToken');
-    String? token = accesToken!.replaceAll('"', '');
+    final token = await getVendorAccesToken();
 
     try {
       log('inside try');
@@ -38,22 +36,19 @@ class NewGigCreateApiService {
     String path = ApiConfigration.kBaseUrl +
         ApiConfigration.vendor +
         ApiConfigration.getallCategories;
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    String? accesToken = await storage.read(key: 'VendorsignUpToken');
-    String? token = accesToken!.replaceAll('"', '');
+    final token = await getVendorAccesToken();
+    log(token,name: 'token');
 
     try {
       Response response = await dio.get(path,
           options: Options(headers: {"authorization": "Bearer $token"}));
       if (response.statusCode == 200) {
-        
-        
-
+        log(response.data.toString());
         final List<CategoryResModel> category =
             (response.data['data']['categories'] as List)
                 .map((e) => CategoryResModel.fromJson(e))
                 .toList();
-      
+
         return category;
       }
     } on DioError catch (e) {

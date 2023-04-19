@@ -40,27 +40,27 @@ class BookingHistory extends StatelessWidget {
                         builder: (context) {
                           return SimpleDialog(
                             title: Center(
-                                child: Text(value.reservedGigs![index].title)),
+                                child: Text(value.reservedGigs![index]!.title)),
                             children: [
                               Items(
                                 item: 'Payment Id :',
-                                value: value.reservedGigs![index].requirements,
+                                value: value.reservedGigs![index]!.requirements,
                               ),
                               Items(
                                 item: 'Type :',
-                                value: value.reservedGigs![index].gigId.type,
+                                value: value.reservedGigs![index]?.gigId.type,
                               ),
                               Items(
                                 item: 'Price :\$',
                                 value:
-                                    "${value.reservedGigs![index].gigId.price}",
+                                    "${value.reservedGigs![index]?.gigId.price}",
                               ),
                             ],
                           );
                         },
                       );
                     },
-                    title: Text(value.reservedGigs![index].title),
+                    title: Text(value.reservedGigs![index]!.title),
                     leading: Container(
                       height: 70,
                       width: 100,
@@ -68,7 +68,7 @@ class BookingHistory extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                               image: NetworkImage(
-                                  value.reservedGigs![index].gigId.image),
+                                  value.reservedGigs![index]!.gigId.image),
                               fit: BoxFit.fill)),
                     ),
                     trailing: IconButton(
@@ -79,7 +79,7 @@ class BookingHistory extends StatelessWidget {
                               return AlertDialog(
                                 title: const Text('Booking Cancel'),
                                 content: Text(
-                                    'Are You Sure You want to Cancel ${value.reservedGigs![index].title} Booking?'),
+                                    'Are You Sure You want to Cancel ${value.reservedGigs![index]!.title} Booking?'),
                                 actions: [
                                   ElevatedButton(
                                       onPressed: () {
@@ -92,7 +92,7 @@ class BookingHistory extends StatelessWidget {
                                                 context,
                                                 listen: false)
                                             .cancelBooking(context,
-                                                value.reservedGigs![index].id);
+                                                value.reservedGigs![index]!.id);
                                         Navigator.pop(context);
                                       },
                                       child: const Text(
@@ -108,7 +108,7 @@ class BookingHistory extends StatelessWidget {
                           Icons.cancel_outlined,
                           color: Colors.red,
                         )),
-                    subtitle: Text(value.reservedGigs![index].requirements),
+                    subtitle: Text(value.reservedGigs![index]!.requirements),
                   ),
                   itemCount: value.reservedGigs!.length,
                 )),

@@ -15,7 +15,7 @@ class CancelBookingService {
   Future<void> cancelBooking(context, CancelBookingModel gigId) async {
     String path = ApiConfigration.kBaseUrl + ApiConfigration.cancelBooking;
 
-    final token = await getAccesToken();
+    final token = await getUserAccesToken();
 
     try {
       Response response = await dio.patch(path,

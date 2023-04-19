@@ -21,7 +21,7 @@ class AdminProvider with ChangeNotifier {
         await AdminSignInApiService().adminSignIn(signAdminDatas, context);
     if (tokenData?.token != null) {
       await storage.write(
-          key: 'AdminSignInToken', value: jsonEncode(tokenData?.token));
+          key: 'admin_access_token', value: jsonEncode(tokenData?.token));
 
       notifyListeners();
 

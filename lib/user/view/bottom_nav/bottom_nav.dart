@@ -21,7 +21,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
     AllCategroryList(),
     UserChatScreen(),
    const BookingHistory(),
-     ProfilePage()
+     UserProfilePage()
   ];
 
   @override

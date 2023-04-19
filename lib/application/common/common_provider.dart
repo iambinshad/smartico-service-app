@@ -11,6 +11,7 @@ File? addGalleryImage;
 File? addCameraImage;
 File? editGalleryImage;
 File? editCameraImage;
+bool clickLoading = false;
 bool loading =false;
 bool shimmerLoading = false;
     void showSuccessSnackBar(context) {
@@ -98,6 +99,10 @@ void editCameraSetting(value){
     notifyListeners();
 
   }
+  void setClickLoading(value){
+    clickLoading = value;
+    notifyListeners();
+  }
 
   void onloading (){
     log('loading on');
@@ -110,4 +115,8 @@ void editCameraSetting(value){
     loading =false;
     notifyListeners();
   }
+
+
+
+
 }

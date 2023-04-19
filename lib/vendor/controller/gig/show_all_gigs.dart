@@ -1,24 +1,19 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/vendor/model/show_all_gig/show_all_gig.dart';
 
 class ShowAllGigs {
   Dio dio = Dio();
 
   Future<List<GigResModel>?> showAllGIgs() async {
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    // String? vendorId = await storage.read(key: 'vendorId');
-    // String vendorIdOrg = vendorId!.replaceAll('"', '');
-    final accessToken = await storage.read(key: 'VendorsignUpToken');
-    String? token = accessToken!.replaceAll('"', '');
+    final token = await getVendorAccesToken();
+
     log(token.toString());
     const path = ApiConfigration.kBaseUrl +
         ApiConfigration.vendor +
         ApiConfigration.showAllVendorGigs;
-
-    // final vendorIdData = VendorIdModle(vendorId: vendorIdOrg);
 
     try {
       log('inside try');

@@ -1,16 +1,16 @@
 import 'dart:developer';
+import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/user/model/booking/booked_gigs_model.dart';
 
 class ReservedGigsService {
   Dio dio = Dio();
-  Future<List<BookedGigsModel>?> fetchBookedGigs() async {
+
+  Future<List<BookedGigsModel>?>? fetchBookedGigs() async {
     String path = ApiConfigration.kBaseUrl + ApiConfigration.bookedGigs;
-   FlutterSecureStorage storage = const FlutterSecureStorage();
-    String? accesToken = await storage.read(key: 'UsersignInToken');
-    String? token = accesToken!.replaceAll('"', '');
+    String? token = await getUserAccesToken();
 
     try {
       Response response = await dio.get(path,
@@ -21,13 +21,13 @@ class ReservedGigsService {
                 .map((e) => BookedGigsModel.fromJson(e))
                 .toList();
         return reservedGigs;
-      } else {
-        log('something went wrong');
-      }
+    //      final data = json.decode(response.data["data"]["reserved"]);
+    // return data;
+      } 
     } on DioError catch (e) {
       log(e.message.toString());
       log('error');
     }
-    return null;
+   return null;
   }
 }

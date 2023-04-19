@@ -8,6 +8,7 @@ import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
@@ -43,10 +44,11 @@ class UserHomePage extends StatelessWidget {
   final CarouselController carouselController = CarouselController();
 
   int currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      
+      print(await storage.readAll());
       context.read<CommonProvider>().setShimmerLoading(true);
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
@@ -128,10 +130,9 @@ class UserHomePage extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () async {
-                                final storageTokenData = await storage.read(
-                                    key: 'VendorsignUpToken');
-                                if (storageTokenData != null &&
-                                    context.mounted) {
+                                String token = await getVendorAccesToken();
+
+                                if (token != '' && context.mounted) {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -334,7 +335,7 @@ class UserHomePage extends StatelessWidget {
                                     )),
                               );
                       },
-                      itemCount: value.allGigs!.length,
+                      itemCount: value.allGigs?.length,
                     ),
                   ),
                 ),

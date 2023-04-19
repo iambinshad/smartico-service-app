@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
-import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -16,10 +16,8 @@ class DeleteGigService {
         ApiConfigration.vendor +
         ApiConfigration.deleteGig +
         gigId;
+    final token = await getVendorAccesToken();
 
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    String? accesToken = await storage.read(key: 'VendorsignUpToken');
-    String? token = accesToken!.replaceAll('"', '');
 
     try {
       Response response = await dio.delete(path,

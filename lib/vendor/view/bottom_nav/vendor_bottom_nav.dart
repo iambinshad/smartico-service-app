@@ -4,6 +4,7 @@ import 'package:smartico/user/view/bottom_nav_screens/account.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/bookings_tabs/tab_bar.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/chats/chats.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/profile.dart';
 
 class VendorBottomNavBar extends StatefulWidget {
   const VendorBottomNavBar({super.key});
@@ -20,7 +21,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
      GigsScreen(),
      VendorChatScrn(),
      ManageOrdersTab(),
-     ProfilePage()
+     VendorProfile()
   ];
 
   @override

@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
   Future<void> moveToNextPage(context) async {
     await Future.delayed(const Duration(seconds: 3));
     FlutterSecureStorage storage = const FlutterSecureStorage();
-    final storageTokenData = await storage.read(key: 'UsersignInToken');
+    final storageTokenData = await storage.read(key: 'user_access_token');
     log(storageTokenData.toString());
     if (storageTokenData != null) {
       Navigator.pushAndRemoveUntil(

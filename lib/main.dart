@@ -22,7 +22,7 @@ import 'package:smartico/application/vendor/all_booking/cancel_user_bookings.dar
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
-import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
+import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
 import 'application/user/booking/book_gig_provider.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
@@ -30,6 +30,8 @@ import 'application/vendor/all_booking/all_bookings.dart';
 import 'application/vendor/complete_signup/complete_signup_provider.dart';
 import 'application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'application/vendor/gig_provider/show_all_gig_provider.dart';
+import 'common/categoru.dart';
+import 'vendor/view/bottom_nav/vendor_bottom_nav.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -98,7 +100,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home: const UserBottomNavBar(),
+        home:   VendorBottomNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

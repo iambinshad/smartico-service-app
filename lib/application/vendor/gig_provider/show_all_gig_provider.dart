@@ -1,7 +1,5 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-
 import 'package:smartico/vendor/controller/gig/show_all_gigs.dart';
 import 'package:smartico/vendor/model/show_all_gig/show_all_gig.dart';
 
@@ -12,7 +10,7 @@ class ShowAllGigsProvider with ChangeNotifier {
     ShowAllGigs().showAllGIgs().then((value) {
       vendorGigs = value;
       notifyListeners();
-      log(vendorGigs.toString(), name: 'inside callapiser');
+      
     });
   }
 }

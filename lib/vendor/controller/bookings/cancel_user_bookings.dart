@@ -16,7 +16,7 @@ class CancelUserBookingsService {
     String path = ApiConfigration.kBaseUrl +
         ApiConfigration.vendor +
         ApiConfigration.cancelUserBooking;
-    final token = await getAccesToken();
+    final token = await getVendorAccesToken();
 
     try {
       Response response = await dio.patch(path,

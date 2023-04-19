@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 
 class EditGigService {
 
@@ -12,9 +11,8 @@ class EditGigService {
     String path = ApiConfigration.kBaseUrl +
         ApiConfigration.vendor +
         ApiConfigration.editGig;
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    String? accesToken = await storage.read(key: 'VendorsignUpToken');
-    String? token = accesToken!.replaceAll('"', '');
+    final token = await getVendorAccesToken();
+
 
     try {
       log('inside try');

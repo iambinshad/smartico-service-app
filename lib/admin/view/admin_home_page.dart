@@ -15,7 +15,7 @@ class AdminPage extends StatelessWidget {
         children: [
           Center(child: ElevatedButton(onPressed: (){
             FlutterSecureStorage storage = const FlutterSecureStorage();
-            storage.delete(key: 'AdminSignInToken');
+            storage.delete(key: 'admin_access_token');
           }, child: const Text('logout'))),
           Padding(
             padding: const EdgeInsets.all(10.0),

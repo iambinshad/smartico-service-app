@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
+import 'package:smartico/core/constants.dart';
 import '../../../application/user/user_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import '../../../core/widgets.dart';
@@ -43,8 +44,8 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                   image: AssetImage(
                     'assets/splash/logo3.webp',
                   ),
-                  height: 100,
-                  width: 250,
+                  height: 80,
+                  width: 180,
                 ),
               ),
             ),
@@ -80,8 +81,8 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                               child: Container(
                                 height: 60,
                                 decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: mainColor),
+                                    borderRadius: BorderRadius.circular(15),
                                     color: Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
@@ -107,18 +108,15 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
                             child: Consumer<VendorProvider>(
-                              builder: (context, value, child) => TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold),
-                                keyboardType: TextInputType.none,
-                                controller: value.dateController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                              builder: (context, value, child) => MyTextFormField(controller: value.dateController,validator: (p0) {
+                               
+                                  if (p0 == null || p0.isEmpty) {
                                     return 'Data of birth required';
                                   }
                                   return null;
-                                },
-                                onTap: () async {
+                             
+                              
+                              },onTap: ()async {
                                   DateTime? pickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
@@ -132,136 +130,80 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                             .format(pickedDate);
                                     log(value.dateController.text);
                                   }
-                                },
-                                decoration: InputDecoration(
-                                  suffixIcon: const Icon(Icons.calendar_month),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 123, 230, 219))),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  hintText: 'Select Date of birth',
-                                  labelText: 'DOB',
-                                  hintStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 111, 111, 111),
-                                  ),
-                                ),
-                              ),
+                              },labelText: 'Date OF Birth',keyboardType: TextInputType.none,suffixIcon: Icon(Icons.calendar_month_outlined,size: 25,),)
                             ),
                           ),
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
                             child: Consumer<UserProvider>(
-                              builder: (context, value, child) => TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold),
-                                controller: passwordController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Password is required';
-                                  } else if (value.length < 8) {
-                                    return '8 characters required';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      value.userSignUpPswdVisiblity
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      value.changeSignUpPswVisibleState(
-                                          value.userSignUpPswdVisiblity);
-                                    },
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 123, 230, 219))),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  hintText: 'Enter Your Password',
-                                  labelText: 'Password',
-                                  hintStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 111, 111, 111),
-                                  ),
-                                ),
-                                obscureText: !value.userSignUpPswdVisiblity,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                              ),
+                              builder: (context, value, child) =>MyTextFormField(
+                                        maxLines: 1,
+                                        controller: confirmPasswordController,
+                                        validator: (p0) {
+                                          if (p0 == null || p0.isEmpty) {
+                                            return 'Password is required';
+                                          } else if (p0.length < 8) {
+                                            return '8 characters required';
+                                          }
+                                          return null;
+                                        },
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            value.userSignInPswdVisiblity
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                            color: Colors.blue,size: 22,
+                                          ),
+                                          onPressed: () {
+                                            value.changeSignUpPswVisibleState(
+                                                value.userSignUpPswdVisiblity);
+                                          },
+                                        ),
+                                        labelText: 'Password',
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        obscureText:
+                                            !value.userSignUpPswdVisiblity,
+                                      )
                             ),
                           ),
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
                             child: Consumer<UserProvider>(
-                              builder: (context, value, child) => TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold),
-                                controller: confirmPasswordController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                              builder: (context, value, child) => MyTextFormField(
+                                        maxLines: 1,
+                                        controller: passwordController,
+                                        validator: (p0) {
+                                         if (p0 == null || p0.isEmpty) {
                                     return 'Confirm Password is required';
-                                  } else if (value.length < 8) {
+                                  } else if (p0.length < 8) {
                                     return '8 characters required';
-                                  } else if (value != passwordController.text) {
+                                  } else if (p0 != passwordController.text) {
                                     return 'Not Match';
                                   }
                                   return null;
-                                },
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      value.userSignUpConfPswdVisiblity
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      value.changeSignUpConfPswVisibleState(
+                                        },
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            value.userSignUpConfPswdVisiblity
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                            color: Colors.blue,size: 22,
+                                          ),
+                                          onPressed: () {
+                                            value.changeSignUpConfPswVisibleState(
                                           value.userSignUpConfPswdVisiblity);
-                                    },
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 123, 230, 219))),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  hintText: 'Confirm Password',
-                                  labelText: 'Confirm Password',
-                                  hintStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 111, 111, 111),
-                                  ),
-                                ),
-                                obscureText: !value.userSignUpConfPswdVisiblity,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                              ),
+
+                                          },
+                                        ),
+                                        labelText: 'Password',
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                        obscureText:
+                                            !value.userSignUpConfPswdVisiblity,
+                                      )
                             ),
                           ),
                           kHeight15,

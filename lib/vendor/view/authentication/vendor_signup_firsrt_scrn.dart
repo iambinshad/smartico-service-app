@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
 import 'package:smartico/vendor/view/authentication/vendor_signup_secon_scrn.dart';
@@ -23,7 +24,9 @@ class VendorSignUPScrnOne extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(children: [
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
             const SizedBox(
               height: 110,
               child: Center(
@@ -55,145 +58,51 @@ class VendorSignUPScrnOne extends StatelessWidget {
                           ),
                           kHeight20,
                           Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: MyTextFormField(
+                                controller: prov.fullName,
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Full Name Required';
+                                  }
+                                  return null;
+                                },
+                              labelText: 'Full Name',),),
+                          kHeight20,
+                          Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              controller: prov.fullName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Full Name Required';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Full Name',
-                                labelText: 'Full Name',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
+                            child: MyTextFormField(controller: userNameController,validator: (p0) {
+                              if(p0 == null || p0.isEmpty){
+                                return 'Username Is Required';
+                              }
+                              return null;
+                            },labelText:'Username',)
                           ),
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              controller: userNameController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'User Name Required';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Username',
-                                labelText: 'Username',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
-                          ),
-                          kHeight20,
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              controller: prov.email,
-                              validator: (value) {
-                                var validatedEmail = emailValidation(value);
-                                if (value == null || value.isEmpty) {
+                            child: MyTextFormField(controller: prov.email,validator: (p0) {
+                                var validatedEmail = emailValidation(p0);
+                                if (p0 == null || p0.isEmpty) {
                                   return 'Email is required';
                                 } else if (validatedEmail == false) {
                                   return 'Enter Valid Email';
                                 }
                                 return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Your Email',
-                                labelText: 'Email',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
+                            },keyboardType: TextInputType.emailAddress,labelText: 'Email',)
                           ),
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              keyboardType: TextInputType.number,
-                              controller: prov.mobile,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
+                            child: MyTextFormField(controller: prov.mobile,validator: (p0) {
+                               if (p0 == null || p0.isEmpty) {
                                   return 'Phone Number Required';
-                                } else if (value.length > 10) {
+                                } else if (p0.length > 10) {
                                   return 'Enter Valid Phone Number';
                                 }
                                 return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Phone Number',
-                                labelText: 'Phone Number',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
+                            },keyboardType: TextInputType.phone,labelText: 'Phone',),
                           ),
                           kHeight15,
                           ElevatedButton(
@@ -261,19 +170,19 @@ class VendorSignUPScrnOne extends StatelessWidget {
     return emailResult;
   }
 
-  signUpButtonClicked(context) {
-    final fullName = Provider.of<CompleteSignUpProvider>(context,listen: false).fullName.text;
+  signUpButtonClicked(context)async {
+   
+    final fullName = Provider.of<CompleteSignUpProvider>(context, listen: false)
+        .fullName
+        .text;
     final userName = userNameController.text;
-    final email =
-        Provider.of<CompleteSignUpProvider>(context,listen: false).email.text.trim();
-    final phoneNumber =Provider.of<CompleteSignUpProvider>(context,listen: false).mobile.text ;
+    final email = Provider.of<CompleteSignUpProvider>(context, listen: false)
+        .email
+        .text
+        .trim();
+    final phoneNumber =
+        Provider.of<CompleteSignUpProvider>(context, listen: false).mobile.text;
 
-    // if (fullName.isEmpty ||
-    //     userName.isEmpty ||
-    //     email.isEmpty ||
-    //     phoneNumber.isEmpty) {
-    //   return;
-    // }
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => VendorSignUpScrnTwo(
             fullName: fullName,

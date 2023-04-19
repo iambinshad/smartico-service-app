@@ -20,7 +20,6 @@ class VendorProvider extends ChangeNotifier {
   String? chooseType;
   String? chooseCatogory;
  
-  
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
 
@@ -38,7 +37,7 @@ class VendorProvider extends ChangeNotifier {
     final tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
     log(tokenData.toString());
     if (tokenData != null) {
-      await storage.write(key: "VendorsignInToken", value: jsonEncode(tokenData.token));
+      await storage.write(key: "vendor_access_token", value: jsonEncode(tokenData.token));
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
@@ -89,7 +88,8 @@ log(signUpVendorDatas.toString());
     VendorSignUpResModel? tokenData = await VendorOtpVerifyApiService().vendorOtpVerification(otp, context);
     log(tokenData.toString());
     if(tokenData != null){
-      await storage.write(key: 'VendorsignUpToken', value: jsonEncode(tokenData.token));
+      log(tokenData.token);
+      await storage.write(key: 'vendor_access_token', value: jsonEncode(tokenData.token));
       await storage.write(key: 'vendorId', value: tokenData.data.user.id);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {

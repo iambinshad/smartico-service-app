@@ -410,7 +410,7 @@ class _GigsScreenState extends State<GigsScreen> {
   void fetchDatas() async {
     Provider.of<CommonProvider>(context, listen: false).setShimmerLoading(true);
     context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
-    await context.read<NewGIgCreateProvider>().getAllCategory(context);
+    // await context.read<NewGIgCreateProvider>().getAllCategory(context);
     if (mounted) {
       Provider.of<CommonProvider>(context, listen: false)
           .setShimmerLoading(false);

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/core/api/api_configration.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/user/model/show_all_gigs/show_single_gig.dart/show_single_gig_model.dart';
 
 class ShowSingleGigService {
@@ -13,9 +15,8 @@ class ShowSingleGigService {
     String path =
         ApiConfigration.kBaseUrl + ApiConfigration.getSingleGigDetails + gigId;
 
-    FlutterSecureStorage storage = const FlutterSecureStorage();
-    String? accesToken = await storage.read(key: 'UsersignInToken');
-    String? token = accesToken!.replaceAll('"', '');
+ 
+    String? token = await getUserAccesToken();
     try {
       Response response = await dio.get(path,
           options: Options(headers: {"authorization": "Bearer $token"}));

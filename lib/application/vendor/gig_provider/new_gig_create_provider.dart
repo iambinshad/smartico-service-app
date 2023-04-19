@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/vendor/controller/gig/delete_gig.dart';
 import 'package:smartico/vendor/controller/gig/edit_gig.dart';
 import 'package:smartico/vendor/controller/gig/new_gig.dart';
@@ -96,11 +94,8 @@ editproductCheckBoxValue = true;
         .getAllCategory(context)
         .then((categoriesValue) {
       categories = categoriesValue!;
-      // Provider.of<CommonProvider>(context, listen: false)
-      //     .setShimmerLoading(false);
       notifyListeners();
-      log(categories.toString());
-      notifyListeners();
+
     });
   }
 }
