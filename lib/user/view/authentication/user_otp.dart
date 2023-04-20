@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,7 @@ import '../../../core/widgets.dart';
 
 class UserOtpScreen extends StatelessWidget {
   UserOtpScreen({super.key});
- 
+
   final field1 = TextEditingController();
   final field2 = TextEditingController();
   final field3 = TextEditingController();
@@ -76,26 +75,36 @@ class UserOtpScreen extends StatelessWidget {
                             ],
                           ),
                           Consumer<UserProvider>(
-                            builder: (context, value, child) => 
-                             SizedBox(child:value.isOtpValidator?kHeight20:const Center(child: Padding(
-                               padding: EdgeInsets.all(5.0),
-                               child: Text('OTP is Required',style: TextStyle(color: Colors.red,),),
-                             ),),)),
+                              builder: (context, value, child) => SizedBox(
+                                    child: value.isOtpValidator
+                                        ? kHeight20
+                                        : const Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(5.0),
+                                              child: Text(
+                                                'OTP is Required',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                  )),
                           ElevatedButton(
                             onPressed: () {
-                              String otpvalidated =  otpFieldValidation(context);
+                              String otpvalidated = otpFieldValidation(context);
                               if (otpvalidated == 'false') {
-                                Provider.of<CommonProvider>(context,listen: false).onloading();
+                                Provider.of<CommonProvider>(context,
+                                        listen: false)
+                                    .onloading();
                                 var oTP = field1.text +
                                     field2.text +
                                     field3.text +
-                                    field4.text+
-                                    field5.text+
+                                    field4.text +
+                                    field5.text +
                                     field6.text;
-                                    
-                                  UserProvider().verifyUserOtp(context, oTP);
-                                  
-                               
+
+                                UserProvider().verifyUserOtp(context, oTP);
                               }
                             },
                             style: ButtonStyle(
@@ -119,13 +128,15 @@ class UserOtpScreen extends StatelessWidget {
                             ),
                           ),
                           kHeight10,
-                                  Consumer<CommonProvider>(
-                builder: (context, value, child){
-                  if(value.loading){
-                    return const Center( child: CircularProgressIndicator(),);
-      }
-                  return const SizedBox();
-                  }),
+                          Consumer<CommonProvider>(
+                              builder: (context, value, child) {
+                            if (value.loading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -166,20 +177,20 @@ class UserOtpScreen extends StatelessWidget {
         field4.text.isEmpty ||
         field5.text.isEmpty ||
         field6.text.isEmpty) {
-           Provider.of<UserProvider>(context,listen: false).changeValidatorState();
+      Provider.of<UserProvider>(context, listen: false).changeValidatorState();
       return 'true';
     }
-   return 'false';
+    return 'false';
   }
 }
 
 class OtpField extends StatelessWidget {
-   const OtpField({
+   OtpField({
     super.key,
     required this.field,
   });
 
-final  field;
+  dynamic field;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -187,9 +198,7 @@ final  field;
       width: 45,
       child: TextField(
         controller: field,
-        style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         onChanged: (value) {
           if (value.length == 1) {
             FocusScope.of(context).nextFocus();
@@ -203,13 +212,10 @@ final  field;
         decoration: const InputDecoration(
             hintText: '0',
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Color.fromARGB(
-                      255, 123, 230, 219)),
+              borderSide: BorderSide(color: Color.fromARGB(255, 123, 230, 219)),
             ),
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(180.0)))),
+                borderRadius: BorderRadius.all(Radius.circular(180.0)))),
         inputFormatters: [
           LengthLimitingTextInputFormatter(1),
           FilteringTextInputFormatter.digitsOnly,

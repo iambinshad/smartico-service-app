@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smartico/vendor/controller/complete_sign_up/complete_sign_up.dart';
+import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 
 class CompleteSignUpProvider with ChangeNotifier {
   dynamic countryValue;
@@ -36,7 +39,12 @@ class CompleteSignUpProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void>completeSignUp()async{
-    
+  Future<void> setVendorProfile(VendorAddressModel vendorAddressModel,
+      VendorSkillsModel vendorSkillsModel, BuildContext context) async {
+    final addressResult = await CompleteSignUPService().updateVendorAddress(vendorAddressModel);
+    final skillResult = await CompleteSignUPService().updateVendorSkill(vendorSkillsModel);
+    if(addressResult!=null && skillResult !=null){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => VendorBottomNavBar(),), (route) => false);
+    }
   }
 }

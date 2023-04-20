@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,10 @@ class AdminProvider with ChangeNotifier {
     final tokenData =
         await AdminSignInApiService().adminSignIn(signAdminDatas, context);
     if (tokenData?.token != null) {
+      log(tokenData!.token.toString(),name: 'admin token');
       await storage.write(
-          key: 'admin_access_token', value: jsonEncode(tokenData?.token));
+          key: 'admin_access_token', value: jsonEncode(tokenData.token));
+          
 
       notifyListeners();
 
@@ -29,6 +32,7 @@ class AdminProvider with ChangeNotifier {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
+            
             builder: (context) => AdminPage(),
           ),
           (route) => false);

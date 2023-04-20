@@ -46,106 +46,124 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
           body: SingleChildScrollView(
             child: Form(
               key: _formKey,
-              child: Column(
-                children: [
-                  kHeight40,
-                  kHeight40,
-                  Center(
-                    child: CircleAvatar(
-                      radius: 63,
-                      backgroundColor: const Color.fromARGB(255, 123, 230, 219),
-                      child: GestureDetector(
-                          onTap: () {
-                            showModelBottomSheet(context, width);
-                          },
-                          child: profile != null
-                              ? CircleAvatar(
-                                  radius: 60,
-                                  backgroundImage: FileImage(profile!),
-                                )
-                              : CircleAvatar(
-                                  radius: 60,
-                                  backgroundImage: AssetImage(
-                                    unknown,
-                                  ),
-                                )),
-                    ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      kHeight40,
+                     
+                      Center(
+                        child: CircleAvatar(
+                          radius: 63,
+                          backgroundColor: const Color.fromARGB(255, 123, 230, 219),
+                          child: GestureDetector(
+                              onTap: () {
+                                showModelBottomSheet(context, width);
+                              },
+                              child: profile != null
+                                  ? CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage: FileImage(profile!),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage: AssetImage(
+                                        unknown,
+                                      ),
+                                    )),
+                        ),
+                      ),
+                      Text(
+                        prov.fullName.text,
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
+                      Text(prov.email.text,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Color.fromARGB(255, 99, 99, 99))),
+                      kHeight10,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20, left: 20),
+                        child: Column(
+                          children: [
+                            MyTextFormField(
+                                controller: prov.address,
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Address is Required';
+                                  }
+                                  return null;
+                                },
+                                
+                                labelText: 'Address'),
+                                kHeight20,
+                                MyTextFormField(
+                                controller: prov.pincode,
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Pincode is Required';
+                                  }
+                                  return null;
+                                },
+                                
+                                labelText: 'Pincode'),
+
+                            kHeight20,
+                            MyTextFormField(
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'About is required';
+                                  }
+                                  return null;
+                                },
+                                controller: prov.about,
+                                
+                                labelText: 'About'),
+                            kHeight20,
+                            cscPicker(),
+                            kHeight20,
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            res = cscPickerValidate();
+                          }
+                          if (res == false) {
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.info(
+                                message: 'Complete filling!',
+                              ),
+                            );
+                          }
+                          if (res) {
+                            nextButtonClicked(profile);
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 123, 230, 219),
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 50,
+                          width: width / 1.19,
+                          child: const Center(
+                              child: Text(
+                            'Next',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold,color:Colors.white),
+                          )),
+                        ),
+                      ),
+                      kHeight10
+                    ],
                   ),
-                  Text(
-                    prov.fullName.text,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                  Text(prov.email.text,
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Color.fromARGB(255, 99, 99, 99))),
-                  kHeight10,
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20, left: 20),
-                    child: Column(
-                      children: [
-                        MyTextFormField(
-                            controller: prov.address,
-                            validator: (p0) {
-                              if (p0 == null || p0.isEmpty) {
-                                return 'Address is Required';
-                              }
-                              return null;
-                            },
-                            hintText: 'Enter Address',
-                            labelText: 'Address'),
-                        kHeight20,
-                        MyTextFormField(
-                            validator: (p0) {
-                              if (p0 == null || p0.isEmpty) {
-                                return 'About is required';
-                              }
-                              return null;
-                            },
-                            controller: prov.about,
-                            hintText: 'About',
-                            labelText: 'About'),
-                        kHeight20,
-                        cscPicker(),
-                        kHeight20,
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      if (_formKey.currentState!.validate()) {
-                        res = cscPickerValidate();
-                      }
-                      if (res == false) {
-                        showTopSnackBar(
-                          Overlay.of(context),
-                          const CustomSnackBar.info(
-                            message: 'Complete filling!',
-                          ),
-                        );
-                      }
-                      if (res) {
-                        nextButtonClicked(profile);
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 123, 230, 219),
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 50,
-                      width: width / 1.11,
-                      child: const Center(
-                          child: Text(
-                        'Next',
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      )),
-                    ),
-                  ),
-                  kHeight10
-                ],
+                ),
               ),
             ),
           )),
@@ -245,6 +263,7 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
     if (prov.countryValue != null &&
         prov.stateValue != null &&
         prov.cityValue != null &&
+        prov.pincode != null &&
         profile != null) {
       return true;
     }
@@ -257,7 +276,7 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => VendorApprovalSecondScrn(),
+          builder: (context) => VendorApprovalSecondScrn(imagePath: profile,),
         ));
   }
 }

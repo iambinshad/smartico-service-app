@@ -5,7 +5,7 @@ import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 class VendorProfile extends StatelessWidget {
    VendorProfile({super.key});
 
-FlutterSecureStorage storage = FlutterSecureStorage();
+FlutterSecureStorage storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     
@@ -13,8 +13,9 @@ FlutterSecureStorage storage = FlutterSecureStorage();
       appBar: AppBar(),
       body: Center(child:ElevatedButton(onPressed: ()async{
         await storage.delete(key: 'vendor_access_token');
+        await storage.delete(key: 'vendorId');
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => VendorSignIn(),), (route) => false);
-      }, child: Text('signout'))),
+      }, child: const Text('signout'))),
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:smartico/admin/controller/new_category/category_service.dart';
 import 'package:smartico/admin/model/catogory/catogory_req.dart';
+import 'package:smartico/application/admin/fetch_all_vendors/fetch_all_vendors_provider.dart';
 
 class AdminPage extends StatelessWidget {
    AdminPage({super.key});
@@ -10,6 +12,9 @@ class AdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<AllVendorListForAdmin>(context,listen: false).fetchAllVendors();
+    });
     return SafeArea(
       child: Scaffold(body:  Column(
         children: [

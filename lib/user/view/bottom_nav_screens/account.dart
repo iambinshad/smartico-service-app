@@ -8,7 +8,9 @@ FlutterSecureStorage storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(body: Center(child: ElevatedButton(onPressed: ()async{
-     await storage.delete(key: 'access_token');
+     await storage.delete(key: 'user_access_token');
+     await storage.delete(key: 'currentUserName');
+     await storage.delete(key: 'currentUserId');
      if(context.mounted){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserSignIn(),), (route) => false);
 

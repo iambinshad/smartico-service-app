@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
@@ -6,8 +9,11 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
 
 class VendorApprovalSecondScrn extends StatelessWidget {
-  const  VendorApprovalSecondScrn({super.key});
+  VendorApprovalSecondScrn({super.key, this.imagePath});
 
+  final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
+
+  File? imagePath;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -32,22 +38,22 @@ class VendorApprovalSecondScrn extends StatelessWidget {
                 children: [
                   MyTextFormField(
                       controller: prov.skill,
-                      hintText: 'Enter skills',
+                      hintText: '(optional)',
                       labelText: 'Skill'),
                   kHeight20,
                   MyTextFormField(
                       controller: prov.gitHub,
-                      hintText: 'Enter GitHub Link',
+                      hintText: '(optional)',
                       labelText: 'GitHub'),
                   kHeight20,
                   MyTextFormField(
-                      controller: prov.gitHub,
-                      hintText: 'Enter Google Drive Link',
+                      controller: prov.googleDrive,
+                      hintText: '(optional)',
                       labelText: 'Google Drive'),
                   kHeight20,
                   MyTextFormField(
-                      controller: prov.gitHub,
-                      hintText: 'Enter LinkedIn Link',
+                      controller: prov.linkedIn,
+                      hintText: '(optional)',
                       labelText: 'LinkedIn'),
                   kHeight30,
                   GestureDetector(
@@ -63,8 +69,8 @@ class VendorApprovalSecondScrn extends StatelessWidget {
                       child: const Center(
                           child: Text(
                         'Submit',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       )),
                     ),
                   ),
@@ -76,9 +82,31 @@ class VendorApprovalSecondScrn extends StatelessWidget {
       ),
     );
   }
-  
-  void submitClicked(context) {
-    final prov = Provider.of<CompleteSignUpProvider>(context,listen: false);
-    final vendorProfileModelData = CompleteSignUpModel(fullName:prov.fullName.text,  email:prov.email.text.trim(), address:Address( country:prov.country.text, currentAddress: prov.address.text, city: prov.city.text, state: prov.state.text), about: prov.about.text, profilePhoto:prov.profileImage.toString(), phone:prov.mobile.text);
+
+  void submitClicked(context) async {
+    final prov = Provider.of<CompleteSignUpProvider>(context, listen: false);
+    final pin = int.parse(prov.pincode.text);
+    final vendorAddressModel = VendorAddressModel(
+        pincode: pin,
+        country: prov.countryValue,
+        currentAddress: prov.address.text,
+        city: prov.cityValue,
+        state: prov.stateValue);
+
+    CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(imagePath!.path,
+            resourceType: CloudinaryResourceType.Image));
+    final url = response.secureUrl;
+
+    VendorSkillsModel vendorSkillsModel = VendorSkillsModel(
+        skill: prov.skill.text,
+        googleDrive: prov.googleDrive.text,
+        linkedIn: prov.linkedIn.text,
+        github: prov.gitHub.text,
+        about: prov.about.text,
+        profilePhoto: url);
+
+    Provider.of<CompleteSignUpProvider>(context, listen: false)
+        .setVendorProfile(vendorAddressModel, vendorSkillsModel, context);
   }
 }

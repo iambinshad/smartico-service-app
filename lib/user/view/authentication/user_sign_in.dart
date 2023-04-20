@@ -213,18 +213,19 @@ class UserSignIn extends StatelessWidget {
     if (email == 'smarticoapp23@gmail.com') {
       log('You are Admin');
       Provider.of<CommonProvider>(context, listen: false).setClickLoading(true);
-      
+
       Provider.of<AdminProvider>(context, listen: false)
           .checkAdminSignIn(context, email, password);
-      
-      Provider.of<CommonProvider>(context, listen: false).setClickLoading(false);
+
+      Provider.of<CommonProvider>(context, listen: false)
+          .setClickLoading(false);
     } else {
       Provider.of<CommonProvider>(context, listen: false).setClickLoading(true);
       log('You are someone else');
       Provider.of<UserProvider>(context, listen: false)
-
           .checkUserSignIn(context, password, email);
-      Provider.of<CommonProvider>(context, listen: false).setClickLoading(false);
+      Provider.of<CommonProvider>(context, listen: false)
+          .setClickLoading(false);
     }
   }
 

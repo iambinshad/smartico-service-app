@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/admin/admin_provider.dart';
+import 'package:smartico/application/admin/fetch_all_vendors/fetch_all_vendors_provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
@@ -23,6 +24,8 @@ import 'package:smartico/application/vendor/vendor_provider.dart';
 import 'package:smartico/common/splash_screen.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
+import 'package:smartico/vendor/view/vendor_approve_screen/vendor_approve_scrn1.dart';
+import 'admin/view/bottom_nav/bottom_nav.dart';
 import 'application/user/booking/book_gig_provider.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
@@ -92,7 +95,8 @@ class MyApp extends StatelessWidget {
           create: (context) => CancelBookingprovider(),
         ),
         ListenableProvider(create: (context) =>AllBookingProvider(),),
-        ListenableProvider(create: (context) => CancelUserBookingsProvider(),)
+        ListenableProvider(create: (context) => CancelUserBookingsProvider(),),
+        ListenableProvider(create: (context) => AllVendorListForAdmin(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -100,7 +104,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home:   VendorBottomNavBar(),
+        home:    AdminBottonNavBar(),
         debugShowCheckedModeBanner: false,
       ),
     );

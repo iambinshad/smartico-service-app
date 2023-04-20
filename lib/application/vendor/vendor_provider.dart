@@ -4,11 +4,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/vendor/controller/authentication/otp_verification/vendor_otp_veriy.dart';
+import 'package:smartico/vendor/model/authentication/vendor_sign_in_res_model.dart';
 import 'package:smartico/vendor/model/authentication/vendor_sign_up_model.dart';
 import 'package:smartico/vendor/model/authentication/vendor_sign_up_res.dart';
 import 'package:smartico/vendor/model/authentication/vendor_verify_otp.dart';
 import 'package:smartico/vendor/view/authentication/vendor_otp.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
+import 'package:smartico/vendor/view/vendor_approve_screen/vendor_approve_scrn1.dart';
 import '../../user/view/authentication/user_sign_in.dart';
 import '../../vendor/controller/authentication/sign_in/sign_in_api_service.dart';
 import '../../vendor/controller/authentication/sign_up/sign_up_api_service.dart';
@@ -34,10 +36,12 @@ class VendorProvider extends ChangeNotifier {
     final signInVendorDatas =
         VendorSignInReqModel(password: password, email: email);
        
-    final tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
+    VendorSignInResModel? tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
     log(tokenData.toString());
     if (tokenData != null) {
       await storage.write(key: "vendor_access_token", value: jsonEncode(tokenData.token));
+            await storage.write(key: 'vendorId', value: tokenData.data!.user.id);
+
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
@@ -93,7 +97,7 @@ log(signUpVendorDatas.toString());
       await storage.write(key: 'vendorId', value: tokenData.data.user.id);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return  const VendorBottomNavBar();
+          return  const VendorApprovalFirstScrn();
         },
       ), (route) => false);
 

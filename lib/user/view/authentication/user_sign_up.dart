@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 
-
 import '../../../application/user/user_provider.dart';
 import '../../../core/widgets.dart';
 
@@ -19,8 +18,6 @@ class UserSignUP extends StatelessWidget {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,8 +28,8 @@ class UserSignUP extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-             SizedBox(
-              height: height/30,
+            SizedBox(
+              height: height / 30,
             ),
             Center(
               child: Padding(
@@ -53,259 +50,137 @@ class UserSignUP extends StatelessWidget {
                           ),
                           kHeight20,
                           Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              controller: fullNameController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Full Name Required';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder:  OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Full Name',
-                                labelText: 'Full Name',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
-                          ),
-                          kHeight20,
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              controller: userNameController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'User Name Required';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder:  OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                    borderSide:const BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Username',
-                                labelText: 'Username',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
-                          ),
-                          kHeight20,
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              controller: emailController,
-                              validator: (value) {
-                                var validatedEmail = emailValidation(value);
-                                if (value == null || value.isEmpty) {
-                                  return 'Email is required';
-                                } else if (validatedEmail == false) {
-                                  return 'Enter Valid Email';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder:  OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                    borderSide: const BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Your Email',
-                                labelText: 'Email',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
-                          ),
-                          kHeight20,
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 19, fontWeight: FontWeight.bold),
-                              keyboardType: TextInputType.number,
-                              controller: phoneController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Phone Number Required';
-                                } else if (value.length > 10) {
-                                  return 'Enter Valid Phone Number';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                focusedBorder:  OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                    borderSide:const BorderSide(
-                                        color: Color.fromARGB(
-                                            255, 123, 230, 219))),
-                                enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.black)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                hintText: 'Enter Phone Number',
-                                labelText: 'Phone Number',
-                                hintStyle: const TextStyle(
-                                  color: Color.fromARGB(255, 111, 111, 111),
-                                ),
-                              ),
-                            ),
-                          ),
-                          kHeight20,
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: Consumer<UserProvider>(
-                              builder: (context, value, child) => TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold),
-                                controller: passwordController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Password is required';
-                                  } else if (value.length < 8) {
-                                    return '8 characters required';
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: MyTextFormField(
+                                controller: fullNameController,
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Full Name Required';
                                   }
                                   return null;
                                 },
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      value.userSignUpPswdVisiblity
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      value.changeSignUpPswVisibleState(
-                                          value.userSignUpPswdVisiblity);
-                                    },
-                                  ),
-                                  focusedBorder:  OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                      borderSide:const BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 123, 230, 219))),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  hintText: 'Enter Your Password',
-                                  labelText: 'Password',
-                                  hintStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 111, 111, 111),
-                                  ),
-                                ),
-                                obscureText: !value.userSignUpPswdVisiblity,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                              ),
-                            ),
+                                labelText: 'Full Name',
+                              )),
+                          kHeight20,
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: MyTextFormField(
+                                controller: userNameController,
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'User Name is Required';
+                                  }
+                                  return null;
+                                },
+                                labelText: 'User Name',
+                              )),
+                          kHeight20,
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: MyTextFormField(
+                                controller: emailController,
+                                validator: (p0) {
+                                  var validatedEmail = emailValidation(p0);
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Email is required';
+                                  } else if (validatedEmail == false) {
+                                    return 'Enter Valid Email';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                labelText: 'Email',
+                              )),
+                          kHeight20,
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: MyTextFormField(
+                                controller: phoneController,
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Phone Number is required';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.phone,
+                                labelText: 'Phone',
+                              )),
+                          kHeight20,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20, left: 20),
+                            child: Consumer<UserProvider>(
+                                builder: (context, value, child) =>
+                                    MyTextFormField(
+                                      controller: passwordController,
+                                      validator: (p0) {
+                                        if (p0 == null || p0.isEmpty) {
+                                          return 'Password is required';
+                                        } else if (p0.length < 8) {
+                                          return '8 characters required';
+                                        }
+                                        return null;
+                                      },
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          value.userSignUpPswdVisiblity
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: Colors.blue,
+                                          size: 23,
+                                        ),
+                                        onPressed: () {
+                                          value.changeSignUpPswVisibleState(
+                                              value.userSignUpPswdVisiblity);
+                                        },
+                                      ),
+                                      obscureText:
+                                          !value.userSignUpPswdVisiblity,
+                                      enableSuggestions: false,
+                                      autocorrect: false,
+                                      labelText: 'Password',
+                                      maxLines: 1,
+                                    )),
                           ),
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
                             child: Consumer<UserProvider>(
-                              builder: (context, value, child) => TextFormField(
-                                style: const TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold),
-                                controller: confirmPasswordController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
+                              builder: (context, value, child) =>
+                                  MyTextFormField(
+                                validator: (p0) {
+                                  if (p0 == null || p0.isEmpty) {
                                     return 'Confirm Password is required';
-                                  } else if (value.length < 8) {
+                                  } else if (p0.length < 8) {
                                     return '8 characters required';
-                                  } 
-                                  else if (confirmPasswordController.text !=
+                                  } else if (confirmPasswordController.text !=
                                       passwordController.text) {
                                     return 'Not Match';
                                   }
                                   return null;
                                 },
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      value.userSignUpConfPswdVisiblity
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Colors.blue,
-                                    ),
-                                    onPressed: () {
-                                      value.changeSignUpConfPswVisibleState(
-                                          value.userSignUpConfPswdVisiblity);
-                                    },
+                                controller: confirmPasswordController,
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    value.userSignUpConfPswdVisiblity
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.blue,
+                                    size: 23,
                                   ),
-                                  focusedBorder:  OutlineInputBorder(
-                                    borderRadius:BorderRadius.circular(20),
-                                      borderSide: const BorderSide(
-                                          color: Color.fromARGB(
-                                              255, 123, 230, 219))),
-                                  enabledBorder: const OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.black)),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  hintText: 'Confirm Password',
-                                  labelText: 'Confirm Password',
-                                  hintStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 111, 111, 111),
-                                  ),
+                                  onPressed: () {
+                                    value.changeSignUpConfPswVisibleState(
+                                        value.userSignUpConfPswdVisiblity);
+                                  },
                                 ),
-                                obscureText: !value.userSignUpConfPswdVisiblity,
-                                enableSuggestions: false,
                                 autocorrect: false,
+                                enableSuggestions: false,
+                                obscureText:!value.userSignUpConfPswdVisiblity,
+                                labelText: 'Confirm Password',
+                                maxLines: 1,
                               ),
                             ),
                           ),
@@ -371,14 +246,16 @@ class UserSignUP extends StatelessWidget {
                             ),
                           ),
                           kHeight10,
-                                    Consumer<CommonProvider>(
-                builder: (context, value, child){
-                  if(value.loading){
-                    return const Center( child: CircularProgressIndicator(),);
-      }
-                  return const SizedBox();
-                  }),
-                  kHeight10,
+                          Consumer<CommonProvider>(
+                              builder: (context, value, child) {
+                            if (value.loading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return const SizedBox();
+                          }),
+                          kHeight10,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -417,7 +294,7 @@ class UserSignUP extends StatelessWidget {
   }
 
   signUpButtonClicked(context) {
-    Provider.of<CommonProvider>(context,listen: false).loading = true;
+    Provider.of<CommonProvider>(context, listen: false).loading = true;
     log('inside signUpbuttonClicked');
     final fullName = fullNameController.text.trim();
     final userName = userNameController.text.trim();
@@ -433,8 +310,8 @@ class UserSignUP extends StatelessWidget {
         password.isEmpty ||
         confirmPassword.isEmpty) {
       return;
-    }                                           
-    Provider.of<UserProvider>(context,listen: false).signUPNewUser(
+    }
+    Provider.of<UserProvider>(context, listen: false).signUPNewUser(
       fullName: fullName,
       userName: userName,
       email: email,

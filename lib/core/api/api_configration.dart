@@ -33,6 +33,8 @@ class ApiConfigration{
     static const completeService  = '/completeUserOrder';
     static const completedOrderByData = '/completed-orders-by-date';
     static const cancelUserBooking = '/cancelUserOrder';
+    static const setAddress = '/addAddress/';//vendor id needed after this endpoint
+    static const setSkill = '/addSkill/';//vendor id needed after this endpoint
   
   //---Admin Endpoints---
 
@@ -42,5 +44,6 @@ class ApiConfigration{
   static const adminLogin = '/login';
 
   static const addCategory = '/addCategory';
+  static const fetchAllVendors = '/vendorManagement';
  
 }
