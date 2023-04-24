@@ -7,14 +7,16 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 
 class GigDescripttion extends StatelessWidget {
-  GigDescripttion({super.key, required this.index});
+  GigDescripttion({super.key, required this.index , required this.title});
 
   int index;
+  String? title;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(title:Text(title!) ,centerTitle: true,backgroundColor: mainColor,),
       body: ListView(
         children: [
           SizedBox(

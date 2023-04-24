@@ -12,6 +12,9 @@ class ApiConfigration{
   static const bookedGigs = '/reservedGigs';
   static const getAllVendors = '/getAllVendors';
   static const cancelBooking = '/cancelOrder';
+  static const userProfile = '/userProfile';
+  static const addReveiw = '/addReview';
+  static const getReviews = '/gigRating/';// gig id needed after this endpoint
 
   //---Vendor Endpoints---
 
@@ -21,7 +24,6 @@ class ApiConfigration{
   static const vendorLogin = '/login';
   static const vendorOTP = '/vendorOTP';
   static const verifyVendorOTP = '/verifyVendorOTP';
-
 
   //gig create 
   static const newGIgCreate = '/newGig';
@@ -45,5 +47,7 @@ class ApiConfigration{
 
   static const addCategory = '/addCategory';
   static const fetchAllVendors = '/vendorManagement';
+  static const approveVendor = '/approveVendor';
+  static const blockVendor = '/blockVendor';
  
 }

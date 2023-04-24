@@ -23,12 +23,7 @@ class CancelBookingService {
           options: Options(headers: {"authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
-        showTopSnackBar(
-          Overlay.of(context),
-          const CustomSnackBar.success(
-            message: 'Booking Canceling Successfull',
-          ),
-        );
+   
       }
     } on DioError catch (e) {
       log(e.message.toString());

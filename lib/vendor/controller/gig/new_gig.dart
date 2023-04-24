@@ -37,7 +37,7 @@ class NewGigCreateApiService {
         ApiConfigration.vendor +
         ApiConfigration.getallCategories;
     final token = await getVendorAccesToken();
-    log(token,name: 'token');
+   
 
     try {
       Response response = await dio.get(path,

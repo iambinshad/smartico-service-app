@@ -74,7 +74,7 @@ class VendorMessagesScreen extends StatelessWidget {
               Expanded(
                 flex: 10,
                 child: ListView.builder(
-                  reverse: true,
+                  reverse: false,
                   itemBuilder: (context, index) {
                     Map<String, dynamic> map =
                         snapshot.data!.docs[index].data();
@@ -90,6 +90,8 @@ class VendorMessagesScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Consumer<MessageProvider>(
                     builder: (context, value, child) => MyTextFormField(
+                      prefixIcon:const Icon(Icons.tag_faces_sharp,size: 27,),
+                      hintText: "message",
                           controller: Provider.of<MessageProvider>(context,
                                   listen: false)
                               .messageController,

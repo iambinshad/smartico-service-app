@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smartico/admin/controller/authentication/sign_in/sign_in_api_service.dart';
 import 'package:smartico/admin/model/admin_sign_in_req_model.dart';
 import 'package:smartico/admin/view/admin_home_page.dart';
+import 'package:smartico/admin/view/bottom_nav/bottom_nav.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import '../../user/view/authentication/user_sign_in.dart';
 
@@ -33,7 +34,7 @@ class AdminProvider with ChangeNotifier {
           context,
           MaterialPageRoute(
             
-            builder: (context) => AdminPage(),
+            builder: (context) => AdminBottonNavBar(),
           ),
           (route) => false);
     }

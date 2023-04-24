@@ -15,15 +15,15 @@ class UserChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    // //  Provider.of<CommonProvider>(context, listen: false)
-    // //       .setShimmerLoading(true);
-    //       Provider.of<GetAllVendor>(context, listen: false).showList=Provider.of<GetAllVendor>(context, listen: false).allVendors;
-    //   // Future.delayed(const Duration(milliseconds: 100), () {
-    //   //   context.read<CommonProvider>().setShimmerLoading(false);
-    //   // }); 
-    //      }
-    //      );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //  Provider.of<CommonProvider>(context, listen: false)
+    //       .setShimmerLoading(true);
+          Provider.of<GetAllVendor>(context, listen: false).showList=Provider.of<GetAllVendor>(context, listen: false).allVendors;
+      // Future.delayed(const Duration(milliseconds: 100), () {
+      //   context.read<CommonProvider>().setShimmerLoading(false);
+      // }); 
+         }
+         );
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 223, 223, 221),
       appBar: AppBar(

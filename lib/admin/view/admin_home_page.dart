@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smartico/admin/controller/new_category/category_service.dart';
 import 'package:smartico/admin/model/catogory/catogory_req.dart';
 import 'package:smartico/application/admin/fetch_all_vendors/fetch_all_vendors_provider.dart';
+import 'package:smartico/user/view/authentication/user_sign_in.dart';
 
 class AdminPage extends StatelessWidget {
    AdminPage({super.key});
@@ -11,6 +12,7 @@ class AdminPage extends StatelessWidget {
   final catagoryController = TextEditingController();
 
   @override
+
   Widget build(BuildContext context) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<AllVendorListForAdmin>(context,listen: false).fetchAllVendors();
@@ -21,6 +23,7 @@ class AdminPage extends StatelessWidget {
           Center(child: ElevatedButton(onPressed: (){
             FlutterSecureStorage storage = const FlutterSecureStorage();
             storage.delete(key: 'admin_access_token');
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserSignIn(),), (route) => false);
           }, child: const Text('logout'))),
           Padding(
             padding: const EdgeInsets.all(10.0),

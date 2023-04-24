@@ -16,22 +16,17 @@ import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_edit_scrn.dart'
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_add_scrn.dart';
 
 class GigsScreen extends StatefulWidget {
-  GigsScreen({super.key});
+  const GigsScreen({super.key});
 
   @override
   State<GigsScreen> createState() => _GigsScreenState();
 }
 
 class _GigsScreenState extends State<GigsScreen> {
-  File? addGalleryImage;
 
+  File? addGalleryImage;
   File? addCameraImage;
 
-// @override
-//   void initState() {
-//     fetchDatas();
-//     super.initState();
-//   }
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -79,7 +74,7 @@ class _GigsScreenState extends State<GigsScreen> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          GigDescripttion(index: index),
+                                          GigDescripttion(index: index,title: value.vendorGigs![index].title,),
                                     )),
                                 child: Column(
                                   children: [
@@ -248,7 +243,7 @@ class _GigsScreenState extends State<GigsScreen> {
                               );
                         },
                         itemCount: value.vendorGigs!.length,
-                        separatorBuilder: (context, index) => const SizedBox())
+                        separatorBuilder: (context, index) => const Center(child: Text('Gig is Empty!'),))
                     : gigScrnShimmer(width);
               },
             ),

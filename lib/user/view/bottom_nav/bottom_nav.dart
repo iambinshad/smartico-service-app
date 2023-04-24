@@ -20,7 +20,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
     UserHomePage(),
     AllCategroryList(),
     UserChatScreen(),
-   const BookingHistory(),
+    BookingHistory(),
      UserProfilePage()
   ];
 

@@ -28,11 +28,15 @@ Future<String>getCurrentVendorId()async{
     return id;
 }
 
-Future<String> getVendorAccesToken()async{
+Future<String?> getVendorAccesToken()async{
     FlutterSecureStorage storage = const FlutterSecureStorage();
     String? accesToken = await storage.read(key: 'vendor_access_token');
-    String? token = accesToken!.replaceAll('"', '');
-    return token;
+    String? token ;
+    if(accesToken != null){
+       token = accesToken.replaceAll('"', '');
+       return token;
+    }
+   
 }
 
 Future<String> getAdminAccesToken()async{

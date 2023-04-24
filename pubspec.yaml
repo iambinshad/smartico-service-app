@@ -54,6 +54,7 @@ dependencies:
   firebase_storage: ^11.1.0
   cloud_firestore: ^4.5.1
   sticky_headers: ^0.3.0+2
+  flutter_rating_bar: ^4.0.1
   
 
 

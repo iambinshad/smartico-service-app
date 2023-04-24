@@ -13,6 +13,7 @@ class FetchAllVendorsDetails {
         ApiConfigration.admin +
         ApiConfigration.fetchAllVendors;
     String? token = await getAdminAccesToken();
+    log(token);
 
     try {
       Response response = await dio.get(path,
@@ -23,6 +24,7 @@ class FetchAllVendorsDetails {
                 .map((e) => AllVendorsByAdmin.fromJson(e))
                 .toList();
                 log(allVendors.toString());
+                return allVendors;
 
       }
     } on DioError catch (e) {

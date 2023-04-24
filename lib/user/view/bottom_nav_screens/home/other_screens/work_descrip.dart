@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/user/booking/book_gig_provider.dart';
+import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
@@ -13,6 +14,7 @@ import 'package:smartico/user/controller/chat_function/chat_methods.dart';
 import 'package:smartico/user/model/booking/booking_model.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/messages.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/rating_review.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -47,6 +49,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
 
   @override
   Widget build(BuildContext context) {
+    
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -75,114 +78,122 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
           SizedBox(
             width: width,
             height: width +60,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Consumer<SingleGigDetailsProvider>(
-                builder: (context, value, child) => FutureBuilder(
-                    future: value.gig,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                snapshot.data!.title,
-                                style: GoogleFonts.playfairDisplay(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                children: const [
-                                  StarIcon(),
-                                  StarIcon(),
-                                  StarIcon(),
-                                  StarIcon(),
-                                  StarIcon(),
-                                  SizedBox(
-                                    width: 5,
+            child: Consumer<SingleGigDetailsProvider>(
+              builder: (context, value, child) => FutureBuilder(
+                  future: value.gig,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SingleChildScrollView(
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data!.title,
+                                  style: GoogleFonts.playfairDisplay(
+                                      fontSize: 24, fontWeight: FontWeight.bold),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>WorkReviewScreen() ,));
+                                  },
+                                  child: Row(
+                                    children: const [
+                                      StarIcon(),
+                                      StarIcon(),
+                                      StarIcon(),
+                                      StarIcon(),
+                                      StarIcon(),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        '(70 Reviews)',
+                                        style: TextStyle(fontSize: 19),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    '(70 Reviews)',
-                                    style: TextStyle(fontSize: 19),
-                                  )
-                                ],
-                              ),
-                              kHeight10,
-                              Row(
-                                children: [
-                                  const CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        'assets/works/profile pic.jpg'),
-                                    radius: 22,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(snapshot.data!.vendorId.fullName,
-                                      style: const TextStyle(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.bold))
-                                ],
-                              ),
-                              kHeight10,
-                              Row(
-                                children: const [
-                                  Icon(
-                                    Icons.place_outlined,
-                                    color: Color.fromARGB(255, 123, 230, 219),
-                                  ),
-                                  Text('Golden Estate, Ajah,Logos',
-                                      style: TextStyle(fontSize: 19))
-                                ],
-                              ),
-                              kHeight10,
-                              Row(
-                                children: [
-                                  Text(snapshot.data!.type,
-                                      style: GoogleFonts.playfairDisplay(
-                                          fontSize: 18)),
-                                ],
-                              ),
-                              kHeight10,
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.monetization_on_outlined,
-                                    color: Color.fromARGB(255, 123, 230, 219),
-                                  ),
-                                  Text("${snapshot.data!.price}",
-                                      style: const TextStyle(fontSize: 19))
-                                ],
-                              ),
-                              kHeight10,
-                              const Divider(
-                                thickness: 1,
-                              ),
-                              kHeight10,
-                              const Text(
-                                'Overview',
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
-                              kHeight10,
-                              Text(snapshot.data!.overview,
-                                  style: const TextStyle(fontSize: 19)),
-                              kHeight10,
-                              const Text(
-                                'Description',
-                                style: TextStyle(
-                                    fontSize: 22, fontWeight: FontWeight.bold),
-                              ),
-                              kHeight10,
-                              Text(snapshot.data!.description,
-                                  style: const TextStyle(fontSize: 19))
-                            ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/works/profile pic.jpg'),
+                                      radius: 22,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(snapshot.data!.vendorId.fullName,
+                                        style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold))
+                                  ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.place_outlined,
+                                      color: Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    Text('Golden Estate, Ajah,Logos',
+                                        style: TextStyle(fontSize: 19))
+                                  ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: [
+                                    Text(snapshot.data!.type,
+                                        style: GoogleFonts.playfairDisplay(
+                                            fontSize: 18)),
+                                  ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.monetization_on_outlined,
+                                      color: Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    Text("${snapshot.data!.price}",
+                                        style: const TextStyle(fontSize: 19))
+                                  ],
+                                ),
+                                kHeight10,
+                                const Divider(
+                                  thickness: 1,
+                                ),
+                                kHeight10,
+                                const Text(
+                                  'Overview',
+                                  style: TextStyle(
+                                      fontSize: 22, fontWeight: FontWeight.bold),
+                                ),
+                                kHeight10,
+                                Text(snapshot.data!.overview,
+                                    style: const TextStyle(fontSize: 19)),
+                                kHeight10,
+                                const Text(
+                                  'Description',
+                                  style: TextStyle(
+                                      fontSize: 22, fontWeight: FontWeight.bold),
+                                ),
+                                kHeight10,
+                                Text(snapshot.data!.description,
+                                    style: const TextStyle(fontSize: 19)),
+                              ],
+                            ),
                           ),
-                        );
-                      }
-                      return const SizedBox();
-                    }),
-              ),
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  }),
             ),
           ),
           Padding(

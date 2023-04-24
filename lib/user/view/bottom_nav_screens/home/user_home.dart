@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
+import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
@@ -46,10 +47,11 @@ class UserHomePage extends StatelessWidget {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
-      
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       print(await storage.readAll());
       context.read<CommonProvider>().setShimmerLoading(true);
+      Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
+
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
       Provider.of<ReservedGigs>(context, listen: false)
@@ -130,24 +132,30 @@ class UserHomePage extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () async {
-                                String token = await getVendorAccesToken();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VendorSignIn(),
+                                    ),
+                                    (route) => false);
+                                // String? token = await getVendorAccesToken();
 
-                                if (token != '' && context.mounted) {
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const VendorBottomNavBar(),
-                                      ),
-                                      (route) => false);
-                                } else {
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => VendorSignIn(),
-                                      ),
-                                      (route) => false);
-                                }
+                                // if (token != '' && context.mounted) {
+                                //   Navigator.pushAndRemoveUntil(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             const VendorBottomNavBar(),
+                                //       ),
+                                //       (route) => false);
+                                // } else {
+                                //   Navigator.pushAndRemoveUntil(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) => VendorSignIn(),
+                                //       ),
+                                //       (route) => false);
+                                // }
                               },
                               child: const Text(
                                 "Lets's Get Started",
@@ -266,6 +274,7 @@ class UserHomePage extends StatelessWidget {
                                       .read<SingleGigDetailsProvider>()
                                       .getGig(
                                           value.allGigs![index].id, context);
+                                        await  Provider.of<ReservedGigs>(context,listen: false).getreveiws(value.allGigs![index].id);
 
                                   if (context.mounted) {
                                     Navigator.push(
