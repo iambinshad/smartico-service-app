@@ -7,12 +7,12 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/authentication/user_sign_in.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/settings.dart';
 
+// ignore: must_be_immutable
 class UserProfilePage extends StatelessWidget {
   UserProfilePage({super.key});
   FlutterSecureStorage storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         Provider.of<UserProfileProvider>(context, listen: false)
@@ -61,7 +61,7 @@ class UserProfilePage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 10,left: 10),
                   child: Card(
                     child: ListTile(
-                      onTap: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen(),)) ,
+                      onTap: () =>Navigator.push(context, MaterialPageRoute(builder: (context) =>const SettingsScreen(),)) ,
                       leading: const CircleAvatar(child: Icon(Icons.settings)),
                       title: Text(
                         'Settings',

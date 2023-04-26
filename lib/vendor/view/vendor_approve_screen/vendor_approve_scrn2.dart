@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -8,6 +9,7 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
 
+// ignore: must_be_immutable
 class VendorApprovalSecondScrn extends StatelessWidget {
   VendorApprovalSecondScrn({super.key, this.imagePath});
 
@@ -84,6 +86,7 @@ class VendorApprovalSecondScrn extends StatelessWidget {
   }
 
   void submitClicked(context) async {
+    log('click');
     final prov = Provider.of<CompleteSignUpProvider>(context, listen: false);
     final pin = int.parse(prov.pincode.text);
     final vendorAddressModel = VendorAddressModel(

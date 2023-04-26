@@ -10,6 +10,7 @@ import 'package:smartico/user/controller/chat_function/chat_methods.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/chats/messages.dart';
 
+// ignore: must_be_immutable
 class VendorChatScrn extends StatelessWidget {
   VendorChatScrn({super.key});
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -44,7 +45,7 @@ dynamic vid;
               if (!snapshot.hasData) {
                 log('snapshot has no data');
                 return const Center(
-                  child: Text("no one messaged"),
+                  child: Text("Chat List Empty"),
                 );
               }
               if (snapshot.hasError) {
@@ -59,7 +60,7 @@ dynamic vid;
                 );
               }
              return Expanded(
-               child: ListView.builder(
+               child:!snapshot.hasData?const Center(child: Text('Chat List Empty'),): ListView.builder(
                 reverse: false,
                itemCount: snapshot.data!.docs.length,
                itemBuilder: (BuildContext context, int index) {
@@ -72,19 +73,17 @@ dynamic vid;
                 ChatingUser chatingUser = ChatingUser(id: data['senderId'], userName: data['senderName']);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => VendorMessagesScreen(chatRoomId: chatRoomId, chatingUser: chatingUser,currentVendorId:vid),),);
                          },
-                         child: ListTile(
-                leading: const CircleAvatar(radius: 30,backgroundColor: Colors.green,),
-                title: Text(data['senderName']),
-                subtitle: Text(data['senderId']),
+                         child: Card(
+                           child: ListTile(
+                                         leading: const CircleAvatar(radius: 30,backgroundColor: Colors.green,),
+                                         title: Text(data['senderName']),
+                                         subtitle: Text(data['senderId']),
+                           ),
                          ),
                        );
                  }
-                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                   children: const [
-                     Text('today'),
-                   ],
-                 );
+                 return null;
+                 
                  
                },
              ),

@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/core/api/api_configration.dart';
 import 'package:smartico/vendor/model/authentication/vendor_sign_up_res.dart';
 import 'package:smartico/vendor/model/authentication/vendor_verify_otp.dart';
-
 import '../../../../application/common/common_provider.dart';
 
 class VendorOtpVerifyApiService {

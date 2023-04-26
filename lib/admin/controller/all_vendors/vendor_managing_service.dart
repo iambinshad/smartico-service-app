@@ -12,28 +12,24 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 class VendorManagementService {
   Dio dio = Dio();
 
-  Future<void> approveVendor(context, vendorId) async {
+  Future<String?> approveVendor( vendorId) async {
     String path = ApiConfigration.kBaseUrl +
         ApiConfigration.admin +
         ApiConfigration.approveVendor;
     VendorApprovelModel id = VendorApprovelModel(id: vendorId);
-    final token = getAdminAccesToken();
+    final token = await  getAdminAccesToken();
 
     try {
       Response response = await dio.post(path,
           data: jsonEncode(id.toJson()),
           options: Options(headers: {"authorization": "Bearer $token"}));
       if (response.statusCode == 200) {
-        showTopSnackBar(
-          Overlay.of(context),
-          const CustomSnackBar.success(
-            message: 'Approving Vendor Successfull',
-          ),
-        );
+      return 'success';
       }
     } on DioError catch (e) {
       log(e.message.toString());
     }
+    return null;
   }
 
   Future<void> blockVendor(context, vendorId) async {

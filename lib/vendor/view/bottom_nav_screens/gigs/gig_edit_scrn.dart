@@ -15,6 +15,7 @@ import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../../../application/vendor/vendor_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 
+// ignore: must_be_immutable
 class GigEditScreen extends StatefulWidget {
   GigEditScreen(
       {super.key,
@@ -348,9 +349,11 @@ class _GigEditScreenState extends State<GigEditScreen> {
     }
 
     dynamic type;
+    // ignore: use_build_context_synchronously
     if (Provider.of<NewGIgCreateProvider>(context, listen: false)
         .editserviceCheckBoxValue) {
       type = 'Service';
+    // ignore: use_build_context_synchronously
     } else if (Provider.of<NewGIgCreateProvider>(context, listen: false)
         .editproductCheckBoxValue) {
       type = 'Product';
@@ -359,10 +362,12 @@ class _GigEditScreenState extends State<GigEditScreen> {
     var gigEditDatas = EditGigModel(
         title: title,
         overview: overView,
+        // ignore: use_build_context_synchronously
         image: url ?? Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage,
         type: type,
         description: description,
         price: price,
+        // ignore: use_build_context_synchronously
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         gigId: gigId);
     if (mounted) {

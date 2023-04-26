@@ -98,6 +98,7 @@ class MyTextFormField extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class TextFieldName extends StatelessWidget {
    TextFieldName({super.key, required this.value});
   String value;

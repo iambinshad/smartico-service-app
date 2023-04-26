@@ -64,8 +64,8 @@ class _GigsScreenState extends State<GigsScreen> {
           Expanded(
             child: Consumer2<ShowAllGigsProvider, CommonProvider>(
               builder: (context, value, value2, child) {
-                return value.vendorGigs != null
-                    ? ListView.separated(
+                return value.vendorGigs!.isEmpty
+                    ?const Center(child: Text('No Gigs Found!'),): ListView.separated(
                         itemBuilder: (context, index) {
                           return value2.shimmerLoading
                               ? gigScrnShimmer(width)
@@ -243,8 +243,8 @@ class _GigsScreenState extends State<GigsScreen> {
                               );
                         },
                         itemCount: value.vendorGigs!.length,
-                        separatorBuilder: (context, index) => const Center(child: Text('Gig is Empty!'),))
-                    : gigScrnShimmer(width);
+                        separatorBuilder: (context, index) => const SizedBox());
+                    
               },
             ),
           ),

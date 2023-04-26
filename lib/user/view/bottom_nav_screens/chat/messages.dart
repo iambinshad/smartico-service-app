@@ -10,6 +10,7 @@ import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import '../../../../core/constants.dart';
 import 'other_screens/message_tile.dart';
 
+// ignore: must_be_immutable
 class UserMessagesScreen extends StatelessWidget {
   UserMessagesScreen(
       {super.key,
@@ -126,6 +127,7 @@ class UserMessagesScreen extends StatelessWidget {
                                 value.sendButtonClicked(
                                     userId: chatingVendor.id!,
                                     chatRoomId: chatRoomId);
+                                    
                               },
                               icon: const Icon(
                                 Icons.send,

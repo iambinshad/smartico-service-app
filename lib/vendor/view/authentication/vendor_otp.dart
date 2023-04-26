@@ -176,6 +176,7 @@ class OtpField extends StatelessWidget {
     required this.field,
   });
 
+   // ignore: prefer_typing_uninitialized_variables
    final field;
   @override
   Widget build(BuildContext context) {

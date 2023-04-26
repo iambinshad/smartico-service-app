@@ -8,6 +8,7 @@ import 'package:smartico/application/vendor/vendor_provider.dart';
 import '../../../core/widgets.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class VendorSignUpScrnTwo extends StatelessWidget {
   VendorSignUpScrnTwo(
       {super.key,
@@ -130,7 +131,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                             .format(pickedDate);
                                     log(value.dateController.text);
                                   }
-                              },labelText: 'Date OF Birth',keyboardType: TextInputType.none,suffixIcon: Icon(Icons.calendar_month_outlined,size: 25,),)
+                              },labelText: 'Date OF Birth',keyboardType: TextInputType.none,suffixIcon: const Icon(Icons.calendar_month_outlined,size: 25,),)
                             ),
                           ),
                           kHeight20,
@@ -139,7 +140,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                             child: Consumer<UserProvider>(
                               builder: (context, value, child) =>MyTextFormField(
                                         maxLines: 1,
-                                        controller: confirmPasswordController,
+                                        controller: passwordController,
                                         validator: (p0) {
                                           if (p0 == null || p0.isEmpty) {
                                             return 'Password is required';
@@ -150,7 +151,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                         },
                                         suffixIcon: IconButton(
                                           icon: Icon(
-                                            value.userSignInPswdVisiblity
+                                            value.userSignUpPswdVisiblity
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
                                             color: Colors.blue,size: 22,
@@ -174,7 +175,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                             child: Consumer<UserProvider>(
                               builder: (context, value, child) => MyTextFormField(
                                         maxLines: 1,
-                                        controller: passwordController,
+                                        controller: confirmPasswordController,
                                         validator: (p0) {
                                          if (p0 == null || p0.isEmpty) {
                                     return 'Confirm Password is required';

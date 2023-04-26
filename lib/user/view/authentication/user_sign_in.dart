@@ -103,7 +103,7 @@ class UserSignIn extends StatelessWidget {
                                             value.userSignInPswdVisiblity
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
-                                            color: Colors.blue,
+                                            color: Colors.blue,size: 25,
                                           ),
                                           onPressed: () {
                                             value.changeSignInVisibleState(

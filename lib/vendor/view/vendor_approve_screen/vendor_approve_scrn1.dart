@@ -102,6 +102,7 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                                 labelText: 'Address'),
                                 kHeight20,
                                 MyTextFormField(
+                                  keyboardType: TextInputType.number,
                                 controller: prov.pincode,
                                 validator: (p0) {
                                   if (p0 == null || p0.isEmpty) {

@@ -12,9 +12,10 @@ class WorkReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: mainColor,),
         body: Consumer<ReservedGigs>(
-            builder: (context, value, child) => ListView.separated(
-              separatorBuilder: (context, index) => Divider() ,
+            builder: (context, value, child) =>  value.reveiws == null?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
+              separatorBuilder: (context, index) =>const Divider() ,
               itemCount: value.reveiws!.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.all(8.0),

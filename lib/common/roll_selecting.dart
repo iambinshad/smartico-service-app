@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
-import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../user/view/bottom_nav/bottom_nav.dart';
 
@@ -131,7 +130,7 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => VendorBottomNavBar(),
+                                builder: (context) => const VendorBottomNavBar(),
                               ),
                               (route) => false);
                         }

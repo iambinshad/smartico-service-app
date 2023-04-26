@@ -10,6 +10,7 @@ import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/other_screens/message_tile.dart';
 import '../../../../core/constants.dart';
 
+// ignore: must_be_immutable
 class VendorMessagesScreen extends StatelessWidget {
   VendorMessagesScreen({
     super.key,

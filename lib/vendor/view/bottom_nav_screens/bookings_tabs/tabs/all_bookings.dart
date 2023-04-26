@@ -10,7 +10,7 @@ class AllBookingTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AllBookingProvider>(
-      builder: (context, value, child) =>value.allBookings?.length==0?Center(child: Text('Bookings Not Found!'),): ListView.builder(
+      builder: (context, value, child) =>value.allBookings?.length==0?const Center(child: Text('Bookings Not Found!'),): ListView.builder(
         itemBuilder: (context, index) {
           return Column(
             children: [

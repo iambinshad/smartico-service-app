@@ -44,7 +44,8 @@ class CompleteSignUpProvider with ChangeNotifier {
     final addressResult = await CompleteSignUPService().updateVendorAddress(vendorAddressModel);
     final skillResult = await CompleteSignUPService().updateVendorSkill(vendorSkillsModel);
     if(addressResult!=null && skillResult !=null){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => VendorBottomNavBar(),), (route) => false);
+      // ignore: use_build_context_synchronously
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const VendorBottomNavBar(),), (route) => false);
     }
   }
 }

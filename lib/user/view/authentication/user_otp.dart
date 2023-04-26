@@ -184,6 +184,7 @@ class UserOtpScreen extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class OtpField extends StatelessWidget {
    OtpField({
     super.key,

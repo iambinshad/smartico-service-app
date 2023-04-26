@@ -6,6 +6,7 @@ import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.d
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 
+// ignore: must_be_immutable
 class GigDescripttion extends StatelessWidget {
   GigDescripttion({super.key, required this.index , required this.title});
 
@@ -134,6 +135,7 @@ class GigDescripttion extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class Containerr extends StatelessWidget {
   Containerr({super.key, this.height, this.width, this.color = Colors.white});
   dynamic height;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BannerCard extends StatelessWidget {
   BannerCard({
     required this.imageAddress,

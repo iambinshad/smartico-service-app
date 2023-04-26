@@ -9,16 +9,15 @@ import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
-import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
-import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 
 import 'banner_card.dart';
 import 'other_screens/shimmer_page.dart';
 
+// ignore: must_be_immutable
 class UserHomePage extends StatelessWidget {
   UserHomePage({super.key});
   List serviceCategoryIcons = <Widget>[
@@ -31,7 +30,7 @@ class UserHomePage extends StatelessWidget {
     const Icon(Icons.iron),
     const Icon(Icons.dry_cleaning),
   ];
-  FlutterSecureStorage storage = FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage();
   List serviceCategoryNames = [
     'Plumber',
     'Delivery',
@@ -48,7 +47,7 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      print(await storage.readAll());
+      
       context.read<CommonProvider>().setShimmerLoading(true);
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
 
@@ -274,6 +273,7 @@ class UserHomePage extends StatelessWidget {
                                       .read<SingleGigDetailsProvider>()
                                       .getGig(
                                           value.allGigs![index].id, context);
+                                        // ignore: use_build_context_synchronously
                                         await  Provider.of<ReservedGigs>(context,listen: false).getreveiws(value.allGigs![index].id);
 
                                   if (context.mounted) {

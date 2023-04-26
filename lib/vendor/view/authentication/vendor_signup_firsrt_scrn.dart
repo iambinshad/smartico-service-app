@@ -1,6 +1,5 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
 import 'package:smartico/vendor/view/authentication/vendor_signup_secon_scrn.dart';

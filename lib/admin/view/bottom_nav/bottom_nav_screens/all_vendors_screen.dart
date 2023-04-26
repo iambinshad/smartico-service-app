@@ -37,9 +37,10 @@ class AllVendorForAdmin extends StatelessWidget {
                               child: const Text("Cancel")),
                           ElevatedButton(
                               onPressed: () {
+                                value.approveVendor(
+                                    value.allVendors![index]!.id!);
+                                    
                                 Navigator.pop(context);
-                                VendorManagementService().approveVendor(
-                                    context, value.allVendors![index]!.id!);
                               },
                               style: const ButtonStyle(
                                   backgroundColor:

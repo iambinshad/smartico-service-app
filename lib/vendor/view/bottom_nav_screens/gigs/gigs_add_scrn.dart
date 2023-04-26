@@ -11,6 +11,7 @@ import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../../../application/vendor/vendor_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 
+// ignore: must_be_immutable
 class GigsAddScreen extends StatefulWidget {
   GigsAddScreen({super.key, required this.imagePath});
   File? imagePath;
@@ -34,13 +35,12 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final newGigProv =
-        Provider.of<NewGIgCreateProvider>(context, listen: false);
+ 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        
         backgroundColor: mainColor,
         title: Text(
           'Add Gig',
@@ -233,8 +233,10 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
     final url = response.secureUrl;
     dynamic type;
  
+     // ignore: use_build_context_synchronously
      if (context.read<NewGIgCreateProvider>().addserviceCheckBoxValue) {
       type = 'Service';
+    // ignore: use_build_context_synchronously
     } else if (context.read<NewGIgCreateProvider>().addproductCheckBoxValue) {
       type = 'Product';
     
@@ -247,12 +249,16 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
         type: type,
         description: description,
         price: price,
+        // ignore: use_build_context_synchronously
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         vendorId: vendorId.toString());
         
    
+      // ignore: use_build_context_synchronously
       context.read<NewGIgCreateProvider>().createNewGig(gigCreateDatas, context);
+    // ignore: use_build_context_synchronously
     context.read<NewGIgCreateProvider>().getAllCategory(context);
+    // ignore: prefer_const_constructors, use_build_context_synchronously
     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => VendorBottomNavBar(),));
     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const  VendorBottomNavBar(),));
    

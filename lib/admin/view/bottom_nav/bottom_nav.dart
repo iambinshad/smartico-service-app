@@ -3,7 +3,7 @@ import 'package:smartico/admin/view/admin_home_page.dart';
 import 'package:smartico/admin/view/bottom_nav/bottom_nav_screens/all_vendors_screen.dart';
 
 class AdminBottonNavBar extends StatefulWidget {
-   AdminBottonNavBar({super.key});
+   const AdminBottonNavBar({super.key});
 
   @override
   State<AdminBottonNavBar> createState() => _AdminBottonNavBarState();
@@ -12,7 +12,7 @@ class AdminBottonNavBar extends StatefulWidget {
 class _AdminBottonNavBarState extends State<AdminBottonNavBar> {
   List screens = [
     AdminPage(),
-    AllVendorForAdmin(),
+    const AllVendorForAdmin(),
 
   ];
 

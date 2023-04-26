@@ -86,6 +86,7 @@ class VendorSignIn extends StatelessWidget {
                                     return '8 characters required';
                                   }
                                   return null;
+
                                   },suffixIcon:  IconButton(
                                     icon: Icon(
                                       value.userSignInPswdVisiblity
@@ -98,6 +99,7 @@ class VendorSignIn extends StatelessWidget {
                                           value.userSignInPswdVisiblity);
                                     },
                                   ),
+                                  prefixIcon: const Icon(Icons.lock_outline_rounded,size: 24,),
                                   maxLines: 1,
                                   labelText: 'Password',
                                   obscureText: !value.userSignInPswdVisiblity,

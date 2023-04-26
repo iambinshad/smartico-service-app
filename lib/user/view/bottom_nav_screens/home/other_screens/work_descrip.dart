@@ -31,7 +31,6 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   Dio dio = Dio();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -52,6 +51,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(backgroundColor: mainColor,),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
@@ -98,21 +98,24 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>WorkReviewScreen() ,));
+                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>const WorkReviewScreen() ,));
                                   },
                                   child: Row(
-                                    children: const [
-                                      StarIcon(),
-                                      StarIcon(),
-                                      StarIcon(),
-                                      StarIcon(),
-                                      StarIcon(),
-                                      SizedBox(
+                                    children:  [
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const SizedBox(
                                         width: 5,
                                       ),
-                                      Text(
-                                        '(70 Reviews)',
-                                        style: TextStyle(fontSize: 19),
+                                      Consumer<ReservedGigs>(
+                                        builder: (context, value, child) => 
+                                         Text(
+                                         " (${value.reveiws  == null? 0: value.reveiws!.length} reveiw)",
+                                          style:const TextStyle(fontSize: 19),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -231,6 +234,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 vendorId: snapshot.data!.vendorId.id,
                                 currentUser: currentUserId);
 
+                            // ignore: use_build_context_synchronously
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -377,6 +381,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   }
 }
 
+// ignore: must_be_immutable
 class Containerr extends StatelessWidget {
   Containerr({super.key, this.height, this.width, this.color = Colors.white});
   dynamic height;
@@ -403,7 +408,7 @@ class StarIcon extends StatelessWidget {
     return const Icon(
       Icons.star_rate_rounded,
       size: 25,
-      color: Color.fromARGB(255, 123, 230, 219),
+      color: Colors.yellow,
     );
   }
 }

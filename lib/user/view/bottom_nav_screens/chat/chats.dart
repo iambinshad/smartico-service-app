@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
@@ -49,54 +48,56 @@ class UserChatScreen extends StatelessWidget {
             child: Consumer<GetAllVendor>(
               builder: (context, value, child) =>value.allVendors !=null? ListView.builder(
                 itemBuilder: (context, index) {
-                  return value.showList !=null? ListTile(
-                    onTap: () async {
-                      String currentUserId = await getCurrentUserId();
-                      String currentUserName = await getCurrentUserName();
-
-                      String chatRoomId = ChatMethods().checkingId(
-                          vendorId: value.showList![index].id!,
-                          currentUser: currentUserId);
-                      ChatingVendor chatingVendor = ChatingVendor(
-                          id: value.showList![index].id,
-                          vendorName: value.showList![index].fullName);
-
-                      if (context.mounted) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserMessagesScreen(
-                                chatRoomId: chatRoomId,
-                                chatingVendor: chatingVendor,
-                                currentUserId: currentUserId,
-                                currentUserName: currentUserName,
-                              ),
-                            ));
-                      }
-                    },
-                    leading: const CircleAvatar(
-                      radius: 28,
-                    ),
-                    title: Text(value.showList![index].fullName ?? "unknown"),
-                    subtitle:  Text(value.showList![index].gender!),
-                    trailing: Column(
-                      children: [
-                        const Text(
-                          '10:40',
-                        ),
-                        CircleAvatar(
-                          radius: 9,
-                          child: Text(
-                            '$index',
-                            style: const TextStyle(fontSize: 12),
+                  return value.showList !=null? Card(
+                    child: ListTile(
+                      onTap: () async {
+                        String currentUserId = await getCurrentUserId();
+                        String currentUserName = await getCurrentUserName();
+                  
+                        String chatRoomId = ChatMethods().checkingId(
+                            vendorId: value.showList![index].id!,
+                            currentUser: currentUserId);
+                        ChatingVendor chatingVendor = ChatingVendor(
+                            id: value.showList![index].id,
+                            vendorName: value.showList![index].fullName);
+                  
+                        if (context.mounted) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserMessagesScreen(
+                                  chatRoomId: chatRoomId,
+                                  chatingVendor: chatingVendor,
+                                  currentUserId: currentUserId,
+                                  currentUserName: currentUserName,
+                                ),
+                              ));
+                        }
+                      },
+                      leading: const CircleAvatar(
+                        radius: 28,
+                      ),
+                      title: Text(value.showList![index].fullName ?? "unknown"),
+                      subtitle:  Text(value.showList![index].gender!),
+                      trailing: Column(
+                        children: [
+                          const Text(
+                            '10:40',
                           ),
-                        )
-                      ],
+                          CircleAvatar(
+                            radius: 9,
+                            child: Text(
+                              '$index',
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ):Center(child:Text('Search Item Not Found!'));
+                  ):const Center(child:Text('Search Item Not Found!'));
                 },
                 itemCount: value.showList!.length,
-              ):Center(child:Text('Chat List Not Found!')),
+              ):const Center(child:Text('Chat List Not Found!')),
             ),
           )
         ],

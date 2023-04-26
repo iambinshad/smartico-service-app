@@ -8,10 +8,10 @@ import 'package:smartico/application/user/booking/cancel_booking.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/booking/reveiw/add_reveiw_model.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/rating_review.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+// ignore: must_be_immutable
 class BookingHistory extends StatelessWidget {
   BookingHistory({super.key});
 
@@ -379,6 +379,7 @@ class BookingHistory extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class Items extends StatelessWidget {
   Items({super.key, required this.item, required this.value});
   dynamic item;
