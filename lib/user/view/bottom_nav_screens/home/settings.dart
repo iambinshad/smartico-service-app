@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:smartico/core/constants.dart';
 
 class SettingsScreen extends StatelessWidget {

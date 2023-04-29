@@ -26,6 +26,7 @@ class UserSignInApiService {
         final UserSignInResModel returnsignInResModel =
             UserSignInResModel.fromJson(response.data);
 
+
         final data = response.data['data']['user'];
         final id = data['_id'];
         final name = data['fullName'];

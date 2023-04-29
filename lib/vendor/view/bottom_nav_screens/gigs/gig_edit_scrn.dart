@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/constants.dart';
@@ -47,27 +46,32 @@ class _GigEditScreenState extends State<GigEditScreen> {
   TextEditingController categoryController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
-
+  File? galleryImage;
+  File? cameraImage;
+  String? gigImage;
+  File? gigImageFile;
 
   int flag = 0;
 
-@override
+  @override
   void initState() {
-     Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage = widget.imagePath;
-       titleController = TextEditingController(text: widget.title);
-      overViewController = TextEditingController(text: widget.overView);
-      descriptionController = TextEditingController(text: widget.description);
-      priceController = TextEditingController(text: widget.price.toString());
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<NewGIgCreateProvider>(context, listen: false)
-          .typeCheck(widget.type);
-    
-    });
+    gigImage = widget.imagePath;
+    titleController = TextEditingController(text: widget.title);
+    overViewController = TextEditingController(text: widget.overView);
+    descriptionController = TextEditingController(text: widget.description);
+    priceController = TextEditingController(text: widget.price.toString());
+
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<NewGIgCreateProvider>(context, listen: false)
+          .typeCheck(widget.type);
 
+      context.read<NewGIgCreateProvider>().getAllCategory(context);
+    });
     final newGigProv =
         Provider.of<NewGIgCreateProvider>(context, listen: false);
     final width = MediaQuery.of(context).size.width;
@@ -87,13 +91,13 @@ class _GigEditScreenState extends State<GigEditScreen> {
           children: [
             flag != 0
                 ? Consumer<NewGIgCreateProvider>(
-                  builder: (context, value, child) => 
-                  Container(
-                      height: width / 1.5,
+                    builder: (context, value, child) => Container(
+                      height: width / 1.4,
                       width: width,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: FileImage(value.gigImageFile!), fit: BoxFit.fill)),
+                              image: FileImage(gigImageFile!),
+                              fit: BoxFit.fill)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -110,15 +114,15 @@ class _GigEditScreenState extends State<GigEditScreen> {
                         ],
                       ),
                     ),
-                )
+                  )
                 : Consumer<NewGIgCreateProvider>(
-                  builder: (context, value, child) => 
-                   Container(
+                    builder: (context, value, child) => Container(
                       height: width / 1.5,
                       width: width,
                       decoration: BoxDecoration(
                           image: DecorationImage(
-                              image: NetworkImage(value.gigImage), fit: BoxFit.fill)),
+                              image: NetworkImage(gigImage ?? ""),
+                              fit: BoxFit.fill)),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -135,7 +139,7 @@ class _GigEditScreenState extends State<GigEditScreen> {
                         ],
                       ),
                     ),
-                ),
+                  ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -154,12 +158,10 @@ class _GigEditScreenState extends State<GigEditScreen> {
                   TextFieldName(value: 'Description'),
                   MyTextFormField(
                     controller: descriptionController,
-                
                   ),
                   TextFieldName(value: 'Price'),
                   MyTextFormField(
                     controller: priceController,
-                  
                     keyboardType: TextInputType.number,
                   ),
                   TextFieldName(value: 'Type'),
@@ -212,14 +214,9 @@ class _GigEditScreenState extends State<GigEditScreen> {
                                 child: Text(category!.name),
                               ))
                           .toList(),
+                          
                       onChanged: (CategoryResModel? category) {
                         value2.setCategory(category, category!.id);
-                      },
-                      validator: (value) {
-                        if (value2.selectedCategory == null) {
-                          return 'Category is required';
-                        }
-                        return null;
                       },
                       decoration: InputDecoration(
                         isDense: true,
@@ -247,13 +244,13 @@ class _GigEditScreenState extends State<GigEditScreen> {
                           }
                         },
                         style: ButtonStyle(
-                            padding: MaterialStatePropertyAll(EdgeInsets.only(
-                                right: width / 2.9,
-                                left: width / 2.9,
-                                bottom: 12,
-                                top: 12)),
-                            backgroundColor: const MaterialStatePropertyAll(
-                                Color.fromARGB(255, 123, 230, 219))),
+                          padding: MaterialStatePropertyAll(EdgeInsets.only(
+                              right: width / 2.9,
+                              left: width / 2.9,
+                              bottom: 12,
+                              top: 12)),
+                          backgroundColor: MaterialStatePropertyAll(mainColor),
+                        ),
                         child: Text(
                           'Update',
                           style: normalText,
@@ -336,9 +333,9 @@ class _GigEditScreenState extends State<GigEditScreen> {
     }
 
     if (flag == 0) {
-      editImagePath = Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage;
+      editImagePath = gigImage;
     } else {
-      editImagePath = Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile!.path;
+      editImagePath = gigImageFile!.path;
     }
     dynamic url;
     if (flag != 0) {
@@ -353,7 +350,7 @@ class _GigEditScreenState extends State<GigEditScreen> {
     if (Provider.of<NewGIgCreateProvider>(context, listen: false)
         .editserviceCheckBoxValue) {
       type = 'Service';
-    // ignore: use_build_context_synchronously
+      // ignore: use_build_context_synchronously
     } else if (Provider.of<NewGIgCreateProvider>(context, listen: false)
         .editproductCheckBoxValue) {
       type = 'Product';
@@ -363,7 +360,7 @@ class _GigEditScreenState extends State<GigEditScreen> {
         title: title,
         overview: overView,
         // ignore: use_build_context_synchronously
-        image: url ?? Provider.of<NewGIgCreateProvider>(context,listen: false).gigImage,
+        image: url ?? gigImage,
         type: type,
         description: description,
         price: price,
@@ -396,19 +393,18 @@ class _GigEditScreenState extends State<GigEditScreen> {
       final imageTemp = File(
         image.path,
       );
-      if (mounted) {
-        Provider.of<CommonProvider>(context,listen: false)
-            .editStorageSetting(imageTemp);
-        Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editGalleryImage;
-         flag = 1;
-      }
+      // if (mounted) {
+      //   Provider.of<CommonProvider>(context,listen: false)
+      //       .editStorageSetting(imageTemp);
+      //   Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editGalleryImage;
+      //    flag = 1;
+      // }
 
-     
-      // setState(() {
-      //   context.read<CommonProvider>().galleryImage = imageTemp;
-      //   gigImageFile = context.read<CommonProvider>().galleryImage;
-      //   flag = 1;
-      // });
+      setState(() {
+        galleryImage = imageTemp;
+        gigImageFile = galleryImage;
+        flag = 1;
+      });
     } on PlatformException catch (e) {
       log(e.message.toString());
     }
@@ -421,18 +417,18 @@ class _GigEditScreenState extends State<GigEditScreen> {
       final imageTemp = File(
         image.path,
       );
-      if (mounted) {
-        Provider.of<CommonProvider>(context,listen: false)
-            .editCameraSetting(imageTemp);
-        Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editCameraImage;
-        flag = 1;
-      }
-      
-      // setState(() {
-      //   context.read<CommonProvider>().cameraImage = imageTemp;
-      //   gigImageFile = context.read<CommonProvider>().cameraImage;
+      // if (mounted) {
+      //   Provider.of<CommonProvider>(context,listen: false)
+      //       .editCameraSetting(imageTemp);
+      // Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editCameraImage;
       //   flag = 1;
-      // });
+      // }
+
+      setState(() {
+        cameraImage = imageTemp;
+        gigImageFile = cameraImage;
+        flag = 1;
+      });
     } on PlatformException catch (e) {
       log(e.message.toString());
     }

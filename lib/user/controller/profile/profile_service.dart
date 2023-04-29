@@ -16,7 +16,7 @@ class UserProfileService {
       Response response =await dio.get(path,options: Options(headers: {"Authorization":"Bearer $token"}));
       if(response.statusCode == 200){
         var jsonResponse = jsonDecode(jsonEncode(response.data['data']['profile']));
-        var userDetails = UserProfileModel.fromJson(jsonResponse);
+        var userDetails = UserProfileModel.fromJson(jsonResponse) ;
 
         return userDetails;
       }
@@ -26,5 +26,5 @@ class UserProfileService {
 
     }
     return null;
-  }
-}
+    
+}}

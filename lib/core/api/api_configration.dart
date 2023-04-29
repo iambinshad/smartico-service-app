@@ -1,5 +1,5 @@
 class ApiConfigration{
-  static const kIpAddress = '10.4.3.242';
+  static const kIpAddress = '10.4.4.63';
   static const kBaseUrl = "http://$kIpAddress:3500";
 
   //----User Endpoints---

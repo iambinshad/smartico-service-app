@@ -76,8 +76,8 @@ dynamic vid;
                          child: Card(
                            child: ListTile(
                                          leading: const CircleAvatar(radius: 30,backgroundColor: Colors.green,),
-                                         title: Text(data['senderName']),
-                                         subtitle: Text(data['senderId']),
+                                         title: Text(data['senderName']??"Binshad"),
+                                         subtitle: Text(data['senderId']??"senderId"),
                            ),
                          ),
                        );

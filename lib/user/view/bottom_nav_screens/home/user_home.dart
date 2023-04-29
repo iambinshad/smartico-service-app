@@ -13,6 +13,7 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 
 import 'banner_card.dart';
 import 'other_screens/shimmer_page.dart';
@@ -20,37 +21,15 @@ import 'other_screens/shimmer_page.dart';
 // ignore: must_be_immutable
 class UserHomePage extends StatelessWidget {
   UserHomePage({super.key});
-  List serviceCategoryIcons = <Widget>[
-    const Icon(Icons.plumbing),
-    const Icon(Icons.delivery_dining_sharp),
-    const Icon(Icons.cake),
-    const Icon(Icons.format_paint),
-    const Icon(Icons.tv_rounded),
-    const Icon(Icons.electrical_services_outlined),
-    const Icon(Icons.iron),
-    const Icon(Icons.dry_cleaning),
-  ];
-  FlutterSecureStorage storage = const FlutterSecureStorage();
-  List serviceCategoryNames = [
-    'Plumber',
-    'Delivery',
-    'Cake Maker',
-    'Painter',
-    'Tv repair',
-    'Electrician',
-    'Dress iron',
-    'Dress dry Clean'
-  ];
-  final CarouselController carouselController = CarouselController();
 
+  FlutterSecureStorage storage = const FlutterSecureStorage();
+  final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      
       context.read<CommonProvider>().setShimmerLoading(true);
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
-
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
       Provider.of<ReservedGigs>(context, listen: false)
@@ -131,30 +110,26 @@ class UserHomePage extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () async {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VendorSignIn(),
-                                    ),
-                                    (route) => false);
-                                // String? token = await getVendorAccesToken();
-
-                                // if (token != '' && context.mounted) {
-                                //   Navigator.pushAndRemoveUntil(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             const VendorBottomNavBar(),
-                                //       ),
-                                //       (route) => false);
-                                // } else {
-                                //   Navigator.pushAndRemoveUntil(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => VendorSignIn(),
-                                //       ),
-                                //       (route) => false);
-                                // }
+                                FlutterSecureStorage storage =
+                                    const FlutterSecureStorage();
+                                String? vendor = await storage.read(
+                                    key: 'vendor_access_token');
+                                    if(context.mounted){
+                                    }
+                                if (vendor != null) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const VendorBottomNavBar(),
+                                      ));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VendorSignIn(),
+                                      ));
+                                }
                               },
                               child: const Text(
                                 "Lets's Get Started",
@@ -177,55 +152,12 @@ class UserHomePage extends StatelessWidget {
               ),
               kHeight10,
               Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Category",
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: height / 6,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                          child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(9.0),
-                            child: CircleAvatar(
-                              radius: 32,
-                              child: serviceCategoryIcons[index],
-                            ),
-                          ),
-                          Text(
-                            serviceCategoryNames[index],
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ));
-                    },
-                    itemCount: 8,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-              ),
-              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(left: 17),
                     child: Text(
-                      "Recomended services",
+                      "Services For You",
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.bold,
@@ -242,12 +174,18 @@ class UserHomePage extends StatelessWidget {
                                   builder: (context) => const ViewAllScreen(),
                                 ));
                           },
-                          child: const Text(
-                            'View All',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 123, 230, 219),
+                          child: Card(
+                            elevation: 0.5,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: const Text(
+                                'View All',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 123, 230, 219),
+                                ),
+                              ),
                             ),
                           ))),
                 ],
@@ -273,8 +211,10 @@ class UserHomePage extends StatelessWidget {
                                       .read<SingleGigDetailsProvider>()
                                       .getGig(
                                           value.allGigs![index].id, context);
-                                        // ignore: use_build_context_synchronously
-                                        await  Provider.of<ReservedGigs>(context,listen: false).getreveiws(value.allGigs![index].id);
+                                  // ignore: use_build_context_synchronously
+                                  await Provider.of<ReservedGigs>(context,
+                                          listen: false)
+                                      .getreveiws(value.allGigs![index].id);
 
                                   if (context.mounted) {
                                     Navigator.push(

@@ -40,7 +40,7 @@ class VendorMessagesScreen extends StatelessWidget {
               width: 5,
             ),
             Text(
-              chatingUser.userName!,
+              chatingUser.userName??"Binshad",
               style: mediumText,
             )
           ],

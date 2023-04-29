@@ -48,24 +48,37 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
 
   @override
   Widget build(BuildContext context) {
-    
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(backgroundColor: mainColor,),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          SizedBox(
-              height: width / 1.2,
-              width: width,
-              child: Consumer<SingleGigDetailsProvider>(
+          ListView(
+            children: [
+              Consumer<SingleGigDetailsProvider>(
                 builder: (context, value, child) => FutureBuilder(
                   future: value.gig,
                   builder: (context, snapshot) {
+                    
                     if (snapshot.hasData) {
-                      return Image(
-                        image: NetworkImage(snapshot.data!.image),
-                        fit: BoxFit.cover,
+                      return Container(
+                        height: width / 1.2,
+                        width: width,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(snapshot.data!.image),
+                                fit: BoxFit.cover)),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                IconButton(onPressed: (){
+                                  Navigator.pop(context);
+                                }, icon:const Icon(Icons.arrow_back,color: Colors.grey,))
+                              ],
+                            )
+                          ],
+                        ),
                       );
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
@@ -74,212 +87,234 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                     }
                   },
                 ),
-              )),
-          SizedBox(
-            width: width,
-            height: width +60,
-            child: Consumer<SingleGigDetailsProvider>(
-              builder: (context, value, child) => FutureBuilder(
-                  future: value.gig,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SingleChildScrollView(
-                        child: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              SizedBox(
+                width: width,
+                height: width + 60,
+                child: Consumer<SingleGigDetailsProvider>(
+                  builder: (context, value, child) => FutureBuilder(
+                      future: value.gig,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListView(
+                              physics:const NeverScrollableScrollPhysics(),
                               children: [
-                                Text(
-                                  snapshot.data!.title,
-                                  style: GoogleFonts.playfairDisplay(
-                                      fontSize: 24, fontWeight: FontWeight.bold),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>const WorkReviewScreen() ,));
-                                  },
-                                  child: Row(
-                                    children:  [
-                                      const StarIcon(),
-                                      const StarIcon(),
-                                      const StarIcon(),
-                                      const StarIcon(),
-                                      const StarIcon(),
-                                      const SizedBox(
-                                        width: 5,
+                                Expanded(
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            snapshot.data!.title,
+                                            style: GoogleFonts.playfairDisplay(
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const WorkReviewScreen(),
+                                                  ));
+                                            },
+                                            child: Row(
+                                              children: [
+                                                const StarIcon(),
+                                                const StarIcon(),
+                                                const StarIcon(),
+                                                const StarIcon(),
+                                                const StarIcon(),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Consumer<ReservedGigs>(
+                                                  builder: (context, value, child) =>
+                                                      Text(
+                                                    " (${value.reveiws == null ? 0 : value.reveiws!.length} reveiw)",
+                                                    style:
+                                                        const TextStyle(fontSize: 19),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          kHeight10,
+                                          Row(
+                                            children: [
+                                              const CircleAvatar(
+                                                backgroundImage: AssetImage(
+                                                    'assets/works/profile pic.jpg'),
+                                                radius: 22,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(snapshot.data!.vendorId.fullName,
+                                                  style: const TextStyle(
+                                                      fontSize: 19,
+                                                      fontWeight: FontWeight.bold))
+                                            ],
+                                          ),
+                                          kHeight10,
+                                          Row(
+                                            children: const [
+                                              Icon(
+                                                Icons.place_outlined,
+                                                color:
+                                                    Color.fromARGB(255, 123, 230, 219),
+                                              ),
+                                              Text('Golden Estate, Ajah,Logos',
+                                                  style: TextStyle(fontSize: 19))
+                                            ],
+                                          ),
+                                          kHeight10,
+                                          Row(
+                                            children: [
+                                              Text(snapshot.data!.type,
+                                                  style: GoogleFonts.playfairDisplay(
+                                                      fontSize: 18)),
+                                            ],
+                                          ),
+                                          kHeight10,
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.monetization_on_outlined,
+                                                color:
+                                                    Color.fromARGB(255, 123, 230, 219),
+                                              ),
+                                              Text("${snapshot.data!.price}",
+                                                  style: const TextStyle(fontSize: 19))
+                                            ],
+                                          ),
+                                          kHeight10,
+                                           Divider(
+                                            color: mainColor,
+                                            thickness: 1,
+                                          ),
+                                          kHeight10,
+                                          const Text(
+                                            'Overview',
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          kHeight10,
+                                          Text(snapshot.data!.overview,
+                                              style: const TextStyle(fontSize: 19)),
+                                          kHeight10,
+                                          const Text(
+                                            'Description',
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          kHeight10,
+                                          Text(snapshot.data!.description,
+                                              style: const TextStyle(fontSize: 19)),
+                                        ],
                                       ),
-                                      Consumer<ReservedGigs>(
-                                        builder: (context, value, child) => 
-                                         Text(
-                                         " (${value.reveiws  == null? 0: value.reveiws!.length} reveiw)",
-                                          style:const TextStyle(fontSize: 19),
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
                                 ),
-                                kHeight10,
-                                Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/works/profile pic.jpg'),
-                                      radius: 22,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(snapshot.data!.vendorId.fullName,
-                                        style: const TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.bold))
-                                  ],
-                                ),
-                                kHeight10,
-                                Row(
-                                  children: const [
-                                    Icon(
-                                      Icons.place_outlined,
-                                      color: Color.fromARGB(255, 123, 230, 219),
-                                    ),
-                                    Text('Golden Estate, Ajah,Logos',
-                                        style: TextStyle(fontSize: 19))
-                                  ],
-                                ),
-                                kHeight10,
-                                Row(
-                                  children: [
-                                    Text(snapshot.data!.type,
-                                        style: GoogleFonts.playfairDisplay(
-                                            fontSize: 18)),
-                                  ],
-                                ),
-                                kHeight10,
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.monetization_on_outlined,
-                                      color: Color.fromARGB(255, 123, 230, 219),
-                                    ),
-                                    Text("${snapshot.data!.price}",
-                                        style: const TextStyle(fontSize: 19))
-                                  ],
-                                ),
-                                kHeight10,
-                                const Divider(
-                                  thickness: 1,
-                                ),
-                                kHeight10,
-                                const Text(
-                                  'Overview',
-                                  style: TextStyle(
-                                      fontSize: 22, fontWeight: FontWeight.bold),
-                                ),
-                                kHeight10,
-                                Text(snapshot.data!.overview,
-                                    style: const TextStyle(fontSize: 19)),
-                                kHeight10,
-                                const Text(
-                                  'Description',
-                                  style: TextStyle(
-                                      fontSize: 22, fontWeight: FontWeight.bold),
-                                ),
-                                kHeight10,
-                                Text(snapshot.data!.description,
-                                    style: const TextStyle(fontSize: 19)),
+
                               ],
                             ),
-                          ),
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  }),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 7, right: 8, left: 8),
-            child: Consumer<SingleGigDetailsProvider>(
-              builder: (context, value, child) => FutureBuilder(
-                future: value.gig,
-                builder: (context, snapshot) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      // onTap: () => Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) =>  MessagesScreen(),
-                      //     )),
-                      child: Container(
-                        height: width / 7.5,
-                        width: width / 5,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(40),
-                            border: Border.all(
-                                color:
-                                    const Color.fromARGB(255, 123, 230, 219))),
-                        child: IconButton(
-                          icon: const Icon(Icons.message_rounded, size: 30),
-                          onPressed: () async {
-                            final currentUserId = await getCurrentUserId();
-                            ChatingVendor chatingVendor = ChatingVendor(
-                                id: snapshot.data!.vendorId.id,
-                                vendorName: snapshot.data!.vendorId.fullName);
-
-                            final chatRoomId = ChatMethods().checkingId(
-                                vendorId: snapshot.data!.vendorId.id,
-                                currentUser: currentUserId);
-
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UserMessagesScreen(
-                                    chatRoomId: chatRoomId,
-                                    chatingVendor: chatingVendor,
-                                    currentUserId: currentUserId,
-                                  ),
-                                ));
-                          },
-                          color: const Color.fromARGB(255, 123, 230, 219),
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        confirmClicked(
-                            snapshot.data!.price, snapshot.data!.title);
-                        final prov =
-                            Provider.of<BookGigPrvider>(context, listen: false);
-                        prov.gigId = snapshot.data!.id;
-                        prov.title = snapshot.data!.title;
-                        prov.vendorId = snapshot.data!.vendorId.id;
-                        // _openCheckout(snapshot.data!.title,snapshot.data!.price);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 123, 230, 219),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width / 5, vertical: width / 27),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                      ),
-                      child: const Text(
-                        "Pay & Book ",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ),
-                  ],
+                          );
+                        }
+                        return const SizedBox();
+                      }),
                 ),
               ),
-            ),
-          )
+              
+            ],
+          ),
         ],
+      ),
+      bottomNavigationBar: Consumer<SingleGigDetailsProvider>(
+        builder: (context, value, child) => FutureBuilder(
+          future: value.gig,
+          builder: (context, snapshot) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                // onTap: () => Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //       builder: (context) =>  MessagesScreen(),
+                //     )),
+                child: Container(
+                  height: width / 7.5,
+                  width: width / 5,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(40),
+                      border: Border.all(
+                          color: const Color.fromARGB(
+                              255, 123, 230, 219))),
+                  child: IconButton(
+                    icon: const Icon(Icons.message_rounded, size: 30),
+                    onPressed: () async {
+                      final currentUserId = await getCurrentUserId();
+                      ChatingVendor chatingVendor = ChatingVendor(
+                          id: snapshot.data!.vendorId.id,
+                          vendorName: snapshot.data!.vendorId.fullName);
+
+                      final chatRoomId = ChatMethods().checkingId(
+                          vendorId: snapshot.data!.vendorId.id,
+                          currentUser: currentUserId);
+
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserMessagesScreen(
+                              chatRoomId: chatRoomId,
+                              chatingVendor: chatingVendor,
+                              currentUserId: currentUserId,
+                            ),
+                          ));
+                    },
+                    color: const Color.fromARGB(255, 123, 230, 219),
+                  ),
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  confirmClicked(
+                      snapshot.data!.price, snapshot.data!.title);
+                  final prov = Provider.of<BookGigPrvider>(context,
+                      listen: false);
+                  prov.gigId = snapshot.data!.id;
+                  prov.title = snapshot.data!.title;
+                  prov.vendorId = snapshot.data!.vendorId.id;
+                  // _openCheckout(snapshot.data!.title,snapshot.data!.price);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      const Color.fromARGB(255, 123, 230, 219),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: width / 5, vertical: width / 27),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0),
+                  ),
+                ),
+                child: const Text(
+                  "Pay & Book ",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
+        ),
+        
+        
       ),
     );
   }
@@ -359,11 +394,11 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
-                      5), // Set the border radius to 0 to create a square button
+                      5), 
                 ),
-                elevation: 5, // Set the elevation of the button
+                elevation: 5,
                 backgroundColor:
-                    mainColor, // Set the background color of the button
+                    mainColor, 
               ),
               child: const Text(
                 'Confirm',
