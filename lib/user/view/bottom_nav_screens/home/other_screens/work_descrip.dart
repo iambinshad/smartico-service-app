@@ -51,189 +51,178 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
+      body: ListView(
         children: [
-          ListView(
-            children: [
-              Consumer<SingleGigDetailsProvider>(
-                builder: (context, value, child) => FutureBuilder(
+          Consumer<SingleGigDetailsProvider>(
+            builder: (context, value, child) => FutureBuilder(
+              future: value.gig,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Container(
+                    height: width / 1.2,
+                    width: width,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(snapshot.data!.image),
+                            fit: BoxFit.cover)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ))
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Center(child: getjobdescriShimmerLoad(width));
+                }
+              },
+            ),
+          ),
+          SizedBox(
+            width: width,
+            height: width + 60,
+            child: Consumer<SingleGigDetailsProvider>(
+              builder: (context, value, child) => FutureBuilder(
                   future: value.gig,
                   builder: (context, snapshot) {
-                    
                     if (snapshot.hasData) {
-                      return Container(
-                        height: width / 1.2,
-                        width: width,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: NetworkImage(snapshot.data!.image),
-                                fit: BoxFit.cover)),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                IconButton(onPressed: (){
-                                  Navigator.pop(context);
-                                }, icon:const Icon(Icons.arrow_back,color: Colors.grey,))
-                              ],
-                            )
-                          ],
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return Center(child: getjobdescriShimmerLoad(width));
-                    }
-                  },
-                ),
-              ),
-              SizedBox(
-                width: width,
-                height: width + 60,
-                child: Consumer<SingleGigDetailsProvider>(
-                  builder: (context, value, child) => FutureBuilder(
-                      future: value.gig,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Padding(
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                          child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListView(
-                              physics:const NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               children: [
-                                Expanded(
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            snapshot.data!.title,
-                                            style: GoogleFonts.playfairDisplay(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const WorkReviewScreen(),
-                                                  ));
-                                            },
-                                            child: Row(
-                                              children: [
-                                                const StarIcon(),
-                                                const StarIcon(),
-                                                const StarIcon(),
-                                                const StarIcon(),
-                                                const StarIcon(),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Consumer<ReservedGigs>(
-                                                  builder: (context, value, child) =>
-                                                      Text(
-                                                    " (${value.reveiws == null ? 0 : value.reveiws!.length} reveiw)",
-                                                    style:
-                                                        const TextStyle(fontSize: 19),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                          kHeight10,
-                                          Row(
-                                            children: [
-                                              const CircleAvatar(
-                                                backgroundImage: AssetImage(
-                                                    'assets/works/profile pic.jpg'),
-                                                radius: 22,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(snapshot.data!.vendorId.fullName,
-                                                  style: const TextStyle(
-                                                      fontSize: 19,
-                                                      fontWeight: FontWeight.bold))
-                                            ],
-                                          ),
-                                          kHeight10,
-                                          Row(
-                                            children: const [
-                                              Icon(
-                                                Icons.place_outlined,
-                                                color:
-                                                    Color.fromARGB(255, 123, 230, 219),
-                                              ),
-                                              Text('Golden Estate, Ajah,Logos',
-                                                  style: TextStyle(fontSize: 19))
-                                            ],
-                                          ),
-                                          kHeight10,
-                                          Row(
-                                            children: [
-                                              Text(snapshot.data!.type,
-                                                  style: GoogleFonts.playfairDisplay(
-                                                      fontSize: 18)),
-                                            ],
-                                          ),
-                                          kHeight10,
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.monetization_on_outlined,
-                                                color:
-                                                    Color.fromARGB(255, 123, 230, 219),
-                                              ),
-                                              Text("${snapshot.data!.price}",
-                                                  style: const TextStyle(fontSize: 19))
-                                            ],
-                                          ),
-                                          kHeight10,
-                                           Divider(
-                                            color: mainColor,
-                                            thickness: 1,
-                                          ),
-                                          kHeight10,
-                                          const Text(
-                                            'Overview',
-                                            style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          kHeight10,
-                                          Text(snapshot.data!.overview,
-                                              style: const TextStyle(fontSize: 19)),
-                                          kHeight10,
-                                          const Text(
-                                            'Description',
-                                            style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          kHeight10,
-                                          Text(snapshot.data!.description,
-                                              style: const TextStyle(fontSize: 19)),
-                                        ],
+                                Text(
+                                  snapshot.data!.title,
+                                  style: GoogleFonts.playfairDisplay(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const WorkReviewScreen(),
+                                        ));
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const StarIcon(),
+                                      const SizedBox(
+                                        width: 5,
                                       ),
-                                    ),
+                                      Consumer<ReservedGigs>(
+                                        builder: (context, value, child) =>
+                                            Text(
+                                          " (${value.reveiws == null ? 0 : value.reveiws!.length} reveiw)",
+                                          style:
+                                              const TextStyle(fontSize: 19),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
-
+                                kHeight10,
+                                Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/works/profile pic.jpg'),
+                                      radius: 22,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(snapshot.data!.vendorId.fullName,
+                                        style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.bold))
+                                  ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: const [
+                                    Icon(
+                                      Icons.place_outlined,
+                                      color:
+                                          Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    Text('Golden Estate, Ajah,Logos',
+                                        style: TextStyle(fontSize: 19))
+                                  ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: [
+                                    Text(snapshot.data!.type,
+                                        style: GoogleFonts.playfairDisplay(
+                                            fontSize: 18)),
+                                  ],
+                                ),
+                                kHeight10,
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.monetization_on_outlined,
+                                      color:
+                                          Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    Text("${snapshot.data!.price}",
+                                        style: const TextStyle(fontSize: 19))
+                                  ],
+                                ),
+                                kHeight10,
+                                Divider(
+                                  color: mainColor,
+                                  thickness: 1,
+                                ),
+                                kHeight10,
+                                const Text(
+                                  'Overview',
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                kHeight10,
+                                Text(snapshot.data!.overview,
+                                    style: const TextStyle(fontSize: 19)),
+                                kHeight10,
+                                const Text(
+                                  'Description',
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                kHeight10,
+                                Text(snapshot.data!.description,
+                                    style: const TextStyle(fontSize: 19)),
                               ],
                             ),
-                          );
-                        }
-                        return const SizedBox();
-                      }),
-                ),
-              ),
-              
-            ],
+                          ),
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  }),
+            ),
           ),
         ],
       ),
@@ -256,8 +245,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(40),
                       border: Border.all(
-                          color: const Color.fromARGB(
-                              255, 123, 230, 219))),
+                          color: const Color.fromARGB(255, 123, 230, 219))),
                   child: IconButton(
                     icon: const Icon(Icons.message_rounded, size: 30),
                     onPressed: () async {
@@ -287,18 +275,16 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  confirmClicked(
-                      snapshot.data!.price, snapshot.data!.title);
-                  final prov = Provider.of<BookGigPrvider>(context,
-                      listen: false);
+                  confirmClicked(snapshot.data!.price, snapshot.data!.title);
+                  final prov =
+                      Provider.of<BookGigPrvider>(context, listen: false);
                   prov.gigId = snapshot.data!.id;
                   prov.title = snapshot.data!.title;
                   prov.vendorId = snapshot.data!.vendorId.id;
                   // _openCheckout(snapshot.data!.title,snapshot.data!.price);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color.fromARGB(255, 123, 230, 219),
+                  backgroundColor: const Color.fromARGB(255, 123, 230, 219),
                   padding: EdgeInsets.symmetric(
                       horizontal: width / 5, vertical: width / 27),
                   shape: RoundedRectangleBorder(
@@ -313,8 +299,6 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
             ],
           ),
         ),
-        
-        
       ),
     );
   }
@@ -393,12 +377,10 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
               onPressed: () {},
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      5), 
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 elevation: 5,
-                backgroundColor:
-                    mainColor, 
+                backgroundColor: mainColor,
               ),
               child: const Text(
                 'Confirm',

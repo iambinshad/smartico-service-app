@@ -3,7 +3,7 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/bookings_tabs/tab_bar.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/chats/chats.dart';
-import 'package:smartico/vendor/view/bottom_nav_screens/profile.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/profile/profile.dart';
 
 class VendorBottomNavBar extends StatefulWidget {
   const VendorBottomNavBar({super.key});

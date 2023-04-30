@@ -9,12 +9,12 @@ import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
+import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
-
 import 'banner_card.dart';
 import 'other_screens/shimmer_page.dart';
 
@@ -40,7 +40,7 @@ class UserHomePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 121, 216, 206),
+            backgroundColor: mainColor,
             title: const Padding(
                 padding: EdgeInsets.only(top: 5, right: 13, left: 13),
                 child: CupertinoSearchTextField(
@@ -49,8 +49,10 @@ class UserHomePage extends StatelessWidget {
           ),
           body: Column(
             children: [
-              ColoredBox(
-                color: const Color.fromARGB(255, 121, 216, 206),
+              Column(
+                children: [
+                  ColoredBox(
+                color: mainColor,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: CarouselSlider(
@@ -117,12 +119,7 @@ class UserHomePage extends StatelessWidget {
                                     if(context.mounted){
                                     }
                                 if (vendor != null) {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const VendorBottomNavBar(),
-                                      ));
+                                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const VendorBottomNavBar(),), (route) => false);
                                 } else {
                                   Navigator.push(
                                       context,
@@ -174,11 +171,11 @@ class UserHomePage extends StatelessWidget {
                                   builder: (context) => const ViewAllScreen(),
                                 ));
                           },
-                          child: Card(
+                          child: const Card(
                             elevation: 0.5,
                             child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: const Text(
+                              padding: EdgeInsets.all(2.0),
+                              child: Text(
                                 'View All',
                                 style: TextStyle(
                                   fontSize: 18,
@@ -188,6 +185,8 @@ class UserHomePage extends StatelessWidget {
                               ),
                             ),
                           ))),
+                ],
+              ),
                 ],
               ),
               Expanded(
@@ -215,7 +214,7 @@ class UserHomePage extends StatelessWidget {
                                   await Provider.of<ReservedGigs>(context,
                                           listen: false)
                                       .getreveiws(value.allGigs![index].id);
-
+              
                                   if (context.mounted) {
                                     Navigator.push(
                                         context,

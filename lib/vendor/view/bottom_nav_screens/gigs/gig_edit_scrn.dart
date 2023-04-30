@@ -60,7 +60,6 @@ class _GigEditScreenState extends State<GigEditScreen> {
     overViewController = TextEditingController(text: widget.overView);
     descriptionController = TextEditingController(text: widget.description);
     priceController = TextEditingController(text: widget.price.toString());
-
     super.initState();
   }
 

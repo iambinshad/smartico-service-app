@@ -9,6 +9,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
+import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_complete_description.dart';
@@ -31,6 +32,8 @@ class _GigsScreenState extends State<GigsScreen> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       fetchDatas();
+      Provider.of<VendorProfileProvider>(context, listen: false)
+          .getVendorDetails();
     });
 
     final width = MediaQuery.of(context).size.width;

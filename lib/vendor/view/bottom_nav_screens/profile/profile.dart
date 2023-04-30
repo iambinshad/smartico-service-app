@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/user/profile/user_profile.dart';
+import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
-import 'package:smartico/user/view/authentication/user_sign_in.dart';
+import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/settings.dart';
-import 'edit_profile.dart';
+import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/profile/edit_vendor_profile.dart';
 
 // ignore: must_be_immutable
-class UserProfilePage extends StatelessWidget {
-  UserProfilePage({super.key});
+class VendorProfile extends StatelessWidget {
+  VendorProfile({super.key});
+
   FlutterSecureStorage storage = const FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<VendorProfileProvider>(context, listen: false)
+          .getVendorDetails();
+    });
     final height = MediaQuery.of(context).size.height;
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        Provider.of<UserProfileProvider>(context, listen: false)
-            .getUserDetails();
-      },
-    );
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: mainColor,
-        title: const Text(
-          'Profile',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Consumer<UserProfileProvider>(
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   backgroundColor: mainColor,
+      //   title: const Text(
+      //     'Profile',
+      //     style: TextStyle(fontWeight: FontWeight.bold),
+      //   ),
+      // ),
+      body: Consumer<VendorProfileProvider>(
         builder: (context, value, child) => FutureBuilder(
-          future: value.userDetails,
+          future: value.vendorDetails,
           builder: (context, snapshot) => SingleChildScrollView(
             child: Center(
               child: Column(
@@ -44,14 +45,17 @@ class UserProfilePage extends StatelessWidget {
                           fit: BoxFit.cover),
                     ),
                     width: double.infinity,
-                    height: height / 5,
+                    height: height / 4,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: snapshot.data?.profilePhoto !=null?CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!.profilePhoto!,),
+                      child: snapshot.data?.profilePhoto != null
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                snapshot.data!.profilePhoto!,
+                              ),
                               radius: 30,
-                            ):const CircleAvatar(
+                            )
+                          : const CircleAvatar(
                               backgroundImage:
                                   AssetImage('assets/splash/tv repair.jpeg'),
                               radius: 30,
@@ -72,45 +76,146 @@ class UserProfilePage extends StatelessWidget {
                           ),
                         ),
                         Tile(
-                          leading: Text(
+                         
+                          storage: storage,
+                          subtitle: Text(
+                            snapshot.data?.status ?? "",
+                            style: TextStyle(
+                                color: snapshot.data?.status == 'Approved'
+                                    ? Colors.green
+                                    : Colors.red,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          title: Text(
+                            "Status",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          title: Text(
                             "Username",
                             style: normalText,
                           ),
-                          trailing: Text(
-                            snapshot.data?.userName ?? "",
+                          subtitle: Text(
+                            snapshot.data?.fullName ?? "dkd",
                           ),
                         ),
                         Tile(
                           storage: storage,
-                          trailing: Text("${snapshot.data?.phone ?? ""} "),
-                          leading: Text(
+                          subtitle: Text("${snapshot.data?.phone ?? ""} "),
+                          title: Text(
                             "Phone",
                             style: normalText,
                           ),
                         ),
                         Tile(
                           storage: storage,
-                          trailing: Text(snapshot.data?.email ?? ""),
-                          leading: Text(
+                          subtitle: Text(snapshot.data?.email ?? ""),
+                          title: Text(
                             "Email",
                             style: normalText,
                           ),
                         ),
                         Tile(
                           storage: storage,
-                          trailing: Text(
-                            snapshot.data?.status ?? "",
-                            style: TextStyle(
-                                color: snapshot.data?.status == 'Active'
-                                    ? Colors.green
-                                    : Colors.red,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          leading: Text(
-                            "Status",
+                          subtitle: Text(
+                              snapshot.data?.date?.toIso8601String() ?? ""),
+                          title: Text(
+                            "DOB",
                             style: normalText,
                           ),
                         ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.gender ?? ""),
+                          title: Text(
+                            "Gender",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.about ?? ""),
+                          title: Text(
+                            "About",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.github ?? ""),
+                          title: Text(
+                            "Github",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.googleDrive ?? ""),
+                          title: Text(
+                            "GoogleDrive",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.linkedIn ?? ""),
+                          title: Text(
+                            "LinkedIn",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.skill ?? ""),
+                          title: Text(
+                            "Skills",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(
+                            "${snapshot.data?.address?.pincode ?? ""}",
+                          ),
+                          title: Text(
+                            "Pincode",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.address?.currentAddress ?? ""),
+                          title: Text(
+                            "CurrentAddress",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.address?.country ?? ""),
+                          title: Text(
+                            "Country",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.address?.state ?? ""),
+                          title: Text(
+                            "State",
+                            style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          storage: storage,
+                          subtitle: Text(snapshot.data?.address?.city ?? ""),
+                          title: Text(
+                            "City",
+                            style: normalText,
+                          ),
+                        ),
+                        
                         kHeight10,
                       ],
                     ),
@@ -139,11 +244,8 @@ class UserProfilePage extends StatelessWidget {
                             size: 17,
                           ),
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>  EditUserProfile(userName: snapshot.data?.userName,phone:snapshot.data?.phone ,),
-                                ));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorProfileEdit(userName: null,) ,));
+                                          
                           },
                         ),
                         Tile(
@@ -199,8 +301,8 @@ class UserProfilePage extends StatelessWidget {
                                         backgroundColor:
                                             MaterialStatePropertyAll(
                                                 Colors.red)),
-                                    onPressed: () {
-                                      signoutButtonClicked(context);
+                                    onPressed: () async {
+                                      yesClicked(context);
                                     },
                                     child: const Text(
                                       'Yes',
@@ -224,15 +326,23 @@ class UserProfilePage extends StatelessWidget {
     );
   }
 
-  Future<void> signoutButtonClicked(context) async {
-    await storage.delete(key: 'user_access_token');
-    await storage.delete(key: 'currentUserName');
-    await storage.delete(key: 'currentUserId');
-    if (context.mounted) {
+  void yesClicked(context) async {
+    await storage.delete(key: 'vendor_access_token');
+    await storage.delete(key: 'vendorId');
+    String? user = await storage.read(key: 'user_access_token');
+    if (context.mounted) {}
+    if (user != null) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => UserSignIn(),
+            builder: (context) => const UserBottomNavBar(),
+          ),
+          (route) => false);
+    } else {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => VendorSignIn(),
           ),
           (route) => false);
     }
@@ -246,6 +356,7 @@ class Tile extends StatelessWidget {
       this.onTap,
       this.trailing,
       this.leading,
+      this.subtitle,
       this.title});
 
   final FlutterSecureStorage? storage;
@@ -253,6 +364,7 @@ class Tile extends StatelessWidget {
   Widget? trailing;
   Widget? leading;
   Widget? title;
+  Widget? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -264,6 +376,7 @@ class Tile extends StatelessWidget {
           onTap: onTap,
           leading: leading,
           title: title,
+          subtitle: subtitle,
         ),
       ),
     );

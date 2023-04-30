@@ -1,16 +1,20 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
+import 'package:smartico/user/model/profile_page/profile_edit_model.dart';
 
 class EditUserProfile extends StatefulWidget {
-  EditUserProfile({super.key, required this.fullName, required this.phone});
+  EditUserProfile({super.key, required this.userName, required this.phone});
 
-  String? fullName;
+  String? userName;
   int? phone;
 
   @override
@@ -22,18 +26,23 @@ class _EditUserProfileState extends State<EditUserProfile> {
 
   TextEditingController phoneController = TextEditingController();
   File? galleryImage;
+    final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
+
   File? cameraImage;
   String? gigImage;
   File? gigImageFile;
   dynamic file;
   int flag = 0;
   @override
+  void initState() {
+      fullNameController.text = widget.userName!;
+      phoneController.text = widget.phone.toString();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fullNameController.text = widget.fullName!;
-      phoneController.text = widget.phone.toString();
-    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -43,66 +52,79 @@ class _EditUserProfileState extends State<EditUserProfile> {
         backgroundColor: mainColor,
         centerTitle: true,
       ),
-      body: SizedBox(
-        height: 400,
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
+      body: Consumer<UserProfileProvider>(
+        builder: (context, value, child) => 
+         FutureBuilder(
+          future: value.userDetails,
+          builder: (context, snapshot) => 
+            SizedBox(
+            height: 400,
+            width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      bottomSheet(context, width);
-                    },
-                    child: gigImageFile != null
-                        ? CircleAvatar(
-                            backgroundImage: FileImage(gigImageFile!),
-                            radius: 60,
-                          )
-                        : const CircleAvatar(
-                            // backgroundImage: NetworkImage(
-                            //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSuvwiez1VnxHeUqGNfpSCfwxYIzDaBBocTw&usqp=CAU'),
-                            radius: 60,
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          bottomSheet(context, width);
+                        },
+                        child: gigImageFile != null
+                            ? CircleAvatar(
+                                backgroundImage: FileImage(gigImageFile!),
+                                radius: 60,
+                              )
+                            :  snapshot.data?.profilePhoto !=null?CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(snapshot.data!.profilePhoto!,),
+                              radius: 60,
+                            ):const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/splash/tv repair.jpeg'),
+                              radius: 60,
+                            ),
+                      ),
+                      kHeight10,
+                      MyTextFormField(
+                        hintText: 'Full Name',
+                        controller: fullNameController,
+                      ),
+                      kHeight10,
+                      MyTextFormField(
+                        hintText: 'Phone',
+                        controller: phoneController,
+                      ),
+                      kHeight10,
+                      SizedBox(
+                        width: width / 1.12,
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            updateButtonClicked();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: mainColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
                           ),
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'Full Name',
-                    controller: fullNameController,
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'Phone',
-                    controller: phoneController,
-                  ),
-                  kHeight10,
-                  SizedBox(
-                    width: width / 1.12,
-                    height: 45,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: mainColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+                          child: const Text(
+                            'UPDATE',
+                            style: TextStyle(
+                                color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                      child: const Text(
-                        'UPDATE',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
+                 ),
+         ),
       ),
     );
   }
@@ -209,5 +231,18 @@ class _EditUserProfileState extends State<EditUserProfile> {
         ),
       ),
     );
+  }
+  
+  Future<void> updateButtonClicked() async {
+    var url = '';
+      if(gigImageFile!=null){ CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(gigImageFile!.path,
+              resourceType: CloudinaryResourceType.Image));
+       url = response.secureUrl;}
+    UserProfileEditModel editedData = UserProfileEditModel(userName: fullNameController.text.trim(),phone: phoneController.text.trim(),profilePhoto:url);
+    if(context.mounted){}
+    await Provider.of<UserProfileProvider>(context,listen: false).editUserProfile(editedData);
+    Navigator.pop(context);
+
   }
 }

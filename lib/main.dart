@@ -21,6 +21,7 @@ import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/vendor/all_booking/cancel_user_bookings.dart';
+import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
@@ -31,6 +32,7 @@ import 'application/vendor/all_booking/all_bookings.dart';
 import 'application/vendor/complete_signup/complete_signup_provider.dart';
 import 'application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'application/vendor/gig_provider/show_all_gig_provider.dart';
+import 'common/categoru.dart';
 import 'common/splash_screen.dart';
 
 
@@ -95,7 +97,8 @@ class MyApp extends StatelessWidget {
         ListenableProvider(create: (context) =>AllBookingProvider(),),
         ListenableProvider(create: (context) => CancelUserBookingsProvider(),),
         ListenableProvider(create: (context) => AllVendorListForAdmin(),),
-        ListenableProvider(create: (context) => UserProfileProvider(),)
+        ListenableProvider(create: (context) => UserProfileProvider(),),
+        ListenableProvider(create: (context) => VendorProfileProvider(),)
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -103,7 +106,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home:    const SplashScreen(),
+        home:     SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

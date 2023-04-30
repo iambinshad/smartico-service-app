@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
+import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/user/view/bottom_nav_screens/all_cateogory/shimmer_page.dart';
@@ -65,6 +66,9 @@ class AllCategroryList extends StatelessWidget {
                               await context
                                   .read<SingleGigDetailsProvider>()
                                   .getGig(value.showList![index].id, context);
+                                  await Provider.of<ReservedGigs>(context,
+                                          listen: false)
+                                      .getreveiws(value.allGigs![index].id);
                               if (context.mounted) {
                                 Navigator.push(
                                     context,

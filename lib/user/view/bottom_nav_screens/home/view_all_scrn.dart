@@ -43,6 +43,9 @@ class ViewAllScreen extends StatelessWidget {
                       .getGig(value.allGigs![index].id, context);
                   if(context.mounted){await Provider.of<ReservedGigs>(context, listen: false)
                       .getreveiws(value.allGigs![index].id);}
+                      await Provider.of<ReservedGigs>(context,
+                                          listen: false)
+                                      .getreveiws(value.allGigs![index].id);
 
                   if (context.mounted) {
                     Navigator.push(
