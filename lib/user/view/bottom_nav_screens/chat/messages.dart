@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
+import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import '../../../../core/constants.dart';
@@ -97,42 +98,47 @@ class UserMessagesScreen extends StatelessWidget {
                   itemCount: snapshot.data!.docs.length,
                 ),
               ),
-              Consumer<MessageProvider>(
-                  builder: (context, value, child) => Padding(
+              Consumer2<MessageProvider,UserProfileProvider>(
+                  builder: (context, value1,value2, child) => Padding(
                         padding: const EdgeInsets.all(8),
-                        child: MyTextFormField(
-                          prefixIcon: const Icon(
-                            Icons.tag_faces_outlined,
-                            size: 28,
+                        child: FutureBuilder(
+                          future: value2.userDetails,
+                          builder: (context, snapshot) => 
+                          MyTextFormField(
+                            prefixIcon: const Icon(
+                              Icons.tag_faces_outlined,
+                              size: 28,
+                            ),
+                            hintText: 'message',
+                            controller: Provider.of<MessageProvider>(context,
+                                    listen: false)
+                                .messageController,
+                            suffixIcon: IconButton(
+                                onPressed: () async {
+                                  if (chatedCount == 'No') {
+                                    chatedCount = 'Yes';
+                                    await storage.write(
+                                        key: chatingVendor.id.toString(),
+                                        value: chatedCount);
+                                    await _firestore.collection('chats').add({
+                                      'vendor': chatingVendor.id,
+                                      'senderName': currentUserName,
+                                      'senderId': currentUserId,
+                                      'senderPic':snapshot.data?.profilePhoto
+                                    });
+                                                
+                                    log('startPrco');
+                                  }
+                                  value1.sendButtonClicked(
+                                      userId: chatingVendor.id!,
+                                      chatRoomId: chatRoomId);
+                                      
+                                },
+                                icon: const Icon(
+                                  Icons.send,
+                                  size: 26,
+                                )),
                           ),
-                          hintText: 'message',
-                          controller: Provider.of<MessageProvider>(context,
-                                  listen: false)
-                              .messageController,
-                          suffixIcon: IconButton(
-                              onPressed: () async {
-                                if (chatedCount == 'No') {
-                                  chatedCount = 'Yes';
-                                  await storage.write(
-                                      key: chatingVendor.id.toString(),
-                                      value: chatedCount);
-                                  await _firestore.collection('chats').add({
-                                    'vendor': chatingVendor.id,
-                                    'senderName': currentUserName,
-                                    'senderId': currentUserId,
-                                  });
-
-                                  log('startPrco');
-                                }
-                                value.sendButtonClicked(
-                                    userId: chatingVendor.id!,
-                                    chatRoomId: chatRoomId);
-                                    
-                              },
-                              icon: const Icon(
-                                Icons.send,
-                                size: 26,
-                              )),
                         ),
                       ))
             ],

@@ -16,10 +16,12 @@ class VendorMessagesScreen extends StatelessWidget {
     super.key,
     required this.chatRoomId,
     required this.chatingUser,
+    this.profilePic,
     this.currentVendorId,
   });
 
   dynamic chatRoomId;
+  String? profilePic;
   dynamic currentVendorId;
   FlutterSecureStorage storage = const FlutterSecureStorage();
   final ChatingUser chatingUser;
@@ -32,8 +34,11 @@ class VendorMessagesScreen extends StatelessWidget {
         backgroundColor: mainColor,
         title: Row(
           children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage('assets/works/profile pic.jpg'),
+              profilePic!=null? CircleAvatar(
+              backgroundImage: NetworkImage(profilePic??""),
+              radius: 24,
+            ):const CircleAvatar(
+              backgroundImage: AssetImage('assets/splash/unknown.jpg'),
               radius: 24,
             ),
             const SizedBox(

@@ -55,8 +55,9 @@ dependencies:
   cloud_firestore: ^4.5.1
   sticky_headers: ^0.3.0+2
   flutter_rating_bar: ^4.0.1
+  share_plus: ^6.3.4
+  launch_review: ^3.0.1
   
-
 
 dev_dependencies:
   flutter_test:

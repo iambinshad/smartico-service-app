@@ -82,7 +82,7 @@ class VendorOtpScreen extends StatelessWidget {
                                             child: Padding(
                                               padding: EdgeInsets.all(5.0),
                                               child: Text(
-                                                'OTP is Required',
+                                                '',
                                                 style: TextStyle(
                                                   color: Colors.red,
                                                 ),
@@ -90,7 +90,7 @@ class VendorOtpScreen extends StatelessWidget {
                                             ),
                                           ),
                                   )),
-                          ElevatedButton(
+                          context.watch<VendorProvider>().isLoadingOtp?const CircularProgressIndicator(): ElevatedButton(
                             onPressed: () {
                               String otpvalidated = otpFieldValidation(context);
                               if (otpvalidated == 'false') {

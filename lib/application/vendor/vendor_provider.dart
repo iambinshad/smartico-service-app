@@ -21,6 +21,10 @@ class VendorProvider extends ChangeNotifier {
   String? chooseGender;
   String? chooseType;
   String? chooseCatogory;
+
+  bool isLoading = false;
+  bool isLoadingsignup = false;
+  bool isLoadingOtp = false;
  
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
@@ -30,6 +34,8 @@ class VendorProvider extends ChangeNotifier {
  // VendorSignIn Method
   Future<void> checkVendorSignIn(
       BuildContext context, emailData, passwordData) async {
+        isLoading = true;
+        notifyListeners();
     
     final email = emailData;
     final password = passwordData;
@@ -50,7 +56,7 @@ class VendorProvider extends ChangeNotifier {
       ), (route) => false);
       UserSignIn().disposeTextFiled();
     }
-    
+    isLoading = false;
     notifyListeners();
   }
 
@@ -64,6 +70,8 @@ class VendorProvider extends ChangeNotifier {
       required dob,
       required password,
       required passwordConfirm,required context}) async {
+        isLoadingsignup = true;
+        notifyListeners();
     final signUpVendorDatas = VendorSignUpModel(
       fullName: fullName,
       userName: userName,
@@ -77,15 +85,18 @@ class VendorProvider extends ChangeNotifier {
 log(signUpVendorDatas.toString());
     final signUpResult = await VendorSignUpApiService().vendorSignUp(signUpVendorDatas, context);
     log(signUpResult.toString());
-    if(signUpResult == 'Vendor with this email already exists!!!'){
-     log('Vendor with this email already exist!!');
-    }else if(signUpResult == "success"){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => VendorOtpScreen(),), (route) => false);
+    if(signUpResult == "success"){
+           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => VendorOtpScreen(),), (route) => false);
     }
+    isLoadingsignup = false;
+    notifyListeners();
   }
+  
 
 // Vendor Otp Verification Method
   Future<void> verifyVendorOtp(context , otpNumber)async{
+    isLoadingOtp = true;
+    notifyListeners();
 
     final otp = VendorOtpVerifyModel(otp:int.parse(otpNumber));
 
@@ -102,6 +113,8 @@ log(signUpVendorDatas.toString());
       ), (route) => false);
 
     }
+    isLoadingOtp = false;
+    notifyListeners();
   }
 
 

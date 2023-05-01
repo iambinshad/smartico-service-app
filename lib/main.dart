@@ -23,6 +23,7 @@ import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details
 import 'package:smartico/application/vendor/all_booking/cancel_user_bookings.dart';
 import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
+import 'package:smartico/user/view/authentication/user_otp.dart';
 
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'application/user/booking/book_gig_provider.dart';
@@ -106,7 +107,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home:     SplashScreen(),
+        home:     const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

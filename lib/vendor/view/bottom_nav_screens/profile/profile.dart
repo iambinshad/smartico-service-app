@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/profile/vendor_profile.dart';
+import 'package:smartico/common/settings_scrn/settings_screen.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/settings.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/profile/edit_vendor_profile.dart';
 
@@ -23,14 +23,6 @@ class VendorProfile extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   backgroundColor: mainColor,
-      //   title: const Text(
-      //     'Profile',
-      //     style: TextStyle(fontWeight: FontWeight.bold),
-      //   ),
-      // ),
       body: Consumer<VendorProfileProvider>(
         builder: (context, value, child) => FutureBuilder(
           future: value.vendorDetails,
@@ -57,7 +49,7 @@ class VendorProfile extends StatelessWidget {
                             )
                           : const CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/splash/tv repair.jpeg'),
+                                  AssetImage('assets/splash/unknown.jpg'),
                               radius: 30,
                             ),
                     ),
@@ -76,7 +68,6 @@ class VendorProfile extends StatelessWidget {
                           ),
                         ),
                         Tile(
-                         
                           storage: storage,
                           subtitle: Text(
                             snapshot.data?.status ?? "",
@@ -185,7 +176,8 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.address?.currentAddress ?? ""),
+                          subtitle: Text(
+                              snapshot.data?.address?.currentAddress ?? ""),
                           title: Text(
                             "CurrentAddress",
                             style: normalText,
@@ -215,7 +207,6 @@ class VendorProfile extends StatelessWidget {
                             style: normalText,
                           ),
                         ),
-                        
                         kHeight10,
                       ],
                     ),
@@ -244,8 +235,27 @@ class VendorProfile extends StatelessWidget {
                             size: 17,
                           ),
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) =>  VendorProfileEdit(userName: null,) ,));
-                                          
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VendorProfileEdit(
+                                    profilePic: snapshot.data?.profilePhoto,
+                                      userName: snapshot.data?.userName,
+                                      mobile: "${snapshot.data?.phone}",
+                                      gender: "${snapshot.data?.gender}",
+                                      skills: "${snapshot.data?.skill}",
+                                      googledrive:
+                                          "${snapshot.data?.googleDrive}",
+                                      linkedIn: "${snapshot.data?.linkedIn}",
+                                      github: "${snapshot.data?.github}",
+                                      about: "${snapshot.data?.about}",
+                                      currentAddress:
+                                          "${snapshot.data?.address?.currentAddress}",
+                                      country:
+                                          "${snapshot.data?.address?.country}",
+                                      state: "${snapshot.data?.address?.state}",
+                                      city: "${snapshot.data?.address?.city}"),
+                                ));
                           },
                         ),
                         Tile(

@@ -18,6 +18,9 @@ class UserSignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<CommonProvider>(context, listen: false).clickLoading = false;
+    });
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
@@ -69,6 +72,7 @@ class UserSignIn extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.only(right: 20, left: 20),
                                 child: MyTextFormField(
+                                  keyboardType: TextInputType.emailAddress,
                                   controller: emailController,
                                   validator: (p0) {
                                     var validatedEmail = emailValidation(p0);
@@ -103,7 +107,8 @@ class UserSignIn extends StatelessWidget {
                                             value.userSignInPswdVisiblity
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
-                                            color: Colors.blue,size: 25,
+                                            color: Colors.blue,
+                                            size: 25,
                                           ),
                                           onPressed: () {
                                             value.changeSignInVisibleState(
@@ -119,11 +124,8 @@ class UserSignIn extends StatelessWidget {
                             ),
                             kHeight20,
                             kHeight10,
-                            Consumer<CommonProvider>(
-                              builder: (context, value, child) => value
-                                      .clickLoading
-                                  ? const CircularProgressIndicator()
-                                  : ElevatedButton(
+                            context.watch<UserProvider>().isLoading?const CircularProgressIndicator():
+                             ElevatedButton(
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           log('email and password validated');
@@ -152,17 +154,9 @@ class UserSignIn extends StatelessWidget {
                                             color: Colors.black, fontSize: 24),
                                       ),
                                     ),
-                            ),
+                      
                             kHeight10,
-                            Consumer<CommonProvider>(
-                                builder: (context, value, child) {
-                              if (value.loading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              return const SizedBox();
-                            }),
+                           
                             kHeight10,
                             kHeight10,
                             Row(
@@ -212,20 +206,21 @@ class UserSignIn extends StatelessWidget {
     }
     if (email == 'smarticoapp23@gmail.com') {
       log('You are Admin');
-      Provider.of<CommonProvider>(context, listen: false).setClickLoading(true);
+      // Provider.of<CommonProvider>(context, listen: false).onloading();
 
       Provider.of<AdminProvider>(context, listen: false)
           .checkAdminSignIn(context, email, password);
 
-      Provider.of<CommonProvider>(context, listen: false)
-          .setClickLoading(false);
-    } else {
-      Provider.of<CommonProvider>(context, listen: false).setClickLoading(true);
+      // Provider.of<CommonProvider>(context, listen: false)
+          // .offLoading();
+    } else { 
       log('You are someone else');
+      // Provider.of<CommonProvider>(context, listen: false).onloading();
+
       Provider.of<UserProvider>(context, listen: false)
           .checkUserSignIn(context, password, email);
-      Provider.of<CommonProvider>(context, listen: false)
-          .setClickLoading(false);
+      // Provider.of<CommonProvider>(context, listen: false)
+      //     .offLoading() ;
     }
   }
 

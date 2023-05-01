@@ -13,31 +13,34 @@ import '../../user/model/authentication/user_sign_up_model.dart';
 import '../../user/model/authentication/user_sign_up_res.dart';
 import '../../user/model/authentication/user_verify_otp.dart';
 import '../../user/view/authentication/user_sign_in.dart';
-class UserProvider with ChangeNotifier {
 
+class UserProvider with ChangeNotifier {
   bool userSignInPswdVisiblity = false;
   bool userSignUpPswdVisiblity = false;
   bool userSignUpConfPswdVisiblity = false;
   bool isLoading = false;
+  bool isLoadingsignUp = false;
+  bool isLoadingOtp = false;
   bool isOtpValidator = true;
   FlutterSecureStorage storage = const FlutterSecureStorage();
-  
+
   //----User Authentication Mehtods----//
 
   // UserSignIn Method
   Future<void> checkUserSignIn(
       BuildContext context, emailData, passwordData) async {
     isLoading = true;
+    notifyListeners();
     final email = emailData;
     final password = passwordData;
     final signInUserDatas =
         UserSignInReqModel(password: email, email: password);
-    final tokenData = await UserSignInApiService().userSignIn(signInUserDatas, context);
+    final tokenData =
+        await UserSignInApiService().userSignIn(signInUserDatas, context);
+
     if (tokenData?.token != null) {
-              await storage.write(
-            key: "user_access_token",
-            value: jsonEncode(tokenData?.token));
-     
+      await storage.write(
+          key: "user_access_token", value: jsonEncode(tokenData?.token));
 
       // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
@@ -47,43 +50,41 @@ class UserProvider with ChangeNotifier {
       ), (route) => false);
       UserSignIn().disposeTextFiled();
     }
-    isLoading = false;
+        isLoading = false;
     notifyListeners();
   }
-
 
 // User Sign Up Method
   Future<void> signUPNewUser(
       {context,
-      fullName,
-      userName,
-      email,
-      phone,
-      password,
-      conformPassword}) async {
-    final signUpUserDatas = UserSignUpModel(
-        fullName: fullName,
-        userName: userName,
-        email: email,
-        phone: phone,
-        password: password,
-        passwordConfirm: conformPassword);
+fullName,
+userName,
+email,
+phone,
+password,
+conformPassword}) async {
+    isLoadingsignUp = true;
+    notifyListeners();
+    final signUpUserDatas = UserSignUpModel(fullName: fullName,userName: userName,email: email,phone: phone,password: password,passwordConfirm: conformPassword);
 
     final signUpResult =
         await UserSignUpApiService().userSignUp(signUpUserDatas, context);
-    if (signUpResult == 'User with this email already exists!!!') {
-      log('user with this email exist');
-    } else if (signUpResult == 'Success') {
-      Navigator.pushReplacement(
+
+    if (signUpResult == 'Success') {
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => UserOtpScreen(),
-          ));
+          ));  
     }
+    isLoadingsignUp = false;
+    notifyListeners();
   }
 
 // User Otp Verification Method
   Future verifyUserOtp(context, otpNumber) async {
+    isLoadingOtp = true;
+    notifyListeners();
     final otp = UserOtpVerifyModel(otp: int.parse(otpNumber));
 
     UserSignUpResModel? tokenData =
@@ -91,16 +92,19 @@ class UserProvider with ChangeNotifier {
 
     log(tokenData.toString());
     if (tokenData != null) {
-     await storage.write(key: 'user_access_token', value: jsonEncode(tokenData.token));
+      await storage.write(
+          key: 'user_access_token', value: jsonEncode(tokenData.token));
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
-          return  const RollSelectingScreen();
+          return const RollSelectingScreen();
         },
       ), (route) => false);
     }
+    isLoadingOtp = false;
+    notifyListeners();
   }
 
- //----User Additional Methods----//
+  //----User Additional Methods----//
 
   void changeValidatorState() {
     isOtpValidator = !isOtpValidator;
@@ -121,6 +125,4 @@ class UserProvider with ChangeNotifier {
     userSignUpConfPswdVisiblity = !state;
     notifyListeners();
   }
-
-  
 }

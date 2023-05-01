@@ -82,7 +82,7 @@ class UserOtpScreen extends StatelessWidget {
                                             child: Padding(
                                               padding: EdgeInsets.all(5.0),
                                               child: Text(
-                                                'OTP is Required',
+                                                ' 6 Otp Number is Required',
                                                 style: TextStyle(
                                                   color: Colors.red,
                                                 ),
@@ -90,8 +90,8 @@ class UserOtpScreen extends StatelessWidget {
                                             ),
                                           ),
                                   )),
-                          ElevatedButton(
-                            onPressed: () {
+                          context.watch<UserProvider>().isLoadingOtp?const CircularProgressIndicator(): ElevatedButton(
+                            onPressed: () {                            
                               String otpvalidated = otpFieldValidation(context);
                               if (otpvalidated == 'false') {
                                 Provider.of<CommonProvider>(context,
@@ -103,7 +103,6 @@ class UserOtpScreen extends StatelessWidget {
                                     field4.text +
                                     field5.text +
                                     field6.text;
-
                                 UserProvider().verifyUserOtp(context, oTP);
                               }
                             },
@@ -128,15 +127,7 @@ class UserOtpScreen extends StatelessWidget {
                             ),
                           ),
                           kHeight10,
-                          Consumer<CommonProvider>(
-                              builder: (context, value, child) {
-                            if (value.loading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            return const SizedBox();
-                          }),
+                         
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

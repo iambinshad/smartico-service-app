@@ -13,6 +13,7 @@ File? editGalleryImage;
 File? editCameraImage;
 bool clickLoading = false;
 bool loading =false;
+bool get isLoading => clickLoading;
 bool shimmerLoading = false;
     void showSuccessSnackBar(context) {
     showTopSnackBar(
@@ -103,15 +104,18 @@ void editCameraSetting(value){
     clickLoading = value;
     notifyListeners();
   }
+    set isLoading(bool value) {
+    clickLoading = value;
+    notifyListeners();
+  }
 
   void onloading (){
     log('loading on');
-
      loading = true;
      notifyListeners();
   }
   void offLoading(){
-    log('loading off');
+    
     loading =false;
     notifyListeners();
   }

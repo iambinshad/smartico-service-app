@@ -1,5 +1,5 @@
 class ApiConfigration{
-  static const kIpAddress = '10.0.14.205';
+  static const kIpAddress = '10.4.4.63';
   static const kBaseUrl = "http://$kIpAddress:3500";
 
   //----User Endpoints---
@@ -38,7 +38,8 @@ class ApiConfigration{
     static const cancelUserBooking = '/cancelUserOrder';
     static const setAddress = '/addAddress/';//vendor id needed after this endpoint
     static const setSkill = '/addSkill/';//vendor id needed after this endpoint
-    static const updateVendorProfile = '/vendorProfile';
+    static const vendorProfile = '/vendorProfile';
+    static const updateVendorProfile = '/updateVendorProfile';
   
   //---Admin Endpoints---
 

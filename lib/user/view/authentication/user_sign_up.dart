@@ -81,6 +81,7 @@ class UserSignUP extends StatelessWidget {
                               padding:
                                   const EdgeInsets.only(right: 20, left: 20),
                               child: MyTextFormField(
+                                
                                 controller: emailController,
                                 validator: (p0) {
                                   var validatedEmail = emailValidation(p0);
@@ -214,8 +215,13 @@ class UserSignUP extends StatelessWidget {
                                 ])),
                           ),
                           kHeight15,
-                          ElevatedButton(
-                            onPressed: () {},
+                         context.watch<UserProvider>().isLoadingsignUp?const CircularProgressIndicator(): ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                  log('inside validate');
+                                  signUpButtonClicked(context);
+                                }
+                            },
                             style: ButtonStyle(
                               fixedSize: MaterialStateProperty.all(
                                 const Size(310, 50),
@@ -229,32 +235,16 @@ class UserSignUP extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            child: TextButton(
-                              child: const Text(
+                            child: const Text(
                                 'Agree & Sign Up',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
                                 ),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  log('inside validate');
-                                  signUpButtonClicked(context);
-                                }
-                              },
-                            ),
+                              )
                           ),
                           kHeight10,
-                          Consumer<CommonProvider>(
-                              builder: (context, value, child) {
-                            if (value.loading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            return const SizedBox();
-                          }),
+                        
                           kHeight10,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -294,8 +284,6 @@ class UserSignUP extends StatelessWidget {
   }
 
   signUpButtonClicked(context) {
-    Provider.of<CommonProvider>(context, listen: false).loading = true;
-    log('inside signUpbuttonClicked');
     final fullName = fullNameController.text.trim();
     final userName = userNameController.text.trim();
     final email = emailController.text.trim();
@@ -303,14 +291,14 @@ class UserSignUP extends StatelessWidget {
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    if (fullName.isEmpty ||
-        userName.isEmpty ||
-        email.isEmpty ||
-        phoneNumber.isEmpty ||
-        password.isEmpty ||
-        confirmPassword.isEmpty) {
-      return;
-    }
+    // if (fullName.isEmpty ||
+    //     userName.isEmpty ||
+    //     email.isEmpty ||
+    //     phoneNumber.isEmpty ||
+    //     password.isEmpty ||
+    //     confirmPassword.isEmpty) {
+    //   return;
+    // }
     Provider.of<UserProvider>(context, listen: false).signUPNewUser(
       fullName: fullName,
       userName: userName,

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
+import 'package:smartico/common/settings_scrn/settings_screen.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/authentication/user_sign_in.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/settings.dart';
 import 'edit_profile.dart';
 
 // ignore: must_be_immutable
@@ -22,14 +22,7 @@ class UserProfilePage extends StatelessWidget {
       },
     );
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: mainColor,
-        title: const Text(
-          'Profile',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
+   
       body: Consumer<UserProfileProvider>(
         builder: (context, value, child) => FutureBuilder(
           future: value.userDetails,
@@ -44,7 +37,7 @@ class UserProfilePage extends StatelessWidget {
                           fit: BoxFit.cover),
                     ),
                     width: double.infinity,
-                    height: height / 5,
+                    height: height / 4,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: snapshot.data?.profilePhoto !=null?CircleAvatar(
@@ -142,7 +135,7 @@ class UserProfilePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  EditUserProfile(userName: snapshot.data?.userName,phone:snapshot.data?.phone ,),
+                                  builder: (context) =>  EditUserProfile(userName: snapshot.data?.userName,phone:snapshot.data?.phone,profilePic: snapshot.data?.profilePhoto,),
                                 ));
                           },
                         ),
@@ -163,7 +156,7 @@ class UserProfilePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const SettingsScreen(),
+                                  builder: (context) =>  SettingsScreen(),
                                 ));
                           },
                         ),
@@ -263,6 +256,7 @@ class Tile extends StatelessWidget {
           trailing: trailing,
           onTap: onTap,
           leading: leading,
+          
           title: title,
         ),
       ),

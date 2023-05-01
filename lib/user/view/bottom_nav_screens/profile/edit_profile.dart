@@ -12,10 +12,11 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/profile_page/profile_edit_model.dart';
 
 class EditUserProfile extends StatefulWidget {
-  EditUserProfile({super.key, required this.userName, required this.phone});
+  EditUserProfile({super.key, required this.userName, required this.phone,required this.profilePic });
 
   String? userName;
   int? phone;
+  String? profilePic;
 
   @override
   State<EditUserProfile> createState() => _EditUserProfileState();
@@ -234,12 +235,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
   }
   
   Future<void> updateButtonClicked() async {
-    var url = '';
+    dynamic url ;
       if(gigImageFile!=null){ CloudinaryResponse response = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(gigImageFile!.path,
               resourceType: CloudinaryResourceType.Image));
        url = response.secureUrl;}
-    UserProfileEditModel editedData = UserProfileEditModel(userName: fullNameController.text.trim(),phone: phoneController.text.trim(),profilePhoto:url);
+    UserProfileEditModel editedData = UserProfileEditModel(userName: fullNameController.text.trim(),phone: phoneController.text.trim(),profilePhoto:url??widget.profilePic);
     if(context.mounted){}
     await Provider.of<UserProfileProvider>(context,listen: false).editUserProfile(editedData);
     Navigator.pop(context);

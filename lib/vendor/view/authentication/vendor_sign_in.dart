@@ -40,7 +40,7 @@ class VendorSignIn extends StatelessWidget {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const  EdgeInsets.all(15.0),
                   child: Card(
                       elevation: 1.0,
                       child: Column(
@@ -71,7 +71,7 @@ class VendorSignIn extends StatelessWidget {
                                   return 'Enter Valid Email';
                                 }
                                 return null;
-                            },prefixIcon: const Icon(Icons.email_outlined,size: 24,),labelText:'Email',)
+                            },keyboardType: TextInputType.emailAddress,prefixIcon: const Icon(Icons.email_outlined,size: 24,),labelText:'Email',)
                           ),
                           kHeight20,
                           Padding(
@@ -110,7 +110,7 @@ class VendorSignIn extends StatelessWidget {
                           ),
                           kHeight20,
                           kHeight10,
-                          ElevatedButton(
+                          context.watch<VendorProvider>().isLoading?const CircularProgressIndicator(): ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 signInClicked(context);
@@ -215,13 +215,7 @@ class VendorSignIn extends StatelessWidget {
                               ),
                             ],
                           ),
-                          //  const TextButton(
-                          //   onPressed: null,
-                          //   child: Text('Forgot Password',
-                          //       style: TextStyle(
-                          //           fontSize: 18,
-                          //           color: Color.fromARGB(255, 121, 216, 206))),
-                          //                      ),
+                         
                         ],
                       )),
                 ),

@@ -14,14 +14,14 @@ import 'package:smartico/vendor/view/bottom_nav_screens/chats/messages.dart';
 class VendorChatScrn extends StatelessWidget {
   VendorChatScrn({super.key});
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-dynamic vid;
+  dynamic vid;
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp)async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       vid = await getid();
     });
     return Scaffold(
-      backgroundColor:Colors.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
         centerTitle: true,
@@ -30,13 +30,13 @@ dynamic vid;
       ),
       body: Column(
         children: [
-                ColoredBox(
+          ColoredBox(
             color: mainColor,
             child: const Padding(
               padding: EdgeInsets.all(8.0),
               child: CupertinoSearchTextField(
-                      backgroundColor: Colors.white,
-                    ),
+                backgroundColor: Colors.white,
+              ),
             ),
           ),
           StreamBuilder<QuerySnapshot>(
@@ -59,45 +59,74 @@ dynamic vid;
                   child: CircularProgressIndicator(),
                 );
               }
-             return Expanded(
-               child:!snapshot.hasData?const Center(child: Text('Chat List Empty'),): ListView.builder(
-                reverse: false,
-               itemCount: snapshot.data!.docs.length,
-               itemBuilder: (BuildContext context, int index) {
-                 DocumentSnapshot document = snapshot.data!.docs[index];
-                 Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                 if (vid.toString() == data['vendor']) {
-                       return InkWell(
-                         onTap: () {
-                String chatRoomId = ChatMethods().checkingId(vendorId: vid, currentUser: data['senderId']);
-                ChatingUser chatingUser = ChatingUser(id: data['senderId'], userName: data['senderName']);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => VendorMessagesScreen(chatRoomId: chatRoomId, chatingUser: chatingUser,currentVendorId:vid),),);
-                         },
-                         child: Card(
-                           child: ListTile(
-                                         leading: const CircleAvatar(radius: 30,backgroundColor: Colors.green,),
-                                         title: Text(data['senderName']??"Binshad"),
-                                         subtitle: Text(data['senderId']??"senderId"),
-                           ),
-                         ),
-                       );
-                 }
-                 return null;
-                 
-                 
-               },
-             ),
-             );
-              
+              return Expanded(
+                child: !snapshot.hasData
+                    ? const Center(
+                        child: Text('Chat List Empty'),
+                      )
+                    : ListView.builder(
+                        reverse: false,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          DocumentSnapshot document =
+                              snapshot.data!.docs[index];
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
+                          if (vid.toString() == data['vendor']) {
+                            return InkWell(
+                              onTap: () {
+                                String chatRoomId = ChatMethods().checkingId(
+                                    vendorId: vid,
+                                    currentUser: data['senderId']);
+                                ChatingUser chatingUser = ChatingUser(
+                                    id: data['senderId'],
+                                    userName: data['senderName']);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VendorMessagesScreen(
+                                        chatRoomId: chatRoomId,
+                                        chatingUser: chatingUser,
+                                        currentVendorId: vid,profilePic:data['senderPic'],),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Card(
+                                  child: ListTile(
+                                    leading: data['senderPic'] == null
+                                        ? const CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage: AssetImage(
+                                                'assets/splash/unknown.jpg'),
+                                          )
+                                        : CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage:
+                                                NetworkImage(data['senderPic']),
+                                          ),
+                                    title: Text(data['senderName'] ?? "Binshad"),
+                                    subtitle:
+                                        Text(data['senderId'] ?? "senderId"),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          return null;
+                        },
+                      ),
+              );
             },
           ),
         ],
       ),
     );
   }
-  
-  Future<String>getid()async {
- final vendorId = await getCurrentVendorId();
-return vendorId;
+
+  Future<String> getid() async {
+    final vendorId = await getCurrentVendorId();
+    return vendorId;
   }
 }
