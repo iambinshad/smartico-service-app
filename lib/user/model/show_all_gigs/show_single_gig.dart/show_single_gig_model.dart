@@ -61,6 +61,7 @@ class VendorId {
         required this.userName,
         required this.email,
         this.dob,
+        this.profilePhoto,
         required this.gender,
         required this.phone,
         required this.status,
@@ -74,6 +75,7 @@ class VendorId {
     String email;
     dynamic dob;
     String gender;
+    String? profilePhoto;
     int phone;
     String status;
     DateTime date;
@@ -85,6 +87,7 @@ class VendorId {
         userName: json["userName"],
         email: json["email"],
         dob: json["dob"],
+        profilePhoto:json['profilePhoto'],
         gender: json["gender"],
         phone: json["phone"],
         status: json["status"],
@@ -97,6 +100,7 @@ class VendorId {
         "fullName": fullName,
         "userName": userName,
         "email": email,
+        "profilePhoto":profilePhoto,
         "dob": dob,
         "gender": gender,
         "phone": phone,

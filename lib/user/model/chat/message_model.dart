@@ -49,3 +49,25 @@ class MessageModelTwo {
     };
   }
 }
+class MessageModel2{
+  String? from;
+  String? to;
+  String? message;
+
+  MessageModel2({required this.from,required this.to,required this.message});
+
+  MessageModel2.fromMap(Map<String,dynamic>map){
+    from = map["from"];
+    message = map["message"];
+    to = map["to"];
+  }
+
+  Map<String,dynamic>tojson(){
+    return{
+      "from":from,
+      "message":message,
+      "to":to,
+      
+    };
+  }
+}

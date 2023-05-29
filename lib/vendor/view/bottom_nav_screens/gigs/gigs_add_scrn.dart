@@ -167,19 +167,16 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                   Column(
                      children: [
                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
+                          padding:  const EdgeInsets.all(8.0),
+                          child:context.watch<NewGIgCreateProvider>().isLoading?const CircularProgressIndicator(): ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   saveButtonPressed();
                                 }
                               },
                               style: ButtonStyle(
-                                  padding: MaterialStatePropertyAll(EdgeInsets.only(
-                                      right: width / 2.9,
-                                      left: width / 2.9,
-                                      bottom: 12,
-                                      top: 12)),
+                                shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                                 minimumSize: MaterialStatePropertyAll(Size(width/1.1, 50)),
                                   backgroundColor: const MaterialStatePropertyAll(
                                       Color.fromARGB(255, 123, 230, 219))),
                               child: Text(

@@ -4,10 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/user/chat/chat_connection_provider.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/tasker_profile_scrn.dart';
 import '../../../../core/constants.dart';
 import 'other_screens/message_tile.dart';
 
@@ -18,11 +21,14 @@ class UserMessagesScreen extends StatelessWidget {
       required this.chatRoomId,
       required this.chatingVendor,
       this.currentUserId,
-      this.currentUserName});
+      this.currentUserName,
+      this.profilePic,this.chatindex});
 
+int? chatindex;
   dynamic chatRoomId;
   dynamic currentUserId;
   dynamic currentUserName;
+  String? profilePic;
   String chatedCount = 'No';
   FlutterSecureStorage storage = const FlutterSecureStorage();
   // CollectionReference vendormsgCollection = FirebaseFirestore.instance.collection('forVendor');
@@ -43,20 +49,37 @@ class UserMessagesScreen extends StatelessWidget {
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Row(
-          children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage('assets/works/profile pic.jpg'),
-              radius: 23,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              chatingVendor.vendorName!,
-              style: mediumText,
-            )
-          ],
+        title: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TaskerProfileScreen(
+                      profilePic: profilePic != null
+                          ? profilePic
+                          : "assets/splash/unknown.jpg",chatIndex: chatindex),
+                ));
+          },
+          child: Row(
+            children: [
+              profilePic == null
+                  ? const CircleAvatar(
+                      backgroundImage: AssetImage('assets/splash/unknown.jpg'),
+                      radius: 20,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: NetworkImage(profilePic!),
+                      radius: 23,
+                    ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                chatingVendor.vendorName!,
+                style: mediumText,
+              )
+            ],
+          ),
         ),
       ),
       body: StreamBuilder(
@@ -98,13 +121,12 @@ class UserMessagesScreen extends StatelessWidget {
                   itemCount: snapshot.data!.docs.length,
                 ),
               ),
-              Consumer2<MessageProvider,UserProfileProvider>(
-                  builder: (context, value1,value2, child) => Padding(
+              Consumer2<MessageProvider, UserProfileProvider>(
+                  builder: (context, value1, value2, child) => Padding(
                         padding: const EdgeInsets.all(8),
                         child: FutureBuilder(
                           future: value2.userDetails,
-                          builder: (context, snapshot) => 
-                          MyTextFormField(
+                          builder: (context, snapshot) => MyTextFormField(
                             prefixIcon: const Icon(
                               Icons.tag_faces_outlined,
                               size: 28,
@@ -115,24 +137,14 @@ class UserMessagesScreen extends StatelessWidget {
                                 .messageController,
                             suffixIcon: IconButton(
                                 onPressed: () async {
-                                  if (chatedCount == 'No') {
-                                    chatedCount = 'Yes';
-                                    await storage.write(
-                                        key: chatingVendor.id.toString(),
-                                        value: chatedCount);
-                                    await _firestore.collection('chats').add({
-                                      'vendor': chatingVendor.id,
-                                      'senderName': currentUserName,
-                                      'senderId': currentUserId,
-                                      'senderPic':snapshot.data?.profilePhoto
-                                    });
-                                                
-                                    log('startPrco');
-                                  }
                                   value1.sendButtonClicked(
                                       userId: chatingVendor.id!,
                                       chatRoomId: chatRoomId);
-                                      
+                                  // final currentUser = await getCurrentUserId();
+                                  Provider.of<SendMessageService>(context,
+                                          listen: false)
+                                      .sendMessageService(currentUserId,
+                                          chatingVendor.id, context);
                                 },
                                 icon: const Icon(
                                   Icons.send,

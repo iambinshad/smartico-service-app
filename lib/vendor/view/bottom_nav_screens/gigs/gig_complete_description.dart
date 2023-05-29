@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
@@ -17,7 +16,7 @@ class GigDescripttion extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title:Text(title!,style: TextStyle(fontWeight: FontWeight.bold),) ,centerTitle: true,backgroundColor: mainColor,),
+      appBar: AppBar(title:Text(title!,style: const TextStyle(fontWeight: FontWeight.bold),) ,centerTitle: true,backgroundColor: mainColor,),
       body: ListView(
         children: [
           SizedBox(
@@ -41,7 +40,7 @@ class GigDescripttion extends StatelessWidget {
                     children: [
                       Text(
                         value.vendorGigs![index].title,
-                        style: GoogleFonts.playfairDisplay(
+                        style:const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       Row(
@@ -55,22 +54,12 @@ class GigDescripttion extends StatelessWidget {
                             width: 5,
                           ),
                           Text(
-                            '(70 Reviews)',
+                            '(0)',
                             style: TextStyle(fontSize: 19),
                           )
                         ],
                       ),
-                      kHeight10,
-                      Row(
-                        children: const [
-                          Icon(
-                            Icons.place_outlined,
-                            color: Color.fromARGB(255, 123, 230, 219),
-                          ),
-                          Text('Golden Estate, Ajah,Logos',
-                              style: TextStyle(fontSize: 19))
-                        ],
-                      ),
+          
                       kHeight10,
                       Row(
                         children: [

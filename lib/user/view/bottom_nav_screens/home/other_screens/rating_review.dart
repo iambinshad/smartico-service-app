@@ -12,9 +12,10 @@ class WorkReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: mainColor,),
+      
+      appBar: AppBar(backgroundColor: mainColor,title:Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 26),) ,),
         body: Consumer<ReservedGigs>(
-            builder: (context, value, child) =>  value.reveiws == null?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
+            builder: (context, value, child) =>  value.reveiws!.length==0?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
               separatorBuilder: (context, index) =>const Divider() ,
               itemCount: value.reveiws!.length,
                 itemBuilder: (context, index) => Padding(
@@ -22,7 +23,6 @@ class WorkReviewScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 27),),
                           kHeight10,
                           Row(
                             children: [

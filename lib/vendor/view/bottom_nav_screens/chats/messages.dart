@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:smartico/application/user/chat/chat_connection_provider.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
@@ -56,7 +57,7 @@ class VendorMessagesScreen extends StatelessWidget {
             .collection("chatRoom")
             .doc(chatRoomId)
             .collection("chats")
-            .orderBy("createdon", descending: true)
+            .orderBy("createdon", descending: false)
             .snapshots(),
         builder: (context, snapshot) {
           log(chatRoomId);
@@ -80,7 +81,7 @@ class VendorMessagesScreen extends StatelessWidget {
               Expanded(
                 flex: 10,
                 child: ListView.builder(
-                  reverse: false,
+                  
                   itemBuilder: (context, index) {
                     Map<String, dynamic> map =
                         snapshot.data!.docs[index].data();
@@ -103,9 +104,15 @@ class VendorMessagesScreen extends StatelessWidget {
                               .messageController,
                           suffixIcon: IconButton(
                               onPressed: () {
+                                
                                 value.sendButtonClicked(
                                     userId: chatingUser.id!,
                                     chatRoomId: chatRoomId);
+                                    Provider.of<SendMessageService>(context, listen: false)
+                  .sendMessageService(
+                     currentVendorId,
+                      chatingUser.id,
+                     context );
                               },
                               icon: const Icon(
                                 Icons.send,

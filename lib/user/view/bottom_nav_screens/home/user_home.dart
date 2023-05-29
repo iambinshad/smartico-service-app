@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
@@ -10,7 +14,11 @@ import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/application/user/chat/chat_connection_provider.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/home_screen2.dart';
+import 'package:smartico/user/view/bottom_nav_screens/home/map_screen.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
@@ -25,9 +33,15 @@ class UserHomePage extends StatelessWidget {
   FlutterSecureStorage storage = const FlutterSecureStorage();
   final CarouselController carouselController = CarouselController();
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+   
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+       final token =await getUserAccesToken();
+       log(token.toString(),name: 'usereeeee');
+       Provider.of<UserConnectionService>(context, listen: false)
+          .userConnection();
       context.read<CommonProvider>().setShimmerLoading(true);
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
@@ -45,7 +59,11 @@ class UserHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 5, right: 13, left: 13),
                 child: CupertinoSearchTextField(
                   backgroundColor: Colors.white,
-                )),
+                )
+                ),
+            // title: TextButton(onPressed: (){
+            //   Navigator.push(context, MaterialPageRoute(builder: (context) => MapWidget(),));
+            // }, child:Text("mapppp")),
           ),
           body: Column(
             children: [
@@ -55,28 +73,32 @@ class UserHomePage extends StatelessWidget {
                 color: mainColor,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      height: 150.0,
-                      enlargeCenterPage: true,
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      viewportFraction: 0.8,
-                      enableInfiniteScroll: true,
-                      autoPlayAnimationDuration:
-                          const Duration(microseconds: 5000),
+                  child: InkWell(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>HomeScreen2() ,)),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        
+                        autoPlay: true,
+                        height: 150.0,
+                        enlargeCenterPage: true,
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        viewportFraction: 0.8,
+                        enableInfiniteScroll: true,
+                        autoPlayAnimationDuration:
+                            const Duration(microseconds: 5000),
+                      ),
+                      carouselController: carouselController,
+                      items: [
+                        BannerCard(
+                          imageAddress: 'assets/splash/cake banner.jpeg',
+                        ),
+                        BannerCard(
+                          imageAddress: 'assets/splash/painting banner.jpeg',
+                        ),
+                        BannerCard(
+                            imageAddress: 'assets/splash/carpenter banner.webp')
+                      ],
                     ),
-                    carouselController: carouselController,
-                    items: [
-                      BannerCard(
-                        imageAddress: 'assets/splash/cake banner.jpeg',
-                      ),
-                      BannerCard(
-                        imageAddress: 'assets/splash/painting banner.jpeg',
-                      ),
-                      BannerCard(
-                          imageAddress: 'assets/splash/carpenter banner.webp')
-                    ],
                   ),
                 ),
               ),
@@ -236,7 +258,8 @@ class UserHomePage extends StatelessWidget {
                                                 BorderRadius.circular(9),
                                             image: DecorationImage(
                                                 image: NetworkImage(value
-                                                    .allGigs![index].image),
+                                                    .allGigs
+                                                    ![index].image),
                                                 fit: BoxFit.cover),
                                           ),
                                         ),

@@ -36,10 +36,10 @@ class UserSignIn extends StatelessWidget {
                 child: Center(
                   child: Image(
                     image: const AssetImage(
-                      'assets/splash/logo3.webp',
+                      'assets/splash/Screenshot 2023-05-28 232417.png',
                     ),
-                    height: height / 15,
-                    width: width / 2,
+                    height: height / 13,
+                    width: width / 1.5,
                   ),
                 ),
               ),

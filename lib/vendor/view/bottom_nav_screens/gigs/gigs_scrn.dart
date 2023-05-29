@@ -7,10 +7,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smartico/application/common/common_provider.dart';
+import 'package:smartico/application/vendor/all_booking/all_bookings.dart';
+import 'package:smartico/application/vendor/chat/chat_connection_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_complete_description.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_edit_scrn.dart';
@@ -30,29 +33,33 @@ class _GigsScreenState extends State<GigsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp)async {
+            Provider.of<VendorConnectionService>(context, listen: false)
+          .vendorConnection();
       fetchDatas();
+      final token = await getVendorAccesToken();
+      log(token.toString(),name: "dkdkdkdkdkdkdk");
       Provider.of<VendorProfileProvider>(context, listen: false)
           .getVendorDetails();
+          Provider.of<AllBookingProvider>(context, listen: false)
+          .fetchAllBookings(context);
     });
 
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      floatingActionButton: ElevatedButton.icon(
+      floatingActionButton: IconButton(
           style:
               ButtonStyle(backgroundColor: MaterialStatePropertyAll(mainColor)),
           onPressed: () {
             bottomSheet(context, width);
           },
           icon: const Icon(
-            Icons.add,
-            color: Colors.black,
+            Icons.add_box_outlined,
+            color: Colors.white,
+            size: 30,
           ),
-          label: Text(
-            'Add New Gigs',
-            style: GoogleFonts.sigmarOne(color: Colors.black),
-          )),
+         ),
       appBar: AppBar(
         elevation: 5.0,
         backgroundColor: mainColor,
@@ -217,8 +224,8 @@ class _GigsScreenState extends State<GigsScreen> {
                                                 value.vendorGigs![index]
                                                     .title,
                                                 style:
-                                                    GoogleFonts.sigmarOne(
-                                                        fontSize: 20),
+                                                   const TextStyle(
+                                                        fontSize: 22,fontWeight: FontWeight.bold),
                                               ),
                                               kHeight10,
                                               Text(
@@ -236,8 +243,9 @@ class _GigsScreenState extends State<GigsScreen> {
                                               color: Colors.grey.shade800,
                                               fontSize: 18,
                                             ),
-                                            maxLines: 2,
+                                           
                                           ),
+                                          
                                         ],
                                       ),
                                     ),

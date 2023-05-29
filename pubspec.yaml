@@ -57,6 +57,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   share_plus: ^6.3.4
   launch_review: ^3.0.1
+  google_maps_flutter: ^2.2.8
   
 
 dev_dependencies:

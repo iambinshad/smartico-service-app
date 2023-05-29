@@ -28,7 +28,10 @@ class NewGIgCreateProvider with ChangeNotifier {
     notifyListeners();
   }
   
+   bool isLoading = false;
   Future<void> createNewGig(gigCreateDatas, context) async {
+    isLoading = true;
+    notifyListeners();
     var response = await NewGigCreateApiService().newGigCreate(gigCreateDatas);
     if (response == 'success') {
       showTopSnackBar(
@@ -38,6 +41,8 @@ class NewGIgCreateProvider with ChangeNotifier {
         ),
       );
     }
+    isLoading =false;
+    notifyListeners();
   }
 
   void setEditServiceCheck() {

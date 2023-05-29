@@ -9,30 +9,60 @@ import 'package:smartico/vendor/model/booking/new_bookings_model.dart';
 
 class ShowAllBookingService {
   Dio dio = Dio();
+Future<List<AllOrders>?> showAllBookings() async {
+  String path = ApiConfigration.kBaseUrl +
+      ApiConfigration.vendor +
+      ApiConfigration.allOrders;
 
-  Future<List<AllBooking>?> showAllBookings() async {
-    String path = ApiConfigration.kBaseUrl +
-        ApiConfigration.vendor +
-        ApiConfigration.allBookings;
+  try {
+    final token = await getVendorAccesToken();
 
-    try {
-      final token = await getVendorAccesToken();
+    Response response = await dio.get(
+      path,
+      options: Options(headers: {"authorization": "Bearer $token"}),
+    );
 
-      Response response = await dio.get(path,
-          options: Options(headers: {"authorization": "Beared $token"}));
-      if (response.statusCode == 200) {
-        log(response.data.toString(), name: 'First');
-        final List<AllBooking> allBookings =
-            (response.data["vendorOrders"] as List)
-                .map((e) => AllBooking.fromJson(e))
-                .toList();
-        return allBookings;
+    if (response.statusCode == 200) {
+      List<dynamic> responseData = response.data["data"]["reserved"];
+      log(response.data.toString());
+      List<AllOrders> allOrdersList = [];
+
+      for (var json in responseData) {
+        AllOrders allOrders = AllOrders.fromJson(json);
+        allOrdersList.add(allOrders);
       }
-    } on DioError catch (e) {
-      log(e.message.toString());
+
+      log(allOrdersList.toString());
+
+      return allOrdersList;
     }
-    return null;
+  } on DioError catch (e) {
+    log(e.message.toString());
   }
+  
+  return null;
+}
+  // Future<List<Reserved>?> showAllBookings() async {
+  //   String path = ApiConfigration.kBaseUrl +
+  //       ApiConfigration.vendor +
+  //       ApiConfigration.allOrders;
+
+  //   try {
+  //     final token = await getVendorAccesToken();
+
+  //     Response response = await dio.get(path,
+  //         options: Options(headers: {"authorization": "Beared $token"}));
+  //     if (response.statusCode == 200) {
+  //       List<dynamic> responseee = response.data["data"]["reserved"];
+
+   
+  //       return reservedList;
+  //     }
+  //   } on DioError catch (e) {
+  //     log(e.message.toString());
+  //   }
+  //   return null;
+  // }
 
   Future<void> completeService(context, CompleteBookingModel gigId) async {
     String path = ApiConfigration.kBaseUrl +

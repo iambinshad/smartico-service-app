@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
@@ -13,20 +12,21 @@ class RecentServicesProvider with ChangeNotifier {
       allGigs = value;
       Provider.of<CommonProvider>(context, listen: false)
           .setShimmerLoading(false);
-
       notifyListeners();
-    
     });
   }
 
-  void filterGigList(String enteredText){
+  void filterGigList(String enteredText) {
     List<ShowAllGigsToUserModle>? filteredList = [];
-    if(enteredText.isEmpty){
+    if (enteredText.isEmpty) {
       filteredList = allGigs;
-    }else{
-      filteredList = allGigs!.where((element) => element.title.toLowerCase().contains(enteredText.toLowerCase())).toList();
+    } else {
+      filteredList = allGigs!
+          .where((element) =>
+              element.title.toLowerCase().contains(enteredText.toLowerCase()))
+          .toList();
     }
-    showList =filteredList;
+    showList = filteredList;
     notifyListeners();
   }
 }

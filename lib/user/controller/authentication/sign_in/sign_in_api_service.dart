@@ -30,6 +30,7 @@ class UserSignInApiService {
         final id = data['_id'];
         final name = data['fullName'];
         await storage.write(key: 'currentUserName', value: name);
+        
         await storage.write(key: 'currentUserId', value: id);
         return returnsignInResModel;
       }

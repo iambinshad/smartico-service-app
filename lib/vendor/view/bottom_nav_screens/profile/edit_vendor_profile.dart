@@ -133,7 +133,7 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
                             )
                           : const CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/splash/tv repair.jpeg'),
+                                  AssetImage('assets/splash/unknown.jpg'),
                               radius: 60,
                             ),
                 ),

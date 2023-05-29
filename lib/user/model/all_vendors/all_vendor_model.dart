@@ -9,6 +9,7 @@ class AllVendorsModel {
          this.gender,
          this.phone,
          this.status,
+         this.profilePhoto,
     });
 
     String? id;
@@ -18,6 +19,7 @@ class AllVendorsModel {
     dynamic dob;
     String? gender;
     int? phone;
+    String? profilePhoto;
     String? status;
 
     factory AllVendorsModel.fromJson(Map<String, dynamic> json) => AllVendorsModel(
@@ -26,17 +28,20 @@ class AllVendorsModel {
         userName: json["userName"],
         email: json["email"],
         dob: json["dob"],
+        profilePhoto: json["profilePhoto"],
         gender: json["gender"],
         phone: json["phone"],
         status: json["status"],
     );
 
     Map<String, dynamic> toJson() => {
+      
         "_id": id,
         "fullName": fullName,
         "userName": userName,
         "email": email,
         "dob": dob,
+        "profilePhoto":profilePhoto,
         "gender": gender,
         "phone": phone,
         "status": status,

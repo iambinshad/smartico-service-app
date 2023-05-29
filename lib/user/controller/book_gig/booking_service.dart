@@ -23,9 +23,7 @@ class BookingService {
           options: Options(headers: {"authorization": "Bearer $token "}));
 
       if (response.statusCode == 200) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const BookingStatus()),
-            (Route<dynamic> route) => false);
+        log('Booking successfull');
       }
     } on DioError catch (e) {
       log(e.message.toString());

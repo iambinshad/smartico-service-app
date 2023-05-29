@@ -1,5 +1,5 @@
 class ApiConfigration{
-  static const kIpAddress = '10.4.4.63';
+  static const kIpAddress = '192.168.182.173';
   static const kBaseUrl = "http://$kIpAddress:3500";
 
   //----User Endpoints---
@@ -14,9 +14,11 @@ class ApiConfigration{
   static const cancelBooking = '/cancelOrder';
   static const userProfile = '/userProfile';
   static const addReveiw = '/addReview';
+  static const vendorAllGigs = "/viewVendorGigs/";
+  static const chat = "/chat";
   static const getReviews = '/gigRating/';// gig id needed after this endpoint
   static const updateUserDetails = '/updateUserProfile';
-
+  static const getUserConnections = '/getUserConnections/'; //you need to add user id after this
   //---Vendor Endpoints---
 
   //after kBaseUrl 
@@ -33,6 +35,7 @@ class ApiConfigration{
   static const deleteGig = '/deleteGig/'; // gig id needed after this endpoint
     static const editGig = '/updateVendorGig'; 
     static const allBookings = '/fetchAllOrders';
+    static const allOrders = '/bookedGigs';
     static const completeService  = '/completeUserOrder';
     static const completedOrderByData = '/completed-orders-by-date';
     static const cancelUserBooking = '/cancelUserOrder';
@@ -40,7 +43,8 @@ class ApiConfigration{
     static const setSkill = '/addSkill/';//vendor id needed after this endpoint
     static const vendorProfile = '/vendorProfile';
     static const updateVendorProfile = '/updateVendorProfile';
-  
+    static const getVendorConnections = '/getConnections/'; //you need to add user id after this
+
   //---Admin Endpoints---
 
   //after kBaseUrl 

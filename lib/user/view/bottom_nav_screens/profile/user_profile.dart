@@ -46,7 +46,7 @@ class UserProfilePage extends StatelessWidget {
                               radius: 30,
                             ):const CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/splash/tv repair.jpeg'),
+                                  AssetImage('assets/splash/unknown.jpg'),
                               radius: 30,
                             ),
                     ),

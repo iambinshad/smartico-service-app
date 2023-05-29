@@ -5,6 +5,7 @@ import 'package:smartico/core/api/api_configration.dart';
 import 'package:smartico/user/model/all_vendors/all_vendor_model.dart';
 
 class ShowAllVendorsService {
+  
   Dio dio = Dio();
 
   Future<List<AllVendorsModel>?> showAllVendors() async {

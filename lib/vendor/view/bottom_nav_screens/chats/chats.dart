@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:smartico/application/user/all_vendor_prov.dart';
+import 'package:smartico/application/vendor/chat/chat_connection_provider.dart';
 
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
@@ -17,13 +20,11 @@ class VendorChatScrn extends StatelessWidget {
   dynamic vid;
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      vid = await getid();
-    });
+Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.of<VendorConnectionService>(context,listen: false).sortedVendors;
     return Scaffold(
-      backgroundColor: Colors.white,
+
+      backgroundColor: const Color.fromARGB(255, 223, 223, 221),
       appBar: AppBar(
-        elevation: 0.0,
         centerTitle: true,
         backgroundColor: mainColor,
         title: Text('Messages', style: headText),
@@ -31,102 +32,71 @@ class VendorChatScrn extends StatelessWidget {
       body: Column(
         children: [
           ColoredBox(
-            color: mainColor,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CupertinoSearchTextField(
-                backgroundColor: Colors.white,
-              ),
-            ),
+            color: const Color.fromARGB(255, 121, 216, 206),
+            child: Padding(
+                padding: const EdgeInsets.only(right: 13, left: 13, bottom: 5),
+                child: Consumer<VendorConnectionService>(
+                  builder: (context, values, child) => 
+                  CupertinoSearchTextField(
+                    onChanged: (value) =>values.filterChatList(value) ,
+                    backgroundColor: Colors.white,
+                  ),
+                )),
           ),
-          StreamBuilder<QuerySnapshot>(
-            stream: _firestore.collection("chats").snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (!snapshot.hasData) {
-                log('snapshot has no data');
-                return const Center(
-                  child: Text("Chat List Empty"),
-                );
-              }
-              if (snapshot.hasError) {
-                log('error');
-                return const Center(
-                  child: Text('Check you internet Connection'),
-                );
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              return Expanded(
-                child: !snapshot.hasData
-                    ? const Center(
-                        child: Text('Chat List Empty'),
-                      )
-                    : ListView.builder(
-                        reverse: false,
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          DocumentSnapshot document =
-                              snapshot.data!.docs[index];
-                          Map<String, dynamic> data =
-                              document.data() as Map<String, dynamic>;
-                          if (vid.toString() == data['vendor']) {
-                            return InkWell(
-                              onTap: () {
-                                String chatRoomId = ChatMethods().checkingId(
-                                    vendorId: vid,
-                                    currentUser: data['senderId']);
-                                ChatingUser chatingUser = ChatingUser(
-                                    id: data['senderId'],
-                                    userName: data['senderName']);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => VendorMessagesScreen(
-                                        chatRoomId: chatRoomId,
-                                        chatingUser: chatingUser,
-                                        currentVendorId: vid,profilePic:data['senderPic'],),
-                                  ),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Card(
-                                  child: ListTile(
-                                    leading: data['senderPic'] == null
-                                        ? const CircleAvatar(
-                                            radius: 30,
-                                            backgroundImage: AssetImage(
-                                                'assets/splash/unknown.jpg'),
-                                          )
-                                        : CircleAvatar(
-                                            radius: 30,
-                                            backgroundImage:
-                                                NetworkImage(data['senderPic']),
-                                          ),
-                                    title: Text(data['senderName'] ?? "Binshad"),
-                                    subtitle:
-                                        Text(data['senderId'] ?? "senderId"),
-                                  ),
-                                ),
-                              ),
+          Expanded(
+            child: Consumer<VendorConnectionService>(
+              builder: (context, value, child) =>value.sortedVendors !=null? ListView.builder(
+                itemBuilder: (context, index) {
+                  return
+                   value.showList !=null?
+                   Card(
+                    child: ListTile(
+
+                      onTap: () async {
+                         value.connectionCount?[index].count = 0;
+                        String currentVendorId = await getCurrentVendorId();                  
+                        String chatRoomId = ChatMethods().checkingId(
+                            vendorId: currentVendorId,
+                            currentUser: value.showList![index].id);
+                            log(chatRoomId.toString(),name: "ChatROomId");
+                        ChatingUser chatingUser = ChatingUser(
+                          userName:value.showList![index].fullName ,
+                            id: value.showList![index].id,
                             );
-                          }
-                          return null;
-                        },
+                  
+                        if (context.mounted) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VendorMessagesScreen(chatRoomId: chatRoomId, chatingUser: chatingUser,currentVendorId:currentVendorId,profilePic:value.showList![index].profilePhoto ,)
+                              ));
+                        }
+                      },
+                      leading: value.showList![index].profilePhoto == null? const CircleAvatar(
+                        backgroundImage:AssetImage("assets/splash/unknown.jpg")
+                      ):CircleAvatar(
+                        backgroundImage:NetworkImage(value.showList![index].profilePhoto!)
                       ),
-              );
-            },
-          ),
+                      title: Text(value.showList![index].fullName),
+                      
+                      trailing: value.connectionCount![index].count!=0? CircleAvatar(
+                        radius: 9,
+                        child: Text(
+                          '${value.connectionCount![index].count}',
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ):const SizedBox()
+                    ),
+                  ):const Center(child: Text("No Chat Found!"),);
+                  
+                },
+                itemCount: value.showList!.length,
+              ):Text('Chat List Not Found!'),
+            ),
+          )
         ],
       ),
     );
   }
 
-  Future<String> getid() async {
-    final vendorId = await getCurrentVendorId();
-    return vendorId;
-  }
 }

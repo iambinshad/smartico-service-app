@@ -6,12 +6,12 @@ import 'package:smartico/vendor/controller/bookings/booking_service.dart';
 import 'package:smartico/vendor/model/booking/new_bookings_model.dart';
 
 class AllBookingProvider with ChangeNotifier {
-  List<AllBooking>? allBookings = [];
+  List<AllOrders>? allBookings = [];
 
   Future<void> fetchAllBookings(context) async {
     ShowAllBookingService().showAllBookings().then((value) {
       allBookings = value;
-      log(allBookings.toString(), name: 'second');
+      log(allBookings.toString(), name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     });
   }
 

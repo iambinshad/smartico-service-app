@@ -45,6 +45,7 @@ class VendorProvider extends ChangeNotifier {
     VendorSignInResModel? tokenData = await VendorSignInApiService().vendorSignIn(signInVendorDatas, context);
     log(tokenData.toString());
     if (tokenData != null) {
+      log(tokenData.token.toString(),name: "VendorTokennnnnnnn");
       await storage.write(key: "vendor_access_token", value: jsonEncode(tokenData.token));
             await storage.write(key: 'vendorId', value: tokenData.data!.user.id);
 

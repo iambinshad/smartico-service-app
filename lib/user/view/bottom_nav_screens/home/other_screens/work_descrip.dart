@@ -18,6 +18,8 @@ import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/rating_
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import 'confirm_success.dart';
+
 class ServiceDescriptionScrn extends StatefulWidget {
   const ServiceDescriptionScrn({
     super.key,
@@ -106,7 +108,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                               children: [
                                 Text(
                                   snapshot.data!.title,
-                                  style: GoogleFonts.playfairDisplay(
+                                  style: const TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -143,9 +145,13 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 kHeight10,
                                 Row(
                                   children: [
-                                    const CircleAvatar(
+                                    snapshot.data!.vendorId.profilePhoto==null? const CircleAvatar(
                                       backgroundImage: AssetImage(
-                                          'assets/works/profile pic.jpg'),
+                                          "assets/splash/unknown.jpg"),
+                                      radius: 22,
+                                    ): CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          snapshot.data!.vendorId.profilePhoto!),
                                       radius: 22,
                                     ),
                                     const SizedBox(
@@ -160,24 +166,24 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 kHeight10,
                                 Row(
                                   children: const [
-                                    Icon(
-                                      Icons.place_outlined,
-                                      color:
-                                          Color.fromARGB(255, 123, 230, 219),
-                                    ),
-                                    Text('Golden Estate, Ajah,Logos',
-                                        style: TextStyle(fontSize: 19))
+                                    // Icon(
+                                    //   Icons.place_outlined,
+                                    //   color:
+                                    //       Color.fromARGB(255, 123, 230, 219),
+                                    // ),
+                                    // Text('Golden Estate, Ajah,Logos',
+                                    //     style: TextStyle(fontSize: 19))
                                   ],
                                 ),
-                                kHeight10,
+                               
                                 Row(
                                   children: [
                                     Text(snapshot.data!.type,
-                                        style: GoogleFonts.playfairDisplay(
-                                            fontSize: 18)),
+                                        style: TextStyle(
+                                            fontSize: 18,fontWeight: FontWeight.bold)),
                                   ],
                                 ),
-                                kHeight10,
+                                
                                 Row(
                                   children: [
                                     const Icon(
@@ -266,6 +272,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                               chatRoomId: chatRoomId,
                               chatingVendor: chatingVendor,
                               currentUserId: currentUserId,
+                              profilePic: snapshot.data!.vendorId.profilePhoto,
                             ),
                           ));
                     },
@@ -320,6 +327,9 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const BookingStatus()),
+            (Route<dynamic> route) => false);
     final prov = Provider.of<BookGigPrvider>(context, listen: false);
     GigBookingModel bookingModel = GigBookingModel(
         vendorId: prov.vendorId.toString(),

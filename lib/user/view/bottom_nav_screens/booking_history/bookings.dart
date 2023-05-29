@@ -31,43 +31,33 @@ class BookingHistory extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Bookings'),
+        title:  Text('Bookings',style: normalText,),
         backgroundColor: mainColor,
       ),
       body: Column(
         children: [
-          ListTile(
-            leading: SizedBox(
-                width: 100,
-                child: Text(
-                  'Booked Gigs',
-                  style: normalText,
-                )),
-            title: Text(
-              'Details',
-              style: normalText,
-            ),
-            trailing: TextButton(
-              child: Text("Status   ",
-                  style: normalText.copyWith(color: Colors.black)),
-              onPressed: () {},
-            ),
-          ),
+  
           Consumer<ReservedGigs>(
               builder: (context, value, child) => Provider.of<CommonProvider>(
                           context,
                           listen: false)
                       .loading
                   ? shimmerLoading()
-                  : Expanded(
-                      child: value.reservedGigs == null
-                          ? const Center(
-                              child: Text(
-                                'Empty Bookings',
-                              ),
-                            )
-                          : ListView.builder(
-                              itemBuilder: (context, index) => ListTile(
+                  : value.reservedGigs!.isEmpty
+                      ? Column(
+                        children:const [
+                           SizedBox(height: 300,),
+                           Center(
+                            child: Text(
+                              'Bookings Empty',
+                            ),
+                          ),
+                        ],
+                      )
+                      : Expanded(
+                        child: ListView.builder(
+                            itemBuilder: (context, index) => Card(
+                              child: ListTile(
                                 onTap: () {
                                   showDialog(
                                     context: context,
@@ -322,9 +312,10 @@ class BookingHistory extends StatelessWidget {
                                 subtitle: Text(
                                     "\$${value.reservedGigs![index]!.gigId.price}"),
                               ),
-                              itemCount: value.reservedGigs!.length,
                             ),
-                    )),
+                            itemCount: value.reservedGigs!.length,
+                          ),
+                      )),
         ],
       ),
     );
