@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shimmer/shimmer.dart';
@@ -31,6 +30,21 @@ class ServiceDescriptionScrn extends StatefulWidget {
 
 class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   Dio dio = Dio();
+  List<String>offerText1 = [
+    "Save 15% quotes every order",
+    "Buy More Save More",
+    "Assured cashback on Paytm",
+    "15% off on Kotak Debit cards",
+    "15% off on Kotak Credit card"
+    ];
+    List<String>offerText2 =[
+      "Get Plus now",
+      "30% off 2nd item onwards",
+      "Up to 300 off",
+      "15% off up to INR 250",
+      "15% off up to INR 250"
+    ];
+
   @override
   void initState() {
     super.initState();
@@ -51,66 +65,151 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: ListView(
-        children: [
-          Consumer<SingleGigDetailsProvider>(
-            builder: (context, value, child) => FutureBuilder(
-              future: value.gig,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Container(
-                    height: width / 1.2,
-                    width: width,
+    final height = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+          bottomNavigationBar: Consumer<SingleGigDetailsProvider>(
+          builder: (context, value, child) => FutureBuilder(
+            future: value.gig,
+            builder: (context, snapshot) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  // onTap: () => Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) =>  MessagesScreen(),
+                  //     )),
+                  child: Container(
+                    height: width / 7.5,
+                    width: width / 5,
                     decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(snapshot.data!.image),
-                            fit: BoxFit.cover)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                            ))
-                      ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(40),
+                        border: Border.all(
+                            color: const Color.fromARGB(255, 123, 230, 219))),
+                    child: IconButton(
+                      icon: const Icon(Icons.message_rounded, size: 30),
+                      onPressed: () async {
+                        final currentUserId = await getCurrentUserId();
+                        ChatingVendor chatingVendor = ChatingVendor(
+                            id: snapshot.data!.vendorId.id,
+                            vendorName: snapshot.data!.vendorId.fullName);
+    
+                        final chatRoomId = ChatMethods().checkingId(
+                            vendorId: snapshot.data!.vendorId.id,
+                            currentUser: currentUserId);
+    
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserMessagesScreen(
+                                chatRoomId: chatRoomId,
+                                chatingVendor: chatingVendor,
+                                currentUserId: currentUserId,
+                                profilePic: snapshot.data!.vendorId.profilePhoto,
+                              ),
+                            ));
+                      },
+                      color: const Color.fromARGB(255, 123, 230, 219),
                     ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return Center(child: getjobdescriShimmerLoad(width));
-                }
-              },
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    confirmClicked(snapshot.data!.price, snapshot.data!.title);
+                    final prov =
+                        Provider.of<BookGigPrvider>(context, listen: false);
+                    prov.gigId = snapshot.data!.id;
+                    prov.title = snapshot.data!.title;
+                    prov.vendorId = snapshot.data!.vendorId.id;
+                    // _openCheckout(snapshot.data!.title,snapshot.data!.price);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 123, 230, 219),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: width / 5, vertical: width / 27),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40.0),
+                    ),
+                  ),
+                  child: const Text(
+                    "Pay & Book ",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ],
             ),
           ),
-          SizedBox(
-            width: width,
-            height: width + 60,
-            child: Consumer<SingleGigDetailsProvider>(
+        ),
+        resizeToAvoidBottomInset: false,
+        body: ListView(
+          children: [
+            Consumer<SingleGigDetailsProvider>(
               builder: (context, value, child) => FutureBuilder(
-                  future: value.gig,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Card(
+                future: value.gig,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      height: width / 1.7,
+                      width: width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(snapshot.data!.image),
+                              fit: BoxFit.fill)),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Colors.white,
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_back_outlined,
+                                    color: Colors.black,
+                                    size: 18,
+                                  )),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return Center(child: getjobdescriShimmerLoad(width));
+                  }
+                },
+              ),
+            ),
+            kHeight10,
+            SizedBox(
+              width: width,
+              height:height-width / 1.7,
+              child: Consumer<SingleGigDetailsProvider>(
+                builder: (context, value, child) => FutureBuilder(
+                    future: value.gig,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListView(
                               physics: const NeverScrollableScrollPhysics(),
                               children: [
-                                Text(
-                                  snapshot.data!.title,
-                                  style: const TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
+                                const Text(
+                                  // snapshot.data!.title,
+                                  "AC Service and Repair",
+                                  style: TextStyle(
+                                      fontSize: 26, fontWeight: FontWeight.bold),
                                 ),
                                 InkWell(
                                   onTap: () {
@@ -124,36 +223,139 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                   child: Row(
                                     children: [
                                       const StarIcon(),
-                                      const StarIcon(),
-                                      const StarIcon(),
-                                      const StarIcon(),
-                                      const StarIcon(),
                                       const SizedBox(
-                                        width: 5,
+                                        width: 3,
                                       ),
                                       Consumer<ReservedGigs>(
-                                        builder: (context, value, child) =>
-                                            Text(
+                                        builder: (context, value, child) => Text(
                                           " (${value.reveiws == null ? 0 : value.reveiws!.length} reveiw)",
-                                          style:
-                                              const TextStyle(fontSize: 19),
+                                          style: const TextStyle(fontSize: 19),
                                         ),
                                       )
                                     ],
                                   ),
                                 ),
                                 kHeight10,
+                                const Divider(),
+                                 kHeight10,
+                                Container(
+                                  width: width / 1.2,
+                                  height: width / 5.5,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color:const Color.fromARGB(255, 240, 240, 240)),
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: const [
+                                              Icon(
+                                                Icons.verified,
+                                                color: Colors.green,
+                                                size: 15,
+                                              ),
+                                              Text(
+                                                "Smartico Cover",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500),
+                                              )
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: const [
+                                              Text(
+                                                "Verified repair quotes & 30 days warrenty",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: const [
+                                          Icon(Icons.arrow_forward_ios_rounded)
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                 SizedBox(
+                            height: 70,
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: ListView.builder(
+                                      itemCount:5,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        return Row(
+                                         
+                                          children: [
+                                          Container(
+                                            width: width/1.7,
+                                            height: width/8.5,
+                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border:Border.all(color: Colors.black12)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5.0),
+                                              child: Row(
+                                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children:const[
+                                                      Icon(Icons.local_offer_rounded,color: Colors.green,)
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                     Text(offerText1[index],style: 
+                                                     const TextStyle( fontWeight:  FontWeight.w500),),
+                                                     Text(offerText2[index])
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          kWidth10,
+                                          ],
+                                        );
+                                      }),
+                                ),
+                              ],
+                            ),
+                          ),
+                                kHeight10,
                                 Row(
                                   children: [
-                                    snapshot.data!.vendorId.profilePhoto==null? const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          "assets/splash/unknown.jpg"),
-                                      radius: 22,
-                                    ): CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          snapshot.data!.vendorId.profilePhoto!),
-                                      radius: 22,
-                                    ),
+                                    snapshot.data!.vendorId.profilePhoto == null
+                                        ? const CircleAvatar(
+                                            backgroundImage: AssetImage(
+                                                "assets/splash/unknown.jpg"),
+                                            radius: 22,
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage: NetworkImage(snapshot
+                                                .data!.vendorId.profilePhoto!),
+                                            radius: 22,
+                                          ),
                                     const SizedBox(
                                       width: 5,
                                     ),
@@ -175,21 +377,19 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                     //     style: TextStyle(fontSize: 19))
                                   ],
                                 ),
-                               
                                 Row(
                                   children: [
                                     Text(snapshot.data!.type,
-                                        style: TextStyle(
-                                            fontSize: 18,fontWeight: FontWeight.bold)),
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold)),
                                   ],
                                 ),
-                                
                                 Row(
                                   children: [
                                     const Icon(
                                       Icons.monetization_on_outlined,
-                                      color:
-                                          Color.fromARGB(255, 123, 230, 219),
+                                      color: Color.fromARGB(255, 123, 230, 219),
                                     ),
                                     Text("${snapshot.data!.price}",
                                         style: const TextStyle(fontSize: 19))
@@ -204,8 +404,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 const Text(
                                   'Overview',
                                   style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                      fontSize: 22, fontWeight: FontWeight.bold),
                                 ),
                                 kHeight10,
                                 Text(snapshot.data!.overview,
@@ -214,8 +413,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 const Text(
                                   'Description',
                                   style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold),
+                                      fontSize: 22, fontWeight: FontWeight.bold),
                                 ),
                                 kHeight10,
                                 Text(snapshot.data!.description,
@@ -223,89 +421,15 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                               ],
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  }),
+                        );
+                      }
+                      return const SizedBox();
+                    }),
+              ),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Consumer<SingleGigDetailsProvider>(
-        builder: (context, value, child) => FutureBuilder(
-          future: value.gig,
-          builder: (context, snapshot) => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              GestureDetector(
-                // onTap: () => Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) =>  MessagesScreen(),
-                //     )),
-                child: Container(
-                  height: width / 7.5,
-                  width: width / 5,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(40),
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 123, 230, 219))),
-                  child: IconButton(
-                    icon: const Icon(Icons.message_rounded, size: 30),
-                    onPressed: () async {
-                      final currentUserId = await getCurrentUserId();
-                      ChatingVendor chatingVendor = ChatingVendor(
-                          id: snapshot.data!.vendorId.id,
-                          vendorName: snapshot.data!.vendorId.fullName);
-
-                      final chatRoomId = ChatMethods().checkingId(
-                          vendorId: snapshot.data!.vendorId.id,
-                          currentUser: currentUserId);
-
-                      // ignore: use_build_context_synchronously
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserMessagesScreen(
-                              chatRoomId: chatRoomId,
-                              chatingVendor: chatingVendor,
-                              currentUserId: currentUserId,
-                              profilePic: snapshot.data!.vendorId.profilePhoto,
-                            ),
-                          ));
-                    },
-                    color: const Color.fromARGB(255, 123, 230, 219),
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  confirmClicked(snapshot.data!.price, snapshot.data!.title);
-                  final prov =
-                      Provider.of<BookGigPrvider>(context, listen: false);
-                  prov.gigId = snapshot.data!.id;
-                  prov.title = snapshot.data!.title;
-                  prov.vendorId = snapshot.data!.vendorId.id;
-                  // _openCheckout(snapshot.data!.title,snapshot.data!.price);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 123, 230, 219),
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width / 5, vertical: width / 27),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40.0),
-                  ),
-                ),
-                child: const Text(
-                  "Pay & Book ",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
+      
       ),
     );
   }
@@ -328,8 +452,8 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const BookingStatus()),
-            (Route<dynamic> route) => false);
+        MaterialPageRoute(builder: (context) => const BookingStatus()),
+        (Route<dynamic> route) => false);
     final prov = Provider.of<BookGigPrvider>(context, listen: false);
     GigBookingModel bookingModel = GigBookingModel(
         vendorId: prov.vendorId.toString(),
@@ -337,7 +461,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
         requirements: response.paymentId.toString(),
         gigId: prov.gigId.toString());
     prov.booking(bookingModel, context);
-    // Do something when payment succeeds
+    
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -434,8 +558,8 @@ class StarIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Icon(
       Icons.star_rate_rounded,
-      size: 25,
-      color: Colors.yellow,
+      size: 23,
+      color: Colors.black,
     );
   }
 }
