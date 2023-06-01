@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/api/api_configration.dart';
 import 'package:smartico/user/model/booking/booking_model.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/confirm_success.dart';
 
 class BookingService {
   Dio dio = Dio();

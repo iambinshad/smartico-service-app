@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
+import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
@@ -30,17 +31,12 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
   final _formKey = GlobalKey<FormState>();
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
 
-
-
-
   @override
   Widget build(BuildContext context) {
- 
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        
         backgroundColor: mainColor,
         title: Text(
           'Add Gig',
@@ -69,24 +65,31 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                 children: [
                   TextFieldName(value: 'Title'),
                   MyTextFormField(
-                       controller: titleController,prefixIcon:const Icon(Icons.title),),
+                    controller: titleController,
+                    prefixIcon: const Icon(Icons.title),
+                  ),
                   TextFieldName(value: 'Overview'),
                   MyTextFormField(
                     prefixIcon: const Icon(Icons.wrap_text_outlined),
                     controller: overViewController,
                   ),
                   TextFieldName(value: 'Description'),
-                  MyTextFormField(controller: descriptionController,prefixIcon: const Icon(Icons.description),),
+                  MyTextFormField(
+                    controller: descriptionController,
+                    prefixIcon: const Icon(Icons.description),
+                  ),
                   TextFieldName(value: 'Price'),
                   MyTextFormField(
                     controller: priceController,
-                    prefixIcon: const Icon(Icons.monetization_on_outlined,size: 27,),
+                    prefixIcon: const Icon(
+                      Icons.monetization_on_outlined,
+                      size: 27,
+                    ),
                     keyboardType: TextInputType.number,
                   ),
                   TextFieldName(value: 'Type'),
                   Consumer<NewGIgCreateProvider>(
-                    builder: (context, values, child) => 
-                     Row(
+                    builder: (context, values, child) => Row(
                       children: [
                         Checkbox(
                           value: values.addserviceCheckBoxValue,
@@ -101,7 +104,7 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                         Checkbox(
                           value: values.addproductCheckBoxValue,
                           onChanged: (value) {
-                          values.setProductCheck();
+                            values.setProductCheck();
                           },
                           shape: const RoundedRectangleBorder(
                               borderRadius:
@@ -127,17 +130,14 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                       builder: (context, value, value2, child) {
                     return DropdownButtonFormField<CategoryResModel>(
                       value: value2.selectedCategory,
-                      
                       items: value2.categories
-                          .map((category) =>
-                              DropdownMenuItem<CategoryResModel>(
+                          .map((category) => DropdownMenuItem<CategoryResModel>(
                                 value: category,
                                 child: Text(category!.name),
                               ))
                           .toList(),
                       onChanged: (CategoryResModel? category) {
-                        value2.setCategory(category, category!.id);
-  
+                        value2.setCategory(category, category!.id,context);
                       },
                       validator: (value) {
                         if (value2.selectedCategory == null) {
@@ -152,8 +152,7 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                         fillColor: Colors.white,
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
-                            borderSide:
-                                const BorderSide(color: Colors.black)),
+                            borderSide: const BorderSide(color: Colors.black)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                             borderSide: const BorderSide(
@@ -165,28 +164,35 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                     );
                   }),
                   Column(
-                     children: [
-                       Padding(
-                          padding:  const EdgeInsets.all(8.0),
-                          child:context.watch<NewGIgCreateProvider>().isLoading?const CircularProgressIndicator(): ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  saveButtonPressed();
-                                }
-                              },
-                              style: ButtonStyle(
-                                shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                                 minimumSize: MaterialStatePropertyAll(Size(width/1.1, 50)),
-                                  backgroundColor: const MaterialStatePropertyAll(
-                                      Color.fromARGB(255, 123, 230, 219))),
-                              child: Text(
-                                'Save',
-                                style: normalText,
-                              )),
-                        ),
-                     ],
-                   ),
-               
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: context.watch<NewGIgCreateProvider>().isLoading
+                            ? const CircularProgressIndicator()
+                            : ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    saveButtonPressed();
+                                  }
+                                },
+                                style: ButtonStyle(
+                                    shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    minimumSize: MaterialStatePropertyAll(
+                                        Size(width / 1.1, 50)),
+                                    backgroundColor:
+                                        const MaterialStatePropertyAll(
+                                            Color.fromARGB(
+                                                255, 123, 230, 219))),
+                                child: Text(
+                                  'Save',
+                                  style: normalText,
+                                )),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -195,22 +201,23 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
       ),
     );
   }
+
   showLoadingDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return const AlertDialog(
-        content: SizedBox(
-          height: 50.0,
-          child: Center(
-            child: CircularProgressIndicator(),
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          content: SizedBox(
+            height: 50.0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
   void saveButtonPressed() async {
     var title = titleController.text.trim();
@@ -219,26 +226,20 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
     var price = priceController.text.trim();
     FlutterSecureStorage storage = const FlutterSecureStorage();
     var vendorId = await storage.read(key: 'vendorId');
-
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
     CloudinaryResponse response = await cloudinary.uploadFile(
         CloudinaryFile.fromFile(widget.imagePath!.path,
             resourceType: CloudinaryResourceType.Image));
     final url = response.secureUrl;
     dynamic type;
- 
-     // ignore: use_build_context_synchronously
-     if (context.read<NewGIgCreateProvider>().addserviceCheckBoxValue) {
+    if (context.read<NewGIgCreateProvider>().addserviceCheckBoxValue) {
       type = 'Service';
-    // ignore: use_build_context_synchronously
+      
     } else if (context.read<NewGIgCreateProvider>().addproductCheckBoxValue) {
       type = 'Product';
-    
-
- }
+    }
     var gigCreateDatas = NewGigCreateModel(
         title: title,
         overview: overView,
@@ -246,20 +247,11 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
         type: type,
         description: description,
         price: price,
-        // ignore: use_build_context_synchronously
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         vendorId: vendorId.toString());
-        
-   
-      // ignore: use_build_context_synchronously
-      context.read<NewGIgCreateProvider>().createNewGig(gigCreateDatas, context);
-    // ignore: use_build_context_synchronously
-    context.read<NewGIgCreateProvider>().getAllCategory(context);
-    // ignore: prefer_const_constructors, use_build_context_synchronously
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => VendorBottomNavBar(),));
-    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>const  VendorBottomNavBar(),));
-   
-    
+      await context.read<NewGIgCreateProvider>().createNewGig(gigCreateDatas, context);
+      context.read<NewGIgCreateProvider>().getAllCategory(context);
+      await Provider.of<ShowAllGigsProvider>(context,listen: false).callApiServiceGigs(context);
+      Navigator.pop(context);
   }
 }
-

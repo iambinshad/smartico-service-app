@@ -237,7 +237,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                                 ])),
                           ),
                           kHeight15,
-                          context.watch<VendorProvider>().isLoadingsignup?CircularProgressIndicator(): ElevatedButton(
+                          context.watch<VendorProvider>().isLoadingsignup?const CircularProgressIndicator(): ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                   

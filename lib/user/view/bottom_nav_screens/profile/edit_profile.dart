@@ -195,8 +195,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   Navigator.pop(context);
                   pickImageFromCamera();
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.blue,
@@ -214,8 +214,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   Navigator.pop(context);
                   await pickImageFromGallery();
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.photo,
                       color: Colors.blue,

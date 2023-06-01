@@ -34,7 +34,7 @@ class VendorProfile extends StatelessWidget {
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/splash/bgImage.jpeg'),
-                          fit: BoxFit.cover),
+                          fit: BoxFit.fill),
                     ),
                     width: double.infinity,
                     height: height / 4,
@@ -239,7 +239,7 @@ class VendorProfile extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => VendorProfileEdit(
-                                    profilePic: snapshot.data?.profilePhoto,
+                                      profilePic: snapshot.data?.profilePhoto,
                                       userName: snapshot.data?.userName,
                                       mobile: "${snapshot.data?.phone}",
                                       gender: "${snapshot.data?.gender}",

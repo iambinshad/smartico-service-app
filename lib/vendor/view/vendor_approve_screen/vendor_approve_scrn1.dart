@@ -219,8 +219,8 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                   pickImageFromCamera();
                   Navigator.pop(context);
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.blue,
@@ -238,8 +238,8 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                   pickImageFromGallery();
                   Navigator.pop(context);
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.photo,
                       color: Colors.blue,
@@ -264,7 +264,6 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
     if (prov.countryValue != null &&
         prov.stateValue != null &&
         prov.cityValue != null &&
-        prov.pincode != null &&
         profile != null) {
       return true;
     }

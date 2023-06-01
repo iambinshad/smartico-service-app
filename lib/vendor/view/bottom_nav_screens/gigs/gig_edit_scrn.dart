@@ -10,7 +10,6 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
 import 'package:smartico/vendor/model/new_gig/edit_gig_model.dart';
-import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../../../application/vendor/vendor_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 
@@ -68,7 +67,6 @@ class _GigEditScreenState extends State<GigEditScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<NewGIgCreateProvider>(context, listen: false)
           .typeCheck(widget.type);
-
       context.read<NewGIgCreateProvider>().getAllCategory(context);
     });
     final newGigProv =
@@ -213,9 +211,8 @@ class _GigEditScreenState extends State<GigEditScreen> {
                                 child: Text(category!.name),
                               ))
                           .toList(),
-                          
-                      onChanged: (CategoryResModel? category) {
-                        value2.setCategory(category, category!.id);
+                     onChanged: (CategoryResModel? category) {                      
+                  value2.setCategory(category, category!.id,context);
                       },
                       decoration: InputDecoration(
                         isDense: true,
@@ -280,8 +277,8 @@ class _GigEditScreenState extends State<GigEditScreen> {
                   Navigator.pop(context);
                   pickImageFromCamera();
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.blue,
@@ -299,8 +296,8 @@ class _GigEditScreenState extends State<GigEditScreen> {
                   Navigator.pop(context);
                   await pickImageFromGallery();
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.photo,
                       color: Colors.blue,
@@ -367,22 +364,17 @@ class _GigEditScreenState extends State<GigEditScreen> {
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         gigId: gigId);
     if (mounted) {
-      Provider.of<NewGIgCreateProvider>(context, listen: false)
+      await Provider.of<NewGIgCreateProvider>(context, listen: false)
           .editGig(gigEditDatas, context);
-      newGigProv.getAllCategory(context);
     }
-    if (mounted) {
+    
       context.read<NewGIgCreateProvider>().getAllCategory(context);
-    }
+    
 
     if (mounted) {
-      context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const VendorBottomNavBar(),
-          ));
+      await context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
     }
+    Navigator.pop(context);
   }
 
   Future pickImageFromGallery() async {

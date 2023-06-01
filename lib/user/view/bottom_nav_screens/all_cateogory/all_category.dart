@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
-import 'package:smartico/user/view/bottom_nav_screens/all_cateogory/shimmer_page.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
 class AllCategroryList extends StatelessWidget {
@@ -57,11 +57,11 @@ class AllCategroryList extends StatelessWidget {
                 left: 10,
               ),
               child: Consumer2<RecentServicesProvider, CommonProvider>(
-                builder: (context, value, value2, child) => ListView.builder(
+                builder: (context, value, value2, child) => value2.shimmerLoading
+                        ? Center(child: LoadingAnimationWidget.fourRotatingDots(color: Colors.grey, size: 25.0))
+                        :  ListView.builder(
                   itemBuilder: (context, index) {
-                    return value2.shimmerLoading
-                        ? getShimmerLoading(width)
-                        : GestureDetector(
+                    return GestureDetector(
                             onTap: () async {
                               await context
                                   .read<SingleGigDetailsProvider>()
@@ -131,8 +131,8 @@ class AllCategroryList extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          children: const [
+                                        const Row(
+                                          children: [
                                             Icon(
                                               Icons.star_rate_rounded,
                                               color: Colors.yellow,
@@ -160,8 +160,8 @@ class AllCategroryList extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          children: const [
+                                        const Row(
+                                          children: [
                                             Icon(
                                               Icons.remove_red_eye,
                                               color: Colors.blue,

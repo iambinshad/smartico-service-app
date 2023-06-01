@@ -285,8 +285,8 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
                   Navigator.pop(context);
                   pickImageFromCamera();
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.camera_alt_outlined,
                       color: Colors.blue,
@@ -304,8 +304,8 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
                   Navigator.pop(context);
                   await pickImageFromGallery();
                 },
-                child: Column(
-                  children: const [
+                child: const Column(
+                  children: [
                     Icon(
                       Icons.photo,
                       color: Colors.blue,
@@ -343,12 +343,15 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
         googleDrive: googleDriveController.text,
         linkedIn: linkedInController.text,
         mobile: mobileController.text,
-        profilePhoto:url??widget.profilePic,
+        profilePhoto: url ?? widget.profilePic,
         skill: skillsController.text,
         state: stateController.text,
         upiId: upiIdController.text,
         userName: userNameController.text);
-        Provider.of<VendorProfileProvider>(context,listen: false).editVendorProfile(editedData);
-        Navigator.pop(context);
+    await Provider.of<VendorProfileProvider>(context, listen: false)
+        .editVendorProfile(editedData);
+        await  Provider.of<VendorProfileProvider>(context, listen: false)
+          .getVendorDetails();
+    Navigator.pop(context);
   }
 }

@@ -15,7 +15,7 @@ class WorkReviewScreen extends StatelessWidget {
       
       appBar: AppBar(backgroundColor: mainColor,title:Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 26),) ,),
         body: Consumer<ReservedGigs>(
-            builder: (context, value, child) =>  value.reveiws!.length==0?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
+            builder: (context, value, child) =>  value.reveiws!.isEmpty?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
               separatorBuilder: (context, index) =>const Divider() ,
               itemCount: value.reveiws!.length,
                 itemBuilder: (context, index) => Padding(

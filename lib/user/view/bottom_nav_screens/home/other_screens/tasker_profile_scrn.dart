@@ -44,8 +44,9 @@ class TaskerProfileScreen extends StatelessWidget {
                             ? CircleAvatar(
                                 radius: 70,
                                 child: Image(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(profilePic!)),
+
+                                    fit: BoxFit.contain,
+                                    image: NetworkImage(profilePic!,),),
                               )
                             : CircleAvatar(
                                 radius: 70,
@@ -113,7 +114,7 @@ class TaskerProfileScreen extends StatelessWidget {
 
               Card(
                 child: ColoredBox(
-                  color: Color.fromARGB(57, 206, 205, 205),
+                  color: const Color.fromARGB(57, 206, 205, 205),
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(

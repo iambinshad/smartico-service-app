@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:smartico/application/user/chat/chat_connection_provider.dart';
 import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
-import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/tasker_profile_scrn.dart';
@@ -55,9 +54,7 @@ int? chatindex;
                 context,
                 MaterialPageRoute(
                   builder: (context) => TaskerProfileScreen(
-                      profilePic: profilePic != null
-                          ? profilePic
-                          : "assets/splash/unknown.jpg",chatIndex: chatindex),
+                      profilePic: profilePic ?? "assets/splash/unknown.jpg",chatIndex: chatindex),
                 ));
           },
           child: Row(

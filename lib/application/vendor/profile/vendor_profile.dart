@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:smartico/vendor/controller/profile/vendor_profile.dart';
@@ -11,6 +10,7 @@ class  VendorProfileProvider  with ChangeNotifier{
 
   Future<void>getVendorDetails()async{
     vendorDetails = VendorProfileService().vendorProfile();
+    notifyListeners();
   }
 
 

@@ -13,7 +13,7 @@ class MapWidget extends StatefulWidget {
 class _MapWidgetState extends State<MapWidget> {
   final Completer<GoogleMapController> controllerr = Completer();
 
-  static const LatLng _center = LatLng(37.335000926, -122.03272188);
+  // static const LatLng center = LatLng(37.335000926, -122.03272188);
   static const CameraPosition initialPosition = CameraPosition(target: LatLng(38.15478,-122.78945 ),zoom: 14.0);
 
   // void _onMapCreated(GoogleMapController controller) {

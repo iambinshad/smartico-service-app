@@ -156,7 +156,7 @@ class UserProfilePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  SettingsScreen(),
+                                  builder: (context) =>  const SettingsScreen(),
                                 ));
                           },
                         ),

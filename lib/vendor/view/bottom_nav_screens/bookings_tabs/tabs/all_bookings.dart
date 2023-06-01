@@ -18,7 +18,7 @@ class AllBookingTab extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Bookings',style: normalText,),backgroundColor: mainColor,centerTitle: true),
       body: Consumer<AllBookingProvider>(
-        builder: (context, value, child) =>value.allBookings?.length==0?const Center(child: Text('Bookings Not Found!'),): ListView.builder(
+        builder: (context, value, child) =>value.allBookings!.isEmpty?const Center(child: Text('No One Booked Yet!'),): ListView.builder(
           itemBuilder: (context, index) {
             return Column(
               children: [

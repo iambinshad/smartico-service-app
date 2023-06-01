@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,20 +31,20 @@ class ServiceDescriptionScrn extends StatefulWidget {
 
 class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   Dio dio = Dio();
-  List<String>offerText1 = [
+  List<String> offerText1 = [
     "Save 15% quotes every order",
     "Buy More Save More",
     "Assured cashback on Paytm",
     "15% off on Kotak Debit cards",
     "15% off on Kotak Credit card"
-    ];
-    List<String>offerText2 =[
-      "Get Plus now",
-      "30% off 2nd item onwards",
-      "Up to 300 off",
-      "15% off up to INR 250",
-      "15% off up to INR 250"
-    ];
+  ];
+  List<String> offerText2 = [
+    "Get Plus now",
+    "30% off 2nd item onwards",
+    "Up to 300 off",
+    "15% off up to INR 250",
+    "15% off up to INR 250"
+  ];
 
   @override
   void initState() {
@@ -68,83 +69,40 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     final height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-          bottomNavigationBar: Consumer<SingleGigDetailsProvider>(
+        bottomNavigationBar: Consumer<SingleGigDetailsProvider>(
           builder: (context, value, child) => FutureBuilder(
             future: value.gig,
-            builder: (context, snapshot) => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  // onTap: () => Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) =>  MessagesScreen(),
-                  //     )),
-                  child: Container(
-                    height: width / 7.5,
-                    width: width / 5,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(40),
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 123, 230, 219))),
-                    child: IconButton(
-                      icon: const Icon(Icons.message_rounded, size: 30),
-                      onPressed: () async {
-                        final currentUserId = await getCurrentUserId();
-                        ChatingVendor chatingVendor = ChatingVendor(
-                            id: snapshot.data!.vendorId.id,
-                            vendorName: snapshot.data!.vendorId.fullName);
-    
-                        final chatRoomId = ChatMethods().checkingId(
-                            vendorId: snapshot.data!.vendorId.id,
-                            currentUser: currentUserId);
-    
-                        // ignore: use_build_context_synchronously
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserMessagesScreen(
-                                chatRoomId: chatRoomId,
-                                chatingVendor: chatingVendor,
-                                currentUserId: currentUserId,
-                                profilePic: snapshot.data!.vendorId.profilePhoto,
-                              ),
-                            ));
-                      },
-                      color: const Color.fromARGB(255, 123, 230, 219),
-                    ),
+            builder: (context, snapshot) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  confirmClicked(snapshot.data!.price, snapshot.data!.title);
+                  final prov =
+                      Provider.of<BookGigPrvider>(context, listen: false);
+                  prov.gigId = snapshot.data!.id;
+                  prov.title = snapshot.data!.title;
+                  prov.vendorId = snapshot.data!.vendorId.id;
+                  // _openCheckout(snapshot.data!.title,snapshot.data!.price);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 123, 230, 219),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: width / 5, vertical: width / 27),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40.0),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    confirmClicked(snapshot.data!.price, snapshot.data!.title);
-                    final prov =
-                        Provider.of<BookGigPrvider>(context, listen: false);
-                    prov.gigId = snapshot.data!.id;
-                    prov.title = snapshot.data!.title;
-                    prov.vendorId = snapshot.data!.vendorId.id;
-                    // _openCheckout(snapshot.data!.title,snapshot.data!.price);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 123, 230, 219),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width / 5, vertical: width / 27),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0),
-                    ),
-                  ),
-                  child: const Text(
-                    "Pay & Book ",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
+                child: const Text(
+                  "Pay & Book ",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
-              ],
+              ),
             ),
           ),
         ),
         resizeToAvoidBottomInset: false,
         body: ListView(
+          // physics: NeverScrollableScrollPhysics(),
           children: [
             Consumer<SingleGigDetailsProvider>(
               builder: (context, value, child) => FutureBuilder(
@@ -192,234 +150,405 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
             kHeight10,
             SizedBox(
               width: width,
-              height:height-width / 1.7,
+              height: height - width / 1.7,
               child: Consumer<SingleGigDetailsProvider>(
                 builder: (context, value, child) => FutureBuilder(
                     future: value.gig,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ListView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              children: [
-                                const Text(
-                                  // snapshot.data!.title,
-                                  "AC Service and Repair",
-                                  style: TextStyle(
-                                      fontSize: 26, fontWeight: FontWeight.bold),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const WorkReviewScreen(),
-                                        ));
-                                  },
-                                  child: Row(
-                                    children: [
-                                      const StarIcon(),
-                                      const SizedBox(
-                                        width: 3,
-                                      ),
-                                      Consumer<ReservedGigs>(
-                                        builder: (context, value, child) => Text(
-                                          " (${value.reveiws == null ? 0 : value.reveiws!.length} reveiw)",
-                                          style: const TextStyle(fontSize: 19),
-                                        ),
-                                      )
-                                    ],
+                          padding: const EdgeInsets.all(14.0),
+                          child: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    // snapshot.data!.title,
+                                    "${snapshot.data!.title}-",
+                                    style: const TextStyle(
+                                        fontSize: 26,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                kHeight10,
-                                const Divider(),
-                                 kHeight10,
-                                Container(
-                                  width: width / 1.2,
-                                  height: width / 5.5,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color:const Color.fromARGB(255, 240, 240, 240)),
-                                  child: const Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: const [
-                                              Icon(
-                                                Icons.verified,
-                                                color: Colors.green,
-                                                size: 15,
-                                              ),
-                                              Text(
-                                                "Smartico Cover",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: const [
-                                              Text(
-                                                "Verified repair quotes & 30 days warrenty",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18),
-                                              )
-                                            ],
-                                          )
-                                        ],
+                                  Text(snapshot.data!.type,
+                                      style: const TextStyle(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                              kHeight10,
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const WorkReviewScreen(),
+                                      ));
+                                },
+                                child: Row(
+                                  children: [
+                                    const StarIcon(),
+                                    const SizedBox(
+                                      width: 3,
+                                    ),
+                                    Consumer<ReservedGigs>(
+                                      builder: (context, value, child) => Text(
+                                        " (${value.reveiws == null ? 0 : value.reveiws!.length} reveiw)",
+                                        style: const TextStyle(fontSize: 19),
                                       ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: const [
-                                          Icon(Icons.arrow_forward_ios_rounded)
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 ),
-                                 SizedBox(
-                            height: 70,
-                            width: double.infinity,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: ListView.builder(
-                                      itemCount:5,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        return Row(
-                                         
+                              ),
+                              kHeight10,
+                              Row(
+                                children: [
+                                  Text("\u{20B9}${snapshot.data!.price}",
+                                      style: const TextStyle(fontSize: 19)),
+                                  kWidth10,
+                                  Text("\u{20B9}${snapshot.data!.price + 49}",
+                                      style: const TextStyle(
+                                          fontSize: 19,
+                                          decoration:
+                                              TextDecoration.lineThrough))
+                                ],
+                              ),
+                              const Text(
+                                'Overview',
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                              kHeight10,
+                              Text(snapshot.data!.overview,
+                                  style: const TextStyle(fontSize: 18)),
+                              kHeight10,
+                              const Text(
+                                'Description',
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold),
+                              ),
+                              kHeight10,
+                              Text(snapshot.data!.description,
+                                  style: const TextStyle(fontSize: 18)),
+                              kHeight10,
+                              const Divider(),
+                              kHeight15,
+                              Container(
+                                width: width / 1.2,
+                                height: width / 5.5,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color.fromARGB(
+                                        255, 240, 240, 240)),
+                                child: const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
-                                          Container(
-                                            width: width/1.7,
-                                            height: width/8.5,
-                                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),border:Border.all(color: Colors.black12)),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: Row(
-                                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            Icon(
+                                              Icons.verified,
+                                              color: Colors.green,
+                                              size: 15,
+                                            ),
+                                            Text(
+                                              "Smartico Cover",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Verified repair quotes & 30 days warrenty",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.arrow_forward_ios_rounded)
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              kHeight10,
+                              SizedBox(
+                                width: double.infinity,
+                                height: height/12,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: ListView.builder(
+                                          itemCount: 5,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            return Row(
+                                              children: [
+                                                Container(
+                                                  width: width / 1.7,
+                                                  height: width / 8.5,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color:
+                                                              Colors.black12)),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            5.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        const Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .local_offer_rounded,
+                                                              color:
+                                                                  Colors.green,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              offerText1[index],
+                                                              style: const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                            Text(offerText2[
+                                                                index])
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                kWidth10,
+                                              ],
+                                            );
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              kHeight10,
+                              Divider(
+                                thickness: 1,
+                              ),
+                              kHeight10,
+                              Row(
+                                children: [
+                                  snapshot.data!.vendorId.profilePhoto == null
+                                      ? const CircleAvatar(
+                                          backgroundImage: AssetImage(
+                                              "assets/splash/unknown.jpg"),
+                                          radius: 22,
+                                        )
+                                      : CircleAvatar(
+                                          backgroundImage: NetworkImage(snapshot
+                                              .data!.vendorId.profilePhoto!),
+                                          radius: 22,
+                                        ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(snapshot.data!.vendorId.fullName,
+                                      style: const TextStyle(
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold)),
+                                  const Spacer(),
+                                  CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: IconButton(
+                                        onPressed: () async {
+                                          final currentUserId =
+                                              await getCurrentUserId();
+                                          ChatingVendor chatingVendor =
+                                              ChatingVendor(
+                                                  id: snapshot
+                                                      .data!.vendorId.id,
+                                                  vendorName: snapshot
+                                                      .data!.vendorId.fullName);
+
+                                          final chatRoomId = ChatMethods()
+                                              .checkingId(
+                                                  vendorId: snapshot
+                                                      .data!.vendorId.id,
+                                                  currentUser: currentUserId);
+
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserMessagesScreen(
+                                                  chatRoomId: chatRoomId,
+                                                  chatingVendor: chatingVendor,
+                                                  currentUserId: currentUserId,
+                                                  profilePic: snapshot.data!
+                                                      .vendorId.profilePhoto,
+                                                ),
+                                              ));
+                                        },
+                                        icon: Icon(Icons.message_outlined)),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 70,
+                                width: double.infinity,
+                                child: Consumer<ReservedGigs>(
+                                  builder:(context, value, child) => 
+                                   Flexible(
+                                    flex: 1,
+                                    child: value.reveiws!.isEmpty
+                                        ? const Center(
+                                            child: Text(
+                                                'No Reviews Posted Yet!'),
+                                          )
+                                        : ListView.separated(
+                                          physics: NeverScrollableScrollPhysics(),
+                                            separatorBuilder:
+                                                (context, index) =>
+                                                    const Divider(),
+                                            itemCount: value.reveiws!.length,
+                                            itemBuilder: (context, index) =>
+                                                Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children:const[
-                                                      Icon(Icons.local_offer_rounded,color: Colors.green,)
+                                                  kHeight10,
+                                                  Row(
+                                                    children: [
+                                                      RatingBar.builder(
+                                                        ignoreGestures: true,
+                                                        allowHalfRating: true,
+                                                        initialRating: value
+                                                            .reveiws![index]!
+                                                            .rating,
+                                                        itemSize: 20,
+                                                        itemBuilder: (context,
+                                                                index) =>
+                                                            const Icon(
+                                                          Icons.star,
+                                                          color:
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  230,
+                                                                  209,
+                                                                  23),
+                                                        ),
+                                                        onRatingUpdate:
+                                                            (value) {},
+                                                      ),
+                                                      Text(
+                                                        "(${value.reveiws![index]!.rating})",
+                                                        style: normalText,
+                                                      ),
+                                                      kWidth10,
+                                                      Text(
+                                                          value
+                                                              .reveiws![
+                                                                  index]!
+                                                              .title,
+                                                          style: normalText),
                                                     ],
                                                   ),
-                                                  Column(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                  kHeight10,
+                                                  Text(
+                                                    value.reveiws![index]!
+                                                        .description,
+                                                    style: const TextStyle(
+                                                        fontSize: 19),
+                                                  ),
+                                                  kHeight10,
+                                                  Row(
                                                     children: [
-                                                     Text(offerText1[index],style: 
-                                                     const TextStyle( fontWeight:  FontWeight.w500),),
-                                                     Text(offerText2[index])
+                                                      const CircleAvatar(
+                                                        radius: 10,
+                                                        backgroundImage:
+                                                            AssetImage(
+                                                                'assets/splash/unknown.jpg'),
+                                                      ),
+                                                      kWidth10,
+                                                      Text(
+                                                        "${value.reveiws![index]!.userId.fullName}  ,  ",
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.grey,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        value.reveiws![index]!
+                                                            .userId.status,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.green,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      )
                                                     ],
-                                                  )
+                                                  ),
+                                                  kHeight10,
+                                                  Row(
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.verified,
+                                                        size: 18,
+                                                      ),
+                                                      Text(
+                                                          'Verified User  ${value.reveiws![index]!.date}')
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                           ),
-                                          kWidth10,
-                                          ],
-                                        );
-                                      }),
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                                kHeight10,
-                                Row(
-                                  children: [
-                                    snapshot.data!.vendorId.profilePhoto == null
-                                        ? const CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/splash/unknown.jpg"),
-                                            radius: 22,
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage: NetworkImage(snapshot
-                                                .data!.vendorId.profilePhoto!),
-                                            radius: 22,
-                                          ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(snapshot.data!.vendorId.fullName,
-                                        style: const TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.bold))
-                                  ],
-                                ),
-                                kHeight10,
-                                Row(
-                                  children: const [
-                                    // Icon(
-                                    //   Icons.place_outlined,
-                                    //   color:
-                                    //       Color.fromARGB(255, 123, 230, 219),
-                                    // ),
-                                    // Text('Golden Estate, Ajah,Logos',
-                                    //     style: TextStyle(fontSize: 19))
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(snapshot.data!.type,
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.monetization_on_outlined,
-                                      color: Color.fromARGB(255, 123, 230, 219),
-                                    ),
-                                    Text("${snapshot.data!.price}",
-                                        style: const TextStyle(fontSize: 19))
-                                  ],
-                                ),
-                                kHeight10,
-                                Divider(
-                                  color: mainColor,
-                                  thickness: 1,
-                                ),
-                                kHeight10,
-                                const Text(
-                                  'Overview',
-                                  style: TextStyle(
-                                      fontSize: 22, fontWeight: FontWeight.bold),
-                                ),
-                                kHeight10,
-                                Text(snapshot.data!.overview,
-                                    style: const TextStyle(fontSize: 19)),
-                                kHeight10,
-                                const Text(
-                                  'Description',
-                                  style: TextStyle(
-                                      fontSize: 22, fontWeight: FontWeight.bold),
-                                ),
-                                kHeight10,
-                                Text(snapshot.data!.description,
-                                    style: const TextStyle(fontSize: 19)),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         );
                       }
@@ -429,7 +558,6 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
             ),
           ],
         ),
-      
       ),
     );
   }
@@ -461,7 +589,6 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
         requirements: response.paymentId.toString(),
         gigId: prov.gigId.toString());
     prov.booking(bookingModel, context);
-    
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -490,42 +617,42 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     );
   }
 
-  void showConfirmBox(price, title) {
-    showDialog(
-      context: context,
-      builder: (context) => SimpleDialog(
-        title: const Text('Confirm Booking'),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: MyTextFormField(
-              controller: Provider.of<BookGigPrvider>(context, listen: false)
-                  .bookingRequirements,
-              hintText: 'Booking Requirements',
-              maxLines: 4,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                elevation: 5,
-                backgroundColor: mainColor,
-              ),
-              child: const Text(
-                'Confirm',
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // void showConfirmBox(price, title) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => SimpleDialog(
+  //       title: const Text('Confirm Booking'),
+  //       children: [
+  //         Padding(
+  //           padding: const EdgeInsets.all(10.0),
+  //           child: MyTextFormField(
+  //             controller: Provider.of<BookGigPrvider>(context, listen: false)
+  //                 .bookingRequirements,
+  //             hintText: 'Booking Requirements',
+  //             maxLines: 4,
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: const EdgeInsets.all(15.0),
+  //           child: ElevatedButton(
+  //             onPressed: () {},
+  //             style: ElevatedButton.styleFrom(
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(5),
+  //               ),
+  //               elevation: 5,
+  //               backgroundColor: mainColor,
+  //             ),
+  //             child: const Text(
+  //               'Confirm',
+  //               style: TextStyle(fontSize: 20, color: Colors.white),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void confirmClicked(price, title) {
     _openCheckout(price, title);

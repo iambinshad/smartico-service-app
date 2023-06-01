@@ -22,10 +22,12 @@ class NewGIgCreateProvider with ChangeNotifier {
   bool editserviceCheckBoxValue = false;
   bool editproductCheckBoxValue = false;
 
-  void setCategory(selectedCategoryValue, selectedCategoryIdValue) {
+  void setCategory(selectedCategoryValue, selectedCategoryIdValue,context) {
     selectedCategory = selectedCategoryValue;
     selectedCategoryId = selectedCategoryIdValue;
     notifyListeners();
+          // context.read<NewGIgCreateProvider>().getAllCategory(context);
+
   }
   
    bool isLoading = false;

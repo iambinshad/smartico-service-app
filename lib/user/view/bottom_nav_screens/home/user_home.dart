@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/all_vendor_prov.dart';
@@ -18,13 +17,11 @@ import 'package:smartico/application/user/chat/chat_connection_provider.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/home_screen2.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/map_screen.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import 'banner_card.dart';
-import 'other_screens/shimmer_page.dart';
 
 // ignore: must_be_immutable
 class UserHomePage extends StatelessWidget {
@@ -42,7 +39,6 @@ class UserHomePage extends StatelessWidget {
        log(token.toString(),name: 'usereeeee');
        Provider.of<UserConnectionService>(context, listen: false)
           .userConnection();
-      context.read<CommonProvider>().setShimmerLoading(true);
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
@@ -216,7 +212,9 @@ class UserHomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 7, right: 13, left: 13),
                   child: Consumer2<RecentServicesProvider, CommonProvider>(
                     builder: (context, value, value2, child) =>
-                        GridView.builder(
+                       value2.shimmerLoading
+                            ? Center(child: LoadingAnimationWidget.fourRotatingDots(color: Colors.grey, size: 25.0))
+                            : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
@@ -224,9 +222,7 @@ class UserHomePage extends StatelessWidget {
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) {
-                        return value2.shimmerLoading
-                            ? getGridShimmer(width, height)
-                            : GestureDetector(
+                        return  GestureDetector(
                                 onTap: () async {
                                   await context
                                       .read<SingleGigDetailsProvider>()
@@ -268,10 +264,10 @@ class UserHomePage extends StatelessWidget {
                                             Text(
                                               value.allGigs![index].title,
                                               style: const TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                              overflow: TextOverflow.ellipsis,
+                                                  
+                                                  fontSize:18,
+                                                  fontWeight: FontWeight.w500),
+                                              
                                             ),
                                           ],
                                         ),
@@ -281,21 +277,17 @@ class UserHomePage extends StatelessWidget {
                                                 style: const TextStyle(
                                                     fontSize: 17,
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                        FontWeight.w500),
                                                 overflow:
                                                     TextOverflow.ellipsis),
                                           ],
                                         ),
                                         Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            const Icon(
-                                              Icons.monetization_on,
-                                              color: Color.fromARGB(
-                                                  255, 58, 201, 15),
-                                              size: 23,
-                                            ),
+                                           
                                             Text(
-                                              '${value.allGigs![index].price}',
+                                              '\u{20B9}${value.allGigs![index].price}',
                                               style: const TextStyle(
                                                   fontSize: 17,
                                                   fontWeight: FontWeight.bold),

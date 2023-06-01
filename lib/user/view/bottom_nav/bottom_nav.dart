@@ -21,7 +21,7 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
     AllCategroryList(),
     const UserChatScreen(),
     BookingHistory(),
-     UserProfilePage()
+    UserProfilePage()
   ];
 
   @override
@@ -37,13 +37,11 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
-        
-        selectedItemColor:mainColor,
-        unselectedItemColor:Colors.grey.shade600,
+        selectedItemColor: mainColor,
+        unselectedItemColor: Colors.grey.shade600,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(
-            
               icon: Icon(
                 Icons.category,
               ),
@@ -53,7 +51,8 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
                 Icons.chat_outlined,
               ),
               label: 'Chat'),
-              BottomNavigationBarItem(icon: Icon(Icons.book_online),label: 'Bookings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.book_online), label: 'Bookings'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,

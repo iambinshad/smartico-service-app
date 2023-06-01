@@ -8,12 +8,12 @@ class TermsAndConditionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Terms & Conditions'),backgroundColor: mainColor,),
-      body: Center(child: Padding(
-        padding: const EdgeInsets.all(10.0),
+      appBar: AppBar(title: const Text('Terms & Conditions'),backgroundColor: mainColor,),
+      body: const Center(child: Padding(
+        padding: EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Column(
-            children:const [
+            children:[
               Text(
                   """
 Last updated: 02-02-2023

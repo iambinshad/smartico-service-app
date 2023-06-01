@@ -9,7 +9,6 @@ import 'package:smartico/core/api/api_configration.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/user/model/chat/chat_connection.dart';
 import 'package:smartico/user/model/chat/message_model.dart';
-import 'package:smartico/vendor/model/chat/vendor_chat_connection.dart';
 
 class UserConnectionService with ChangeNotifier {
   List<SortedUser>? sortedUsers;

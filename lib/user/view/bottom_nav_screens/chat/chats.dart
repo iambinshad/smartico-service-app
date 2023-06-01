@@ -45,81 +45,84 @@ class UserChatScreen extends StatelessWidget {
           ),
           Expanded(
             child: Consumer<UserConnectionService>(
-              builder: (context, value, child) => value.showList != null
+              builder: (context, value, child) => value.showList!=null
                   ? ListView.builder(
                       itemBuilder: (context, index) {
                         return
-                             value.showList !=null?
-                            Card(
-                                child: ListTile(
-                                    onTap: () async {
-                                      // value.connectionCount?[index].count = 0;
-                                      String currentUserId =
-                                          await getCurrentUserId();
-                                      String currentUserName =
-                                          await getCurrentUserName();
-
-                                      String chatRoomId = ChatMethods()
-                                          .checkingId(
-                                              vendorId:
-                                                  value.showList![index].id!,
-                                              currentUser: currentUserId);
-                                      ChatingVendor chatingVendor =
-                                          ChatingVendor(
-                                              id: value.showList![index].id,
-                                              vendorName: value
-                                                  .showList![index]
-                                                  .fullName);
-                                      log(chatRoomId.toString(),
-                                          name: "ChatROomId");
-                                      if (context.mounted) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UserMessagesScreen(
-                                                    chatindex: index,
-                                                chatRoomId: chatRoomId,
-                                                chatingVendor: chatingVendor,
-                                                currentUserId: currentUserId,
-                                                currentUserName:
-                                                    currentUserName,
-                                                profilePic: value
+                             value.showList!.isEmpty?const Center(child:Text('Search Item Not Found!',style: TextStyle(color: Colors.black),)):
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Card(
+                                  child: ListTile(
+                                      onTap: () async {
+                                        // value.connectionCount?[index].count = 0;
+                                        String currentUserId =
+                                            await getCurrentUserId();
+                                        String currentUserName =
+                                            await getCurrentUserName();
+                            
+                                        String chatRoomId = ChatMethods()
+                                            .checkingId(
+                                                vendorId:
+                                                    value.showList![index].id!,
+                                                currentUser: currentUserId);
+                                        ChatingVendor chatingVendor =
+                                            ChatingVendor(
+                                                id: value.showList![index].id,
+                                                vendorName: value
                                                     .showList![index]
-                                                    .profilePhoto,
-                                              ),
-                                            ));
-                                      }
-                                      Provider.of<VendorAllGigsFetching>(context,listen: false).fetchVendorAllGigs(value.sortedUsers![index].id!);
-                                    },
-                                    leading: value.showList![index]
-                                                .profilePhoto ==
-                                            null
-                                        ? const CircleAvatar(
-                                            backgroundImage: AssetImage(
-                                                "assets/splash/unknown.jpg"))
-                                        : CircleAvatar(
-                                            backgroundImage: NetworkImage(value
-                                                .showList![index]
-                                                .profilePhoto!)),
-                                    title: Text(
-                                        value.showList![index].fullName ??
-                                            "unknown"),
-                                    subtitle:
-                                        Text("${value.showList![index].phone}"),
-                                    // trailing:
-                                    //     value.connectionCount?[index].count != 0
-                                    //         ? CircleAvatar(
-                                    //             radius: 9,
-                                    //             child: Text(
-                                    //               '${value.connectionCount?[index].count}',
-                                    //               style: const TextStyle(
-                                    //                   fontSize: 12),
-                                    //             ),
-                                    //           )
-                                    //         : const SizedBox()
-                                            ))
-                        :const Center(child:Text('Search Item Not Found!'));
+                                                    .fullName);
+                                        log(chatRoomId.toString(),
+                                            name: "ChatROomId");
+                                        if (context.mounted) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UserMessagesScreen(
+                                                      chatindex: index,
+                                                  chatRoomId: chatRoomId,
+                                                  chatingVendor: chatingVendor,
+                                                  currentUserId: currentUserId,
+                                                  currentUserName:
+                                                      currentUserName,
+                                                  profilePic: value
+                                                      .showList![index]
+                                                      .profilePhoto,
+                                                ),
+                                              ));
+                                        }
+                                        Provider.of<VendorAllGigsFetching>(context,listen: false).fetchVendorAllGigs(value.sortedUsers![index].id!);
+                                      },
+                                      leading: value.showList![index]
+                                                  .profilePhoto ==
+                                              null
+                                          ? const CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                  "assets/splash/unknown.jpg"))
+                                          : CircleAvatar(
+                                              backgroundImage: NetworkImage(value
+                                                  .showList![index]
+                                                  .profilePhoto!)),
+                                      title: Text(
+                                          value.showList![index].fullName ??
+                                              "unknown"),
+                                      // subtitle:
+                                      //     Text("${value.showList![index].phone}"),
+                                      // trailing:
+                                      //     value.connectionCount?[index].count != 0
+                                      //         ? CircleAvatar(
+                                      //             radius: 9,
+                                      //             child: Text(
+                                      //               '${value.connectionCount?[index].count}',
+                                      //               style: const TextStyle(
+                                      //                   fontSize: 12),
+                                      //             ),
+                                      //           )
+                                      //         : const SizedBox()
+                                              )),
+                            );
+                        
                       },
                       itemCount: value.showList!.length,
                     )

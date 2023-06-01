@@ -87,8 +87,8 @@ class ViewAllScreen extends StatelessWidget {
                                           fontSize: 23,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Row(
-                                      children: const [
+                                    const Row(
+                                      children: [
                                         Icon(
                                           Icons.star_rounded,
                                           color: Colors.blue,

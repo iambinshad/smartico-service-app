@@ -93,7 +93,7 @@ class BookedGigsFullDetails extends StatelessWidget {
                       Text(value.vendorGigs![index].description,
                           style: const TextStyle(fontSize: 19)),
                           kHeight10,
-                          Divider(thickness: 5,color: Colors.grey,),
+                          const Divider(thickness: 5,color: Colors.grey,),
                           kHeight10,
                           Text("Customer Details",style: normalText,),
                           kHeight15,
@@ -115,7 +115,7 @@ class BookedGigsFullDetails extends StatelessWidget {
                                         style: const TextStyle(
                                             fontSize: 19,
                                             fontWeight: FontWeight.bold)),
-                                            Spacer(),
+                                            const Spacer(),
                                             CircleAvatar(
                                               child: IconButton(onPressed: ()async{
                                                            String currentVendorId = await getCurrentVendorId();      
@@ -137,7 +137,7 @@ class BookedGigsFullDetails extends StatelessWidget {
                                                                             builder: (context) => VendorMessagesScreen(chatRoomId: chatRoomId, chatingUser: chatingUser,currentVendorId:currentVendorId,profilePic:pro.allBookings![index].userId!.profilePhoto ,)
                                                                           ));
                                                                     }
-                                                        }, icon: Icon(Icons.message_outlined)),
+                                                        }, icon: const Icon(Icons.message_outlined)),
                                             ),
                                   ],
                                 ),

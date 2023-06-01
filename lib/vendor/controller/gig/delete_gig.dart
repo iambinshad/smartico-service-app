@@ -16,7 +16,6 @@ class DeleteGigService {
         gigId;
     final token = await getVendorAccesToken();
 
-
     try {
       Response response = await dio.delete(path,
           options: Options(headers: {"authorization": "Bearer $token"}));
@@ -28,7 +27,6 @@ class DeleteGigService {
             message: 'Gig Delete Successfull',
           ),
         );
-     Navigator.pop(context);
       } else {
         log(response.statusMessage.toString());
       }

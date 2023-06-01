@@ -44,8 +44,8 @@ class BookingHistory extends StatelessWidget {
                       .loading
                   ? shimmerLoading()
                   : value.reservedGigs!.isEmpty
-                      ? Column(
-                        children:const [
+                      ? const Column(
+                        children:[
                            SizedBox(height: 300,),
                            Center(
                             child: Text(

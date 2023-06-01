@@ -27,5 +27,6 @@ class FetchVendorAllGigs {
     } on DioError catch (e) {
       log(e.message.toString());
     }
+    return null;
   }
 }

@@ -43,8 +43,8 @@ class GigDescripttion extends StatelessWidget {
                         style:const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                      Row(
-                        children: const [
+                      const Row(
+                        children: [
                           StarIcon(),
                           StarIcon(),
                           StarIcon(),

@@ -11,7 +11,7 @@ import 'package:smartico/vendor/model/authentication/vendor_sign_in_res_model.da
 
 class VendorSignInApiService {
   Dio dio = Dio();
-  FlutterSecureStorage storage = FlutterSecureStorage();
+  FlutterSecureStorage storage = const FlutterSecureStorage();
   Future<VendorSignInResModel?> vendorSignIn(
       VendorSignInReqModel vendorSignInReqModel, BuildContext context) async {
     String path = ApiConfigration.kBaseUrl +

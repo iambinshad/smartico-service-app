@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:smartico/application/user/all_vendor_prov.dart';
 import 'package:smartico/application/vendor/chat/chat_connection_provider.dart';
 
 import 'package:smartico/core/constants.dart';
@@ -91,7 +90,7 @@ Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.
                   
                 },
                 itemCount: value.showList!.length,
-              ):Text('Chat List Not Found!'),
+              ):const Text('Chat List Not Found!'),
             ),
           )
         ],

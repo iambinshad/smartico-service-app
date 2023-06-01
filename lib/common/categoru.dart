@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -63,8 +62,8 @@ class Nothingof extends StatelessWidget {
                         kHeight10,
                         Row(
                           children: [
-                            Row(
-                              children: const [
+                            const Row(
+                              children: [
                                 Icon(
                                   Icons.star_rate_rounded,
                                   color: Colors.yellow,

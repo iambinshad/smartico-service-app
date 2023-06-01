@@ -18,10 +18,7 @@ class VendorSignIn extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        
-
         resizeToAvoidBottomInset: false,
-        // backgroundColor: const Color.fromARGB(255, 181, 177, 177),
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,

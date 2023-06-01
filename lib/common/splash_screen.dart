@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
 import 'package:smartico/user/view/authentication/user_sign_in.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 

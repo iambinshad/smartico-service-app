@@ -9,9 +9,9 @@ class BookingStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Row(
+      bottomNavigationBar: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text('Have any questions? Reach directly to our Customer Support'),
         ],
       ),
