@@ -16,7 +16,6 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/application/user/chat/chat_connection_provider.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/home_screen2.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
@@ -69,32 +68,29 @@ class UserHomePage extends StatelessWidget {
                 color: mainColor,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 5),
-                  child: InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>HomeScreen2() ,)),
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        
-                        autoPlay: true,
-                        height: 150.0,
-                        enlargeCenterPage: true,
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        viewportFraction: 0.8,
-                        enableInfiniteScroll: true,
-                        autoPlayAnimationDuration:
-                            const Duration(microseconds: 5000),
-                      ),
-                      carouselController: carouselController,
-                      items: [
-                        BannerCard(
-                          imageAddress: 'assets/splash/cake banner.jpeg',
-                        ),
-                        BannerCard(
-                          imageAddress: 'assets/splash/painting banner.jpeg',
-                        ),
-                        BannerCard(
-                            imageAddress: 'assets/splash/carpenter banner.webp')
-                      ],
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      
+                      autoPlay: true,
+                      height: 150.0,
+                      enlargeCenterPage: true,
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      viewportFraction: 0.8,
+                      enableInfiniteScroll: true,
+                      autoPlayAnimationDuration:
+                          const Duration(microseconds: 5000),
                     ),
+                    carouselController: carouselController,
+                    items: [
+                      BannerCard(
+                        imageAddress: 'assets/splash/cake banner.jpeg',
+                      ),
+                      BannerCard(
+                        imageAddress: 'assets/splash/painting banner.jpeg',
+                      ),
+                      BannerCard(
+                          imageAddress: 'assets/splash/carpenter banner.webp')
+                    ],
                   ),
                 ),
               ),
@@ -238,7 +234,7 @@ class UserHomePage extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ServiceDescriptionScrn(),
+                                               ServiceDescriptionScrn(isBooked: false,)
                                         ));
                                   }
                                 },

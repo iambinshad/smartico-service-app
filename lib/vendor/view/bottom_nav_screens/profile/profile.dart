@@ -5,6 +5,7 @@ import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/common/settings_scrn/settings_screen.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
+import 'package:smartico/user/view/authentication/user_sign_in.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/profile/edit_vendor_profile.dart';
@@ -207,24 +208,6 @@ class VendorProfile extends StatelessWidget {
                             style: normalText,
                           ),
                         ),
-                        kHeight10,
-                      ],
-                    ),
-                  ),
-                  kHeight10,
-                  ColoredBox(
-                    color: const Color.fromARGB(255, 243, 241, 241),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        kHeight10,
-                        Padding(
-                          padding: const EdgeInsets.only(left: 17),
-                          child: Text(
-                            'Others',
-                            style: normalText.copyWith(color: Colors.blue),
-                          ),
-                        ),
                         Tile(
                           title: const Text(
                             'Edit Profile',
@@ -258,6 +241,23 @@ class VendorProfile extends StatelessWidget {
                                 ));
                           },
                         ),
+                      ],
+                    ),
+                  ),
+                  kHeight10,
+                  ColoredBox(
+                    color: const Color.fromARGB(255, 243, 241, 241),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kHeight10,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 17),
+                          child: Text(
+                            'System',
+                            style: normalText.copyWith(color: Colors.blue),
+                          ),
+                        ),
                         Tile(
                           storage: storage,
                           trailing: const Icon(
@@ -271,12 +271,76 @@ class VendorProfile extends StatelessWidget {
                             ),
                           ),
                           title: const Text('Settings'),
-                          onTap: () async {
+                          onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => const SettingsScreen(),
                                 ));
+                          },
+                        ),
+                        Tile(
+                          storage: storage,
+                          leading: CircleAvatar(
+                            child: Icon(Icons.restart_alt_rounded),
+                          ),
+                          title: Text("Swich User"),
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text("Switch User"),
+                                content: const Text(
+                                    'Are You Sure You Want To Switch To User'),
+                                actions: [
+                                  ElevatedButton(
+                                    style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Colors.grey)),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('No',
+                                        style: TextStyle(color: Colors.white)),
+                                  ),
+                                  ElevatedButton(
+                                    style: const ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                Colors.red)),
+                                    onPressed: () async {
+                                      FlutterSecureStorage storage =
+                                          const FlutterSecureStorage();
+                                      String? user = await storage.read(
+                                          key: 'user_access_token');
+                                      if (context.mounted) {}
+                                      if (user != null) {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const UserBottomNavBar(),
+                                            ),
+                                            (route) => false);
+                                      } else {
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  UserSignIn(),
+                                            ),
+                                            (route) => false);
+                                      }
+                                    },
+                                    child: const Text(
+                                      'Yes',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                         ),
                         Tile(
@@ -339,23 +403,12 @@ class VendorProfile extends StatelessWidget {
   void yesClicked(context) async {
     await storage.delete(key: 'vendor_access_token');
     await storage.delete(key: 'vendorId');
-    String? user = await storage.read(key: 'user_access_token');
-    if (context.mounted) {}
-    if (user != null) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const UserBottomNavBar(),
-          ),
-          (route) => false);
-    } else {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VendorSignIn(),
-          ),
-          (route) => false);
-    }
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VendorSignIn(),
+        ),
+        (route) => false);
   }
 }
 

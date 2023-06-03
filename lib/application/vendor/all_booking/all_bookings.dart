@@ -11,12 +11,13 @@ class AllBookingProvider with ChangeNotifier {
   Future<void> fetchAllBookings(context) async {
     ShowAllBookingService().showAllBookings().then((value) {
       allBookings = value;
-      log(allBookings.toString(), name: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      notifyListeners();
     });
   }
 
   Future<void> completeService(context, orderId) async {
     ShowAllBookingService()
         .completeService(context, CompleteBookingModel(orderId: orderId));
+        notifyListeners();
   }
 }

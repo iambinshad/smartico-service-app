@@ -18,8 +18,8 @@ TextEditingController reviewTitleController = TextEditingController();
   Future<void> getReservedGigs(BuildContext context) async {
     ReservedGigsService().fetchBookedGigs()!.then((value) {
       reservedGigs = value;
+       notifyListeners();
     });
-    notifyListeners();
   }
 
   Future<void>postRating(ReviewAddingModel reveiwData)async{
@@ -29,6 +29,7 @@ TextEditingController reviewTitleController = TextEditingController();
     ReveiwService().listReveiw(gigId).then((value){
       reveiws = value;
       log(reveiws.toString());
+      notifyListeners();
 
     });
   }

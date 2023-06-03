@@ -9,8 +9,7 @@ class CancelBookingprovider with ChangeNotifier{
 
     final orderId = CancelBookingModel(orderId: gigId);
     await CancelBookingService().cancelBooking(context, orderId);
-
-
+    notifyListeners();
   }
 
 

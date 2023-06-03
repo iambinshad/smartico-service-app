@@ -51,7 +51,7 @@ class ViewAllScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ServiceDescriptionScrn(),
+                          builder: (context) =>  ServiceDescriptionScrn(isBooked: false,),
                         ));
                   }
                 },

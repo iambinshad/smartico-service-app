@@ -8,6 +8,7 @@ class UserProfileProvider with ChangeNotifier{
   Future<UserProfileModel?>? userDetails;
   Future<void>getUserDetails()async{
      userDetails =   UserProfileService().userProfile() ;
+     notifyListeners();
   }
 
   Future<void>editUserProfile(UserProfileEditModel editData)async{

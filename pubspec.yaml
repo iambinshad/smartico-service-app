@@ -59,6 +59,7 @@ dependencies:
   launch_review: ^3.0.1
   google_maps_flutter: ^2.2.8
   loading_animation_widget: ^1.2.0+4
+  url_launcher: ^6.1.11
   
 
 dev_dependencies:

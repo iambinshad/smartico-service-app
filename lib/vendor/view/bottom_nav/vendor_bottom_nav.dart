@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smartico/core/constants.dart';
-import 'package:smartico/vendor/view/bottom_nav_screens/bookings_tabs/tabs/all_bookings.dart';
+import 'package:smartico/vendor/view/bottom_nav_screens/bookings/all_bookings.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gigs_scrn.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/chats/chats.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/profile/profile.dart';

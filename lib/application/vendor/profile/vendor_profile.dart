@@ -13,7 +13,6 @@ class  VendorProfileProvider  with ChangeNotifier{
     notifyListeners();
   }
 
-
   Future<void>editVendorProfile(EditVendorProfileModel editData)async{
     VendorProfileService().editVendorProfile(editData);
     notifyListeners();

@@ -66,25 +66,19 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                   TextFieldName(value: 'Title'),
                   MyTextFormField(
                     controller: titleController,
-                    prefixIcon: const Icon(Icons.title),
+                    
                   ),
                   TextFieldName(value: 'Overview'),
                   MyTextFormField(
-                    prefixIcon: const Icon(Icons.wrap_text_outlined),
                     controller: overViewController,
                   ),
                   TextFieldName(value: 'Description'),
                   MyTextFormField(
                     controller: descriptionController,
-                    prefixIcon: const Icon(Icons.description),
                   ),
                   TextFieldName(value: 'Price'),
                   MyTextFormField(
                     controller: priceController,
-                    prefixIcon: const Icon(
-                      Icons.monetization_on_outlined,
-                      size: 27,
-                    ),
                     keyboardType: TextInputType.number,
                   ),
                   TextFieldName(value: 'Type'),

@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shimmer/shimmer.dart';
@@ -12,6 +12,7 @@ import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/controller/chat_function/chat_methods.dart';
 import 'package:smartico/user/model/booking/booking_model.dart';
+import 'package:smartico/user/model/booking/reveiw/add_reveiw_model.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
 import 'package:smartico/user/view/bottom_nav_screens/chat/messages.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/rating_review.dart';
@@ -21,16 +22,20 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'confirm_success.dart';
 
 class ServiceDescriptionScrn extends StatefulWidget {
-  const ServiceDescriptionScrn({
+  ServiceDescriptionScrn({
     super.key,
+     this.isBooked,
+     this.index,
   });
+
+  final isBooked;
+  final index;
 
   @override
   State<ServiceDescriptionScrn> createState() => _ServiceDescriptionScrnState();
 }
 
 class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
-  Dio dio = Dio();
   List<String> offerText1 = [
     "Save 15% quotes every order",
     "Buy More Save More",
@@ -49,7 +54,13 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   @override
   void initState() {
     super.initState();
-
+    if (widget.isBooked == "true" &&
+        Provider.of<ReservedGigs>(context, listen: false)
+                .reservedGigs![widget.index]
+                ?.status ==
+            'Completed') {
+      showIsBooked();
+    }
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -142,7 +153,13 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    return Center(child: getjobdescriShimmerLoad(width));
+                    return Column(
+                      
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadingAnimationWidget.fourRotatingDots(color: Colors.grey, size: 25),
+                      ],
+                    );
                   }
                 },
               ),
@@ -292,7 +309,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                               kHeight10,
                               SizedBox(
                                 width: double.infinity,
-                                height: height/12,
+                                height: height / 12,
                                 child: Row(
                                   children: [
                                     Expanded(
@@ -433,16 +450,16 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 height: 70,
                                 width: double.infinity,
                                 child: Consumer<ReservedGigs>(
-                                  builder:(context, value, child) => 
-                                   Flexible(
+                                  builder: (context, value, child) => Flexible(
                                     flex: 1,
                                     child: value.reveiws!.isEmpty
                                         ? const Center(
-                                            child: Text(
-                                                'No Reviews Posted Yet!'),
+                                            child:
+                                                Text('No Reviews Posted Yet!'),
                                           )
                                         : ListView.separated(
-                                          physics: NeverScrollableScrollPhysics(),
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
                                             separatorBuilder:
                                                 (context, index) =>
                                                     const Divider(),
@@ -465,16 +482,15 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                                             .reveiws![index]!
                                                             .rating,
                                                         itemSize: 20,
-                                                        itemBuilder: (context,
-                                                                index) =>
-                                                            const Icon(
+                                                        itemBuilder:
+                                                            (context, index) =>
+                                                                const Icon(
                                                           Icons.star,
-                                                          color:
-                                                              Color.fromARGB(
-                                                                  255,
-                                                                  230,
-                                                                  209,
-                                                                  23),
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              230,
+                                                              209,
+                                                              23),
                                                         ),
                                                         onRatingUpdate:
                                                             (value) {},
@@ -485,9 +501,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                                       ),
                                                       kWidth10,
                                                       Text(
-                                                          value
-                                                              .reveiws![
-                                                                  index]!
+                                                          value.reveiws![index]!
                                                               .title,
                                                           style: normalText),
                                                     ],
@@ -504,16 +518,14 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                                     children: [
                                                       const CircleAvatar(
                                                         radius: 10,
-                                                        backgroundImage:
-                                                            AssetImage(
-                                                                'assets/splash/unknown.jpg'),
+                                                        backgroundImage: AssetImage(
+                                                            'assets/splash/unknown.jpg'),
                                                       ),
                                                       kWidth10,
                                                       Text(
                                                         "${value.reveiws![index]!.userId.fullName}  ,  ",
                                                         style: const TextStyle(
-                                                            color:
-                                                                Colors.grey,
+                                                            color: Colors.grey,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -522,8 +534,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                                         value.reveiws![index]!
                                                             .userId.status,
                                                         style: const TextStyle(
-                                                            color:
-                                                                Colors.green,
+                                                            color: Colors.green,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
@@ -617,45 +628,135 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     );
   }
 
-  // void showConfirmBox(price, title) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => SimpleDialog(
-  //       title: const Text('Confirm Booking'),
-  //       children: [
-  //         Padding(
-  //           padding: const EdgeInsets.all(10.0),
-  //           child: MyTextFormField(
-  //             controller: Provider.of<BookGigPrvider>(context, listen: false)
-  //                 .bookingRequirements,
-  //             hintText: 'Booking Requirements',
-  //             maxLines: 4,
-  //           ),
-  //         ),
-  //         Padding(
-  //           padding: const EdgeInsets.all(15.0),
-  //           child: ElevatedButton(
-  //             onPressed: () {},
-  //             style: ElevatedButton.styleFrom(
-  //               shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(5),
-  //               ),
-  //               elevation: 5,
-  //               backgroundColor: mainColor,
-  //             ),
-  //             child: const Text(
-  //               'Confirm',
-  //               style: TextStyle(fontSize: 20, color: Colors.white),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   void confirmClicked(price, title) {
     _openCheckout(price, title);
+  }
+
+  void showIsBooked() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Consumer<ReservedGigs>(
+          builder: (context, value, child) => SimpleDialog(
+            title: Center(
+                child: Text(
+              value.reservedGigs![widget.index]!.title,
+              style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            )),
+            children: [
+              value.reservedGigs![widget.index]?.status == 'Completed'
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      side: BorderSide(color: mainColor)))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) => SimpleDialog(
+                                title: const Center(
+                                  child: Text('Rating'),
+                                ),
+                                children: [
+                                  Center(
+                                    child: RatingBar.builder(
+                                      allowHalfRating: true,
+                                      glowColor: mainColor,
+                                      initialRating: 3,
+                                      itemBuilder: (context, index) =>
+                                          const Icon(
+                                        Icons.star,
+                                        color:
+                                            Color.fromARGB(255, 230, 209, 23),
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        value.setRating = rating;
+                                      },
+                                      updateOnDrag: true,
+                                      minRating: 1,
+                                      glow: true,
+                                      itemSize: 30,
+                                      itemPadding: const EdgeInsets.all(3),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyTextFormField(
+                                      controller: value.reviewTitleController,
+                                      maxLines: 1,
+                                      hintText: 'Title',
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyTextFormField(
+                                      controller: value.reviewController,
+                                      maxLines: 3,
+                                      hintText: 'Review',
+                                    ),
+                                  ),
+                                  Center(
+                                      child: ElevatedButton(
+                                    onPressed: () {
+                                      submitButtonClicked(context,
+                                          value.reservedGigs![widget.index]!.gigId.id);
+                                    },
+                                    style: ButtonStyle(
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                side: BorderSide(
+                                                    color: mainColor)))),
+                                    child: const Text(
+                                      'Submit',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ))
+                                ],
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Add Review',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          )),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+    void submitButtonClicked(context, gigId) {
+    final provider = Provider.of<ReservedGigs>(context, listen: false);
+    ReviewAddingModel reveiw = ReviewAddingModel(
+        reviewData: ReviewData(
+            gig: gigId,
+            rating: provider.rating.toString(),
+            title: provider.reviewTitleController.text,
+            description: provider.reviewController.text));
+    provider.postRating(reveiw);
+    provider.reviewController.clear();
+    provider.reviewTitleController.clear();
+    Navigator.pop(context);
+    showTopSnackBar(
+      Overlay.of(context),
+      const CustomSnackBar.success(
+        message: 'Reveiw Added',
+      ),
+    );
   }
 }
 

@@ -14,6 +14,7 @@ import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_complete_description.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_edit_scrn.dart';
@@ -47,6 +48,8 @@ class _GigsScreenState extends State<GigsScreen> {
           .getVendorDetails();
       Provider.of<AllBookingProvider>(context, listen: false)
           .fetchAllBookings(context);
+          final vendor = await getVendorAccesToken();
+          log(vendor.toString(),name: "vendoreeeeeeeeeeeee");
     });
 
     final width = MediaQuery.of(context).size.width;

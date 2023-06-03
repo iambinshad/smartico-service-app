@@ -22,7 +22,7 @@ class UserProfilePage extends StatelessWidget {
       },
     );
     return Scaffold(
-   
+      resizeToAvoidBottomInset: false,
       body: Consumer<UserProfileProvider>(
         builder: (context, value, child) => FutureBuilder(
           future: value.userDetails,
@@ -40,11 +40,14 @@ class UserProfilePage extends StatelessWidget {
                     height: height / 4,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: snapshot.data?.profilePhoto !=null?CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!.profilePhoto!,),
+                      child: snapshot.data?.profilePhoto != null
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                snapshot.data!.profilePhoto!,
+                              ),
                               radius: 30,
-                            ):const CircleAvatar(
+                            )
+                          : const CircleAvatar(
                               backgroundImage:
                                   AssetImage('assets/splash/unknown.jpg'),
                               radius: 30,
@@ -87,6 +90,15 @@ class UserProfilePage extends StatelessWidget {
                           leading: Text(
                             "Email",
                             style: normalText,
+                          ),
+                        ),
+                        Tile(
+                          leading: Text(
+                            "Location",
+                            style: normalText,
+                          ),
+                          trailing: Text(
+                            snapshot.data?.location ?? "",
                           ),
                         ),
                         Tile(
@@ -135,7 +147,11 @@ class UserProfilePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  EditUserProfile(userName: snapshot.data?.userName,phone:snapshot.data?.phone,profilePic: snapshot.data?.profilePhoto,),
+                                  builder: (context) => EditUserProfile(
+                                    userName: snapshot.data?.userName,
+                                    phone: snapshot.data?.phone,
+                                    profilePic: snapshot.data?.profilePhoto,
+                                  ),
                                 ));
                           },
                         ),
@@ -156,7 +172,7 @@ class UserProfilePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>  const SettingsScreen(),
+                                  builder: (context) => const SettingsScreen(),
                                 ));
                           },
                         ),
@@ -256,7 +272,6 @@ class Tile extends StatelessWidget {
           trailing: trailing,
           onTap: onTap,
           leading: leading,
-          
           title: title,
         ),
       ),

@@ -12,7 +12,11 @@ import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/profile_page/profile_edit_model.dart';
 
 class EditUserProfile extends StatefulWidget {
-  EditUserProfile({super.key, required this.userName, required this.phone,required this.profilePic });
+  EditUserProfile(
+      {super.key,
+      required this.userName,
+      required this.phone,
+      required this.profilePic});
 
   String? userName;
   int? phone;
@@ -24,10 +28,16 @@ class EditUserProfile extends StatefulWidget {
 
 class _EditUserProfileState extends State<EditUserProfile> {
   TextEditingController fullNameController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+
+  TextEditingController districtController = TextEditingController();
+
+  TextEditingController localityController = TextEditingController();
+  TextEditingController nearByController = TextEditingController();
 
   TextEditingController phoneController = TextEditingController();
   File? galleryImage;
-    final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
+  final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
 
   File? cameraImage;
   String? gigImage;
@@ -36,10 +46,11 @@ class _EditUserProfileState extends State<EditUserProfile> {
   int flag = 0;
   @override
   void initState() {
-      fullNameController.text = widget.userName!;
-      phoneController.text = widget.phone.toString();
+    fullNameController.text = widget.userName!;
+    phoneController.text = widget.phone.toString();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -54,12 +65,10 @@ class _EditUserProfileState extends State<EditUserProfile> {
         centerTitle: true,
       ),
       body: Consumer<UserProfileProvider>(
-        builder: (context, value, child) => 
-         FutureBuilder(
+        builder: (context, value, child) => FutureBuilder(
           future: value.userDetails,
-          builder: (context, snapshot) => 
-            SizedBox(
-            height: 400,
+          builder: (context, snapshot) => SizedBox(
+            height: 700,
             width: double.infinity,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -78,16 +87,18 @@ class _EditUserProfileState extends State<EditUserProfile> {
                                 backgroundImage: FileImage(gigImageFile!),
                                 radius: 60,
                               )
-                            :  snapshot.data?.profilePhoto !=null?CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!.profilePhoto!,),
-                              radius: 60,
-                            ):const CircleAvatar(
-                              backgroundImage:
-                              
-                                  AssetImage('assets/splash/unknown.jpg'),
-                              radius: 60,
-                            ),
+                            : snapshot.data?.profilePhoto != null
+                                ? CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      snapshot.data!.profilePhoto!,
+                                    ),
+                                    radius: 60,
+                                  )
+                                : const CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('assets/splash/unknown.jpg'),
+                                    radius: 60,
+                                  ),
                       ),
                       kHeight10,
                       MyTextFormField(
@@ -98,6 +109,26 @@ class _EditUserProfileState extends State<EditUserProfile> {
                       MyTextFormField(
                         hintText: 'Phone',
                         controller: phoneController,
+                      ),
+                      kHeight10,
+                      MyTextFormField(
+                        hintText: 'State',
+                        controller: stateController,
+                      ),
+                      kHeight10,
+                      MyTextFormField(
+                        hintText: 'District',
+                        controller: districtController,
+                      ),
+                      kHeight10,
+                      MyTextFormField(
+                        hintText: 'Location',
+                        controller: localityController,
+                      ),
+                      kHeight10,
+                      MyTextFormField(
+                        hintText: 'Nearby',
+                        controller: nearByController,
                       ),
                       kHeight10,
                       SizedBox(
@@ -116,7 +147,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
                           child: const Text(
                             'UPDATE',
                             style: TextStyle(
-                                color: Colors.white, fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
@@ -125,8 +157,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
                 ),
               ),
             ),
-                 ),
-         ),
+          ),
+        ),
       ),
     );
   }
@@ -234,17 +266,26 @@ class _EditUserProfileState extends State<EditUserProfile> {
       ),
     );
   }
-  
+
   Future<void> updateButtonClicked() async {
-    dynamic url ;
-      if(gigImageFile!=null){ CloudinaryResponse response = await cloudinary.uploadFile(
+    dynamic url;
+    // final prov = Provider.of<UserProfileProvider>(context, listen: false);
+    if (gigImageFile != null) {
+      CloudinaryResponse response = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(gigImageFile!.path,
               resourceType: CloudinaryResourceType.Image));
-       url = response.secureUrl;}
-    UserProfileEditModel editedData = UserProfileEditModel(userName: fullNameController.text.trim(),phone: phoneController.text.trim(),profilePhoto:url??widget.profilePic);
-    if(context.mounted){}
-    await Provider.of<UserProfileProvider>(context,listen: false).editUserProfile(editedData);
+      url = response.secureUrl;
+    }
+    String userLocation ="${stateController.text},${districtController.text},${localityController.text},${nearByController.text}";
+    UserProfileEditModel editedData = UserProfileEditModel(
+        userName: fullNameController.text.trim(),
+        phone: phoneController.text.trim(),
+        profilePhoto: url ?? widget.profilePic,location:userLocation );
+        
+    await Provider.of<UserProfileProvider>(context, listen: false)
+        .editUserProfile(editedData);
+    await Provider.of<UserProfileProvider>(context, listen: false)
+        .getUserDetails();
     Navigator.pop(context);
-
   }
 }

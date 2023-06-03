@@ -170,7 +170,7 @@ class TaskerProfileScreen extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          const ServiceDescriptionScrn(),
+                                                           ServiceDescriptionScrn(isBooked: false,),
                                                     ));
                                               }
                                             },
