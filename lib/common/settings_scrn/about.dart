@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartico/core/constants.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -9,7 +8,7 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('About'),
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
       body: const Padding(
         padding: EdgeInsets.all(8.0),

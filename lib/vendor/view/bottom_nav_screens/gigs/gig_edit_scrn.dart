@@ -75,7 +75,7 @@ class _GigEditScreenState extends State<GigEditScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: Text(
           'Edit Gig',
           style: headText,
@@ -103,10 +103,10 @@ class _GigEditScreenState extends State<GigEditScreen> {
                               onPressed: () {
                                 bottomSheet(context, width);
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.edit,
                                 size: 30,
-                                color: mainColor,
+                                color: Color.fromARGB(255, 16, 81, 135),
                               ))
                         ],
                       ),
@@ -128,10 +128,10 @@ class _GigEditScreenState extends State<GigEditScreen> {
                               onPressed: () {
                                 bottomSheet(context, width);
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.edit,
                                 size: 30,
-                                color: mainColor,
+                                color: Color.fromARGB(255, 16, 81, 135),
                               ))
                         ],
                       ),
@@ -245,7 +245,7 @@ class _GigEditScreenState extends State<GigEditScreen> {
                               left: width / 2.9,
                               bottom: 12,
                               top: 12)),
-                          backgroundColor: MaterialStatePropertyAll(mainColor),
+                          backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 16, 81, 135)),
                         ),
                         child: Text(
                           'Update',

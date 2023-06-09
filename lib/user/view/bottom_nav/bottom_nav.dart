@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smartico/core/constants.dart';
 import 'package:smartico/user/view/bottom_nav_screens/profile/user_profile.dart';
 import 'package:smartico/user/view/bottom_nav_screens/all_cateogory/all_category.dart';
 import 'package:smartico/user/view/bottom_nav_screens/booking_history/bookings.dart';
@@ -37,25 +36,46 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
-        selectedItemColor: mainColor,
-        unselectedItemColor: Colors.grey.shade600,
+        selectedItemColor: const Color.fromARGB(255, 16, 81, 135),
+        unselectedItemColor: Colors.black.withOpacity(0.3),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.category,
+              icon: CircleAvatar(
+                  child: Icon(
+                Icons.home_filled,
+                color: Colors.black,
+              )),
+              label: 'Home'),
+          BottomNavigationBarItem(
+              icon: CircleAvatar(
+                child: Icon(
+                  color: Colors.black,
+                  Icons.category,
+                ),
               ),
               label: 'All'),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.chat_outlined,
+              icon: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Icon(
+                  color: Colors.black,
+                  Icons.chat_outlined,
+                ),
               ),
               label: 'Chat'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.book_online), label: 'Bookings'),
+              icon: CircleAvatar(
+                  child: Icon(
+                Icons.book_online,
+                color: Colors.black,
+              )),
+              label: 'Bookings'),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
+              icon: CircleAvatar(
+                child: Icon(
+                  color: Colors.black,
+                  Icons.person,
+                ),
               ),
               label: 'profile'),
         ],

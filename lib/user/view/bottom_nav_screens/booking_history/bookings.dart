@@ -34,9 +34,9 @@ class BookingHistory extends StatelessWidget {
         centerTitle: true,
         title: Text(
           'Bookings',
-          style: normalText,
+          style: headText.copyWith(color: Colors.white),
         ),
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
       body: Column(
         children: [

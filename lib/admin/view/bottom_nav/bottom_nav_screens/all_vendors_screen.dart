@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/admin/controller/all_vendors/vendor_managing_service.dart';
 import 'package:smartico/application/admin/fetch_all_vendors/fetch_all_vendors_provider.dart';
-import 'package:smartico/core/constants.dart';
 
 class AllVendorForAdmin extends StatelessWidget {
   const AllVendorForAdmin({super.key});
@@ -12,7 +11,7 @@ class AllVendorForAdmin extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("All Vendors"),
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
       body: Consumer<AllVendorListForAdmin>(
         builder: (context, value, child) => ListView.builder(

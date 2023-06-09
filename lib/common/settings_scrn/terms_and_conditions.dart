@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:smartico/core/constants.dart';
 
 class TermsAndConditionsScreen extends StatelessWidget {
   const TermsAndConditionsScreen({super.key});
@@ -8,7 +7,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Terms & Conditions'),backgroundColor: mainColor,),
+      appBar: AppBar(title: const Text('Terms & Conditions'),backgroundColor: const Color.fromARGB(255, 16, 81, 135),),
       body: const Center(child: Padding(
         padding: EdgeInsets.all(10.0),
         child: SingleChildScrollView(

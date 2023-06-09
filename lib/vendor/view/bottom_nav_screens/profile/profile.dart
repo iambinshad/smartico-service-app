@@ -281,10 +281,10 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          leading: CircleAvatar(
+                          leading: const CircleAvatar(
                             child: Icon(Icons.restart_alt_rounded),
                           ),
-                          title: Text("Swich User"),
+                          title: const Text("Swich User"),
                           onTap: () {
                             showDialog(
                               context: context,

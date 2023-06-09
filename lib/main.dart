@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart'
     show
@@ -35,13 +36,16 @@ import 'application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'common/splash_screen.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
-  await Firebase.initializeApp();
+
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp();
+  }
+
   runApp(const MyApp());
 }
 
@@ -94,15 +98,33 @@ class MyApp extends StatelessWidget {
         ListenableProvider(
           create: (context) => CancelBookingprovider(),
         ),
-        ListenableProvider(create: (context) =>AllBookingProvider(),),
-        ListenableProvider(create: (context) => CancelUserBookingsProvider(),),
-        ListenableProvider(create: (context) => AllVendorListForAdmin(),),
-        ListenableProvider(create: (context) => UserProfileProvider(),),
-        ListenableProvider(create: (context) => VendorProfileProvider(),),
-        ListenableProvider(create: (context) => UserConnectionService(),),
-        ListenableProvider(create: (context) => VendorConnectionService(),),
-        ListenableProvider(create: (context) => SendMessageService(),),
-        ListenableProvider(create: (context) => VendorAllGigsFetching(),),
+        ListenableProvider(
+          create: (context) => AllBookingProvider(),
+        ),
+        ListenableProvider(
+          create: (context) => CancelUserBookingsProvider(),
+        ),
+        ListenableProvider(
+          create: (context) => AllVendorListForAdmin(),
+        ),
+        ListenableProvider(
+          create: (context) => UserProfileProvider(),
+        ),
+        ListenableProvider(
+          create: (context) => VendorProfileProvider(),
+        ),
+        ListenableProvider(
+          create: (context) => UserConnectionService(),
+        ),
+        ListenableProvider(
+          create: (context) => VendorConnectionService(),
+        ),
+        ListenableProvider(
+          create: (context) => SendMessageService(),
+        ),
+        ListenableProvider(
+          create: (context) => VendorAllGigsFetching(),
+        ),
       ],
       child: MaterialApp(
         title: 'Smartico Service Provider',
@@ -110,10 +132,9 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           primarySwatch: Colors.blue,
         ),
-        home:  const SplashScreen(),
+        home: const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
-

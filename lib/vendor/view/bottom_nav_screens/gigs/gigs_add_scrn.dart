@@ -8,7 +8,6 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/category/get_all_category.dart';
 import 'package:smartico/vendor/model/new_gig/new_gig_create_model.dart';
-import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../../../../application/vendor/vendor_provider.dart';
 import 'package:cloudinary_public/cloudinary_public.dart';
 
@@ -37,7 +36,7 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: Text(
           'Add Gig',
           style: headText,

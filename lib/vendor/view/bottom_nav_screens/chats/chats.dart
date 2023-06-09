@@ -22,11 +22,11 @@ class VendorChatScrn extends StatelessWidget {
 Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.of<VendorConnectionService>(context,listen: false).sortedVendors;
     return Scaffold(
 
-      backgroundColor: const Color.fromARGB(255, 223, 223, 221),
+      backgroundColor: Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: mainColor,
-        title: Text('Messages', style: headText),
+        backgroundColor:Color.fromARGB(255, 16, 81, 135) ,
+        title: Text('Chat Screen', style: headText.copyWith(color: Colors.white)),
       ),
       body: Column(
         children: [
@@ -48,45 +48,48 @@ Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.
                 itemBuilder: (context, index) {
                   return
                    value.showList !=null?
-                   Card(
-                    child: ListTile(
-
-                      onTap: () async {
-                         value.connectionCount?[index].count = 0;
-                        String currentVendorId = await getCurrentVendorId();                  
-                        String chatRoomId = ChatMethods().checkingId(
-                            vendorId: currentVendorId,
-                            currentUser: value.showList![index].id);
-                            log(chatRoomId.toString(),name: "ChatROomId");
-                        ChatingUser chatingUser = ChatingUser(
-                          userName:value.showList![index].fullName ,
-                            id: value.showList![index].id,
-                            );
-                  
-                        if (context.mounted) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VendorMessagesScreen(chatRoomId: chatRoomId, chatingUser: chatingUser,currentVendorId:currentVendorId,profilePic:value.showList![index].profilePhoto ,)
-                              ));
-                        }
-                      },
-                      leading: value.showList![index].profilePhoto == null? const CircleAvatar(
-                        backgroundImage:AssetImage("assets/splash/unknown.jpg")
-                      ):CircleAvatar(
-                        backgroundImage:NetworkImage(value.showList![index].profilePhoto!)
-                      ),
-                      title: Text(value.showList![index].fullName),
-                      
-                      trailing: value.connectionCount![index].count!=0? CircleAvatar(
-                        radius: 9,
-                        child: Text(
-                          '${value.connectionCount![index].count}',
-                          style: const TextStyle(fontSize: 12),
+                   Padding(
+                     padding: const EdgeInsets.all(6.0),
+                     child: ListTile(
+                   
+                        onTap: () async {
+                           value.connectionCount?[index].count = 0;
+                          String currentVendorId = await getCurrentVendorId();                  
+                          String chatRoomId = ChatMethods().checkingId(
+                              vendorId: currentVendorId,
+                              currentUser: value.showList![index].id);
+                              log(chatRoomId.toString(),name: "ChatROomId");
+                          ChatingUser chatingUser = ChatingUser(
+                            userName:value.showList![index].fullName ,
+                              id: value.showList![index].id,
+                              );
+                                     
+                          if (context.mounted) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VendorMessagesScreen(chatRoomId: chatRoomId, chatingUser: chatingUser,currentVendorId:currentVendorId,profilePic:value.showList![index].profilePhoto ,)
+                                ));
+                          }
+                        },
+                        leading: value.showList![index].profilePhoto == null? const CircleAvatar(
+                          radius:28,
+                          backgroundImage:AssetImage("assets/splash/unknown.jpg")
+                        ):CircleAvatar(
+                          radius: 28,
+                          backgroundImage:NetworkImage(value.showList![index].profilePhoto!)
                         ),
-                      ):const SizedBox()
-                    ),
-                  ):const Center(child: Text("No Chat Found!"),);
+                        title: Text(value.showList![index].fullName,style: normalText,),
+                        
+                        trailing: value.connectionCount![index].count!=0? CircleAvatar(
+                          radius: 9,
+                          child: Text(
+                            '${value.connectionCount![index].count}',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ):const SizedBox()
+                      ),
+                   ):const Center(child: Text("No Chat Found!"),);
                   
                 },
                 itemCount: value.showList!.length,

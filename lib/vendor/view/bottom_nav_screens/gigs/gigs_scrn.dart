@@ -13,7 +13,6 @@ import 'package:smartico/application/vendor/chat/chat_connection_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/new_gig_create_provider.dart';
 import 'package:smartico/application/vendor/gig_provider/show_all_gig_provider.dart';
 import 'package:smartico/application/vendor/profile/vendor_profile.dart';
-import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/gigs/gig_complete_description.dart';
@@ -57,7 +56,7 @@ class _GigsScreenState extends State<GigsScreen> {
     return Scaffold(
       floatingActionButton: IconButton(
         style:
-            ButtonStyle(backgroundColor: MaterialStatePropertyAll(mainColor)),
+            const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 16, 81, 135))),
         onPressed: () {
           bottomSheet(context, width);
         },
@@ -69,7 +68,7 @@ class _GigsScreenState extends State<GigsScreen> {
       ),
       // appBar: AppBar(
       //   elevation: 5.0,
-      //   backgroundColor: mainColor,
+      //   backgroundColor: Color.fromARGB(255, 16, 81, 135),
       //   title: Text(
       //     'Gigs',
       //     style: GoogleFonts.monoton(fontSize: 25),
@@ -88,7 +87,7 @@ class _GigsScreenState extends State<GigsScreen> {
                     : value.vendorGigs!.isEmpty
                         ?  Center(
                             child: LoadingAnimationWidget.fourRotatingDots(
-                        color: Color.fromARGB(255, 113, 113, 113),
+                        color: const Color.fromARGB(255, 113, 113, 113),
                         size: 10.0),
                           )
                         : ListView.separated(

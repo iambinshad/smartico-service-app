@@ -32,7 +32,7 @@ class VendorMessagesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 223, 206, 158),
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: InkWell(
           // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ,)),
           child: Row(

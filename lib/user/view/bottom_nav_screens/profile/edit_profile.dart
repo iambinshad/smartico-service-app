@@ -61,7 +61,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
           'Edit Profile',
           style: normalText,
         ),
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         centerTitle: true,
       ),
       body: Consumer<UserProfileProvider>(
@@ -139,7 +139,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                             updateButtonClicked();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: mainColor,
+                            backgroundColor: const Color.fromARGB(255, 16, 81, 135),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),

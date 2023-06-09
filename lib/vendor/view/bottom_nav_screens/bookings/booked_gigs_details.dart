@@ -27,7 +27,7 @@ class BookedGigsFullDetails extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
       body: ListView(
         children: [

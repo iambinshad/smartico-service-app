@@ -24,16 +24,16 @@ class UserChatScreen extends StatelessWidget {
               .sortedUsers;
     });
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 223, 223, 221),
+      backgroundColor:const Color.fromARGB(255, 234, 234, 232),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: mainColor,
-        title: Text('Messages', style: headText),
+        backgroundColor:  const Color.fromARGB(255, 16, 81, 135),
+        title: Text('Chat Screen', style: headText.copyWith(color: Colors.white)),
       ),
       body: Column(
         children: [
           ColoredBox(
-            color: const Color.fromARGB(255, 121, 216, 206),
+            color: const Color.fromARGB(255, 16, 81, 135),
             child: Padding(
                 padding: const EdgeInsets.only(right: 13, left: 13, bottom: 5),
                 child: Consumer<UserConnectionService>(
@@ -52,8 +52,8 @@ class UserChatScreen extends StatelessWidget {
                              value.showList!.isEmpty?const Center(child:Text('Search Item Not Found!',style: TextStyle(color: Colors.black),)):
                             Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Card(
-                                  child: ListTile(
+                              child: 
+                                   ListTile(
                                       onTap: () async {
                                         // value.connectionCount?[index].count = 0;
                                         String currentUserId =
@@ -98,15 +98,17 @@ class UserChatScreen extends StatelessWidget {
                                                   .profilePhoto ==
                                               null
                                           ? const CircleAvatar(
+                                            radius: 26,
                                               backgroundImage: AssetImage(
                                                   "assets/splash/unknown.jpg"))
                                           : CircleAvatar(
+                                            radius: 26,
                                               backgroundImage: NetworkImage(value
                                                   .showList![index]
                                                   .profilePhoto!)),
                                       title: Text(
                                           value.showList![index].fullName ??
-                                              "unknown"),
+                                              "unknown",style: normalText,),
                                       // subtitle:
                                       //     Text("${value.showList![index].phone}"),
                                       // trailing:
@@ -120,7 +122,7 @@ class UserChatScreen extends StatelessWidget {
                                       //             ),
                                       //           )
                                       //         : const SizedBox()
-                                              )),
+                                              ),
                             );
                         
                       },

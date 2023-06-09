@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/all_booking/all_bookings.dart';
 import 'package:smartico/application/vendor/all_booking/cancel_user_bookings.dart';
 import 'package:smartico/core/constants.dart';
-import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/view/bottom_nav_screens/bookings/booked_gigs_details.dart';
 
 class AllBookingTab extends StatelessWidget {
@@ -21,7 +20,7 @@ class AllBookingTab extends StatelessWidget {
             'Bookings',
             style: normalText,
           ),
-          backgroundColor: mainColor,
+          backgroundColor: const Color.fromARGB(255, 16, 81, 135),
           centerTitle: true),
       body: Consumer<AllBookingProvider>(
         builder: (context, value, child) => value.allBookings!.isEmpty
@@ -118,7 +117,7 @@ class AllBookingTab extends StatelessWidget {
                                                             color:
                                                                 Colors.white),
                                                       )),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     width: 8,
                                                   ),
                                                   ElevatedButton(

@@ -13,7 +13,7 @@ class WorkReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       
-      appBar: AppBar(backgroundColor: mainColor,title:Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 26),) ,),
+      appBar: AppBar(backgroundColor: const Color.fromARGB(255, 16, 81, 135),title:Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 26),) ,),
         body: Consumer<ReservedGigs>(
             builder: (context, value, child) =>  value.reveiws!.isEmpty?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
               separatorBuilder: (context, index) =>const Divider() ,

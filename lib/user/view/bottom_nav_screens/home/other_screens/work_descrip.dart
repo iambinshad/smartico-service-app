@@ -22,7 +22,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'confirm_success.dart';
 
 class ServiceDescriptionScrn extends StatefulWidget {
-  ServiceDescriptionScrn({
+  const ServiceDescriptionScrn({
     super.key,
      this.isBooked,
      this.index,
@@ -384,7 +384,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                 ),
                               ),
                               kHeight10,
-                              Divider(
+                              const Divider(
                                 thickness: 1,
                               ),
                               kHeight10,
@@ -442,7 +442,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                                 ),
                                               ));
                                         },
-                                        icon: Icon(Icons.message_outlined)),
+                                        icon: const Icon(Icons.message_outlined)),
                                   )
                                 ],
                               ),
@@ -459,7 +459,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                           )
                                         : ListView.separated(
                                             physics:
-                                                NeverScrollableScrollPhysics(),
+                                                const NeverScrollableScrollPhysics(),
                                             separatorBuilder:
                                                 (context, index) =>
                                                     const Divider(),
@@ -656,7 +656,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      side: BorderSide(color: mainColor)))),
+                                      side: const BorderSide(color: Color.fromARGB(255, 16, 81, 135))))),
                           onPressed: () {
                             Navigator.pop(context);
                             showDialog(
@@ -669,7 +669,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                   Center(
                                     child: RatingBar.builder(
                                       allowHalfRating: true,
-                                      glowColor: mainColor,
+                                      glowColor: const Color.fromARGB(255, 16, 81, 135),
                                       initialRating: 3,
                                       itemBuilder: (context, index) =>
                                           const Icon(
@@ -715,8 +715,8 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                             RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(5.0),
-                                                side: BorderSide(
-                                                    color: mainColor)))),
+                                                side: const BorderSide(
+                                                    color: Color.fromARGB(255, 16, 81, 135))))),
                                     child: const Text(
                                       'Submit',
                                       style: TextStyle(color: Colors.black),
@@ -728,7 +728,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                           },
                           child: const Text(
                             'Add Review',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           )),
                     )

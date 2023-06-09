@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
-import 'package:smartico/core/constants.dart';
 import '../../../application/user/user_provider.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
 import '../../../core/widgets.dart';
@@ -82,7 +81,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                               child: Container(
                                 height: 60,
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: mainColor),
+                                    border: Border.all(color: const Color.fromARGB(255, 16, 81, 135)),
                                     borderRadius: BorderRadius.circular(15),
                                     color: Colors.white),
                                 child: Padding(

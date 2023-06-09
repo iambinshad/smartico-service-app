@@ -105,7 +105,7 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
         title: const Text(
           "Edit Profile",
         ),
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -204,7 +204,7 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
                     },
                     style: ElevatedButton.styleFrom(
                         minimumSize: Size(width / 1.1, 45),
-                        backgroundColor: mainColor,
+                        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8))),
                     child: Text(

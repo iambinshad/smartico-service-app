@@ -8,7 +8,7 @@ class PrivacyPoclicyScrn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(title:  Text('Privacy Policy',style: normalText,),backgroundColor: mainColor,),
+      appBar: AppBar(title:  Text('Privacy Policy',style: normalText,),backgroundColor: const Color.fromARGB(255, 16, 81, 135),),
       body: const SingleChildScrollView(
         child: Column(
           children: [

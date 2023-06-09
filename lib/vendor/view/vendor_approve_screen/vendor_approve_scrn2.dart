@@ -5,7 +5,6 @@ import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
-import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
 
@@ -23,7 +22,7 @@ class VendorApprovalSecondScrn extends StatelessWidget {
     final prov = context.read<CompleteSignUpProvider>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         centerTitle: true,
         title: const Text(
           'Professional Details',

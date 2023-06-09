@@ -23,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: Text(
           'Settings',
           style: headText,

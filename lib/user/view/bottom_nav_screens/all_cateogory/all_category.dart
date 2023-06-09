@@ -6,6 +6,7 @@ import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
+import 'package:smartico/core/constants.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
 class AllCategroryList extends StatelessWidget {
@@ -27,18 +28,18 @@ class AllCategroryList extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 121, 216, 206),
+        backgroundColor:const Color.fromARGB(255, 16, 81, 135),
         elevation: 1,
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           'All Services',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style:headText.copyWith(color: Colors.white),
         ),
       ),
       body: Column(
         children: [
            ColoredBox(
-            color: const Color.fromARGB(255, 121, 216, 206),
+            color:const Color.fromARGB(255, 16, 81, 135),
             child: Padding(
                 padding: const EdgeInsets.only(right: 13, left: 13, bottom: 5),
                 child: Consumer<RecentServicesProvider>(
@@ -74,7 +75,7 @@ class AllCategroryList extends StatelessWidget {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                           ServiceDescriptionScrn(isBooked: false,),
+                                           const ServiceDescriptionScrn(isBooked: false,),
                                     ));
                               }
                             },
