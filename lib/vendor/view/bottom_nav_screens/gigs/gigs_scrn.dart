@@ -27,12 +27,7 @@ class GigsScreen extends StatefulWidget {
 }
 
 class _GigsScreenState extends State<GigsScreen> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //    Provider.of<ShowAllGigsProvider>(context, listen: false).loadingState(true);
-  // }
+
   File? addGalleryImage;
   File? addCameraImage;
 
@@ -54,27 +49,17 @@ class _GigsScreenState extends State<GigsScreen> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      floatingActionButton: IconButton(
-        style:
-            const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color.fromARGB(255, 16, 81, 135))),
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           bottomSheet(context, width);
         },
-        icon: const Icon(
+        child: const Icon(
           Icons.add_box_outlined,
-          color: Colors.white,
+          color: Colors.black,
           size: 30,
         ),
       ),
-      // appBar: AppBar(
-      //   elevation: 5.0,
-      //   backgroundColor: Color.fromARGB(255, 16, 81, 135),
-      //   title: Text(
-      //     'Gigs',
-      //     style: GoogleFonts.monoton(fontSize: 25),
-      //   ),
-      //   centerTitle: true,
-      // ),
+
       body: Column(
         children: [
           Expanded(
@@ -85,11 +70,26 @@ class _GigsScreenState extends State<GigsScreen> {
                         color: const Color.fromARGB(255, 113, 113, 113),
                         size: 25.0)
                     : value.vendorGigs!.isEmpty
-                        ?  Center(
-                            child: LoadingAnimationWidget.fourRotatingDots(
-                        color: const Color.fromARGB(255, 113, 113, 113),
-                        size: 10.0),
-                          )
+                        ?   Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("assets/splash/106964-shake-a-empty-box.gif"),
+                            
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Gigs Not Posted Yet!")
+                            
+                              ],
+                            )
+
+                          ],
+                        )
                         : ListView.separated(
                             itemBuilder: (context, index) {
                               return value2.shimmerLoading
@@ -451,10 +451,8 @@ class _GigsScreenState extends State<GigsScreen> {
   void fetchDatas() async {
     Provider.of<ShowAllGigsProvider>(context, listen: false).loadingState(true);
     context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
-    if (mounted) {
       Provider.of<ShowAllGigsProvider>(context, listen: false)
           .loadingState(false);
-    }
   }
 }
 

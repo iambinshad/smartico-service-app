@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -7,6 +8,7 @@ import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/booking/cancel_booking.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/booking/reveiw/add_reveiw_model.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -96,7 +98,9 @@ class BookingHistory extends StatelessWidget {
                                 trailing: value.reservedGigs![index]!.status ==
                                         "Completed"
                                     ? ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          showIsBooked(index, context);
+                                        },
                                         style: const ButtonStyle(
                                             backgroundColor:
                                                 MaterialStatePropertyAll(
@@ -217,7 +221,119 @@ class BookingHistory extends StatelessWidget {
           ],
         ));
   }
-
+  void showIsBooked(int index,BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Consumer<ReservedGigs>(
+          builder: (context, value, child) => SimpleDialog(
+            title: Center(
+                child: Text(
+              value.reservedGigs![index]!.title,
+              style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            )),
+            children: [
+              value.reservedGigs![index]?.status == 'Completed'
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      side: const BorderSide(
+                                          color: Color.fromARGB(
+                                              255, 16, 81, 135))))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) => SimpleDialog(
+                                title: const Center(
+                                  child: Text('Rating'),
+                                ),
+                                children: [
+                                  Center(
+                                    child: RatingBar.builder(
+                                      allowHalfRating: true,
+                                      glowColor: const Color.fromARGB(
+                                          255, 16, 81, 135),
+                                      initialRating: 3,
+                                      itemBuilder: (context, index) =>
+                                          const Icon(
+                                        Icons.star,
+                                        color:
+                                            Color.fromARGB(255, 230, 209, 23),
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        value.setRating = rating;
+                                      },
+                                      updateOnDrag: true,
+                                      minRating: 1,
+                                      glow: true,
+                                      itemSize: 30,
+                                      itemPadding: const EdgeInsets.all(3),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyTextFormField(
+                                      controller: value.reviewTitleController,
+                                      maxLines: 1,
+                                      hintText: 'Title',
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: MyTextFormField(
+                                      controller: value.reviewController,
+                                      maxLines: 3,
+                                      hintText: 'Review',
+                                    ),
+                                  ),
+                                  Center(
+                                      child: ElevatedButton(
+                                    onPressed: () {
+                                      submitButtonClicked(
+                                          context,
+                                          value.reservedGigs![index]!
+                                              .gigId.id);
+                                    },
+                                    style: ButtonStyle(
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5.0),
+                                                side: const BorderSide(
+                                                    color: Color.fromARGB(
+                                                        255, 16, 81, 135))))),
+                                    child: const Text(
+                                      'Submit',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ))
+                                ],
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Add Review',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          )),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+        );
+      },
+    );
+  }
   void submitButtonClicked(context, gigId) {
     final provider = Provider.of<ReservedGigs>(context, listen: false);
     ReviewAddingModel reveiw = ReviewAddingModel(

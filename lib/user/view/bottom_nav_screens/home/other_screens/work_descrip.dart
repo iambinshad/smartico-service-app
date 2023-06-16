@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -18,14 +19,13 @@ import 'package:smartico/user/view/bottom_nav_screens/chat/messages.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/rating_review.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
 import 'confirm_success.dart';
 
 class ServiceDescriptionScrn extends StatefulWidget {
   const ServiceDescriptionScrn({
     super.key,
-     this.isBooked,
-     this.index,
+    this.isBooked,
+    this.index,
   });
 
   final isBooked;
@@ -54,13 +54,6 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
   @override
   void initState() {
     super.initState();
-    if (widget.isBooked == "true" &&
-        Provider.of<ReservedGigs>(context, listen: false)
-                .reservedGigs![widget.index]
-                ?.status ==
-            'Completed') {
-      showIsBooked();
-    }
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -76,6 +69,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
 
   @override
   Widget build(BuildContext context) {
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -152,13 +146,13 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                     );
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Column(
-                      
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        LoadingAnimationWidget.fourRotatingDots(color: Colors.grey, size: 25),
-                      ],
+                  } 
+                  else {
+                    return Container(
+                      height: height,
+                      alignment: Alignment.center,
+                      child:  LoadingAnimationWidget.fourRotatingDots(
+                            color: Colors.grey, size: 25),
                     );
                   }
                 },
@@ -200,7 +194,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const WorkReviewScreen(),
+                                             WorkReviewScreen(status:widget.isBooked),
                                       ));
                                 },
                                 child: Row(
@@ -442,123 +436,12 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                                                 ),
                                               ));
                                         },
-                                        icon: const Icon(Icons.message_outlined)),
+                                        icon:
+                                            const Icon(Icons.message_outlined)),
                                   )
                                 ],
                               ),
-                              SizedBox(
-                                height: 70,
-                                width: double.infinity,
-                                child: Consumer<ReservedGigs>(
-                                  builder: (context, value, child) => Flexible(
-                                    flex: 1,
-                                    child: value.reveiws!.isEmpty
-                                        ? const Center(
-                                            child:
-                                                Text('No Reviews Posted Yet!'),
-                                          )
-                                        : ListView.separated(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const Divider(),
-                                            itemCount: value.reveiws!.length,
-                                            itemBuilder: (context, index) =>
-                                                Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  kHeight10,
-                                                  Row(
-                                                    children: [
-                                                      RatingBar.builder(
-                                                        ignoreGestures: true,
-                                                        allowHalfRating: true,
-                                                        initialRating: value
-                                                            .reveiws![index]!
-                                                            .rating,
-                                                        itemSize: 20,
-                                                        itemBuilder:
-                                                            (context, index) =>
-                                                                const Icon(
-                                                          Icons.star,
-                                                          color: Color.fromARGB(
-                                                              255,
-                                                              230,
-                                                              209,
-                                                              23),
-                                                        ),
-                                                        onRatingUpdate:
-                                                            (value) {},
-                                                      ),
-                                                      Text(
-                                                        "(${value.reveiws![index]!.rating})",
-                                                        style: normalText,
-                                                      ),
-                                                      kWidth10,
-                                                      Text(
-                                                          value.reveiws![index]!
-                                                              .title,
-                                                          style: normalText),
-                                                    ],
-                                                  ),
-                                                  kHeight10,
-                                                  Text(
-                                                    value.reveiws![index]!
-                                                        .description,
-                                                    style: const TextStyle(
-                                                        fontSize: 19),
-                                                  ),
-                                                  kHeight10,
-                                                  Row(
-                                                    children: [
-                                                      const CircleAvatar(
-                                                        radius: 10,
-                                                        backgroundImage: AssetImage(
-                                                            'assets/splash/unknown.jpg'),
-                                                      ),
-                                                      kWidth10,
-                                                      Text(
-                                                        "${value.reveiws![index]!.userId.fullName}  ,  ",
-                                                        style: const TextStyle(
-                                                            color: Colors.grey,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                      Text(
-                                                        value.reveiws![index]!
-                                                            .userId.status,
-                                                        style: const TextStyle(
-                                                            color: Colors.green,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  kHeight10,
-                                                  Row(
-                                                    children: [
-                                                      const Icon(
-                                                        Icons.verified,
-                                                        size: 18,
-                                                      ),
-                                                      Text(
-                                                          'Verified User  ${value.reveiws![index]!.date}')
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                              ),
+                             
                             ],
                           ),
                         );
@@ -632,114 +515,9 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
     _openCheckout(price, title);
   }
 
-  void showIsBooked() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return Consumer<ReservedGigs>(
-          builder: (context, value, child) => SimpleDialog(
-            title: Center(
-                child: Text(
-              value.reservedGigs![widget.index]!.title,
-              style: const TextStyle(
-                  color: Colors.blue,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold),
-            )),
-            children: [
-              value.reservedGigs![widget.index]?.status == 'Completed'
-                  ? Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      side: const BorderSide(color: Color.fromARGB(255, 16, 81, 135))))),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            showDialog(
-                              context: context,
-                              builder: (context) => SimpleDialog(
-                                title: const Center(
-                                  child: Text('Rating'),
-                                ),
-                                children: [
-                                  Center(
-                                    child: RatingBar.builder(
-                                      allowHalfRating: true,
-                                      glowColor: const Color.fromARGB(255, 16, 81, 135),
-                                      initialRating: 3,
-                                      itemBuilder: (context, index) =>
-                                          const Icon(
-                                        Icons.star,
-                                        color:
-                                            Color.fromARGB(255, 230, 209, 23),
-                                      ),
-                                      onRatingUpdate: (rating) {
-                                        value.setRating = rating;
-                                      },
-                                      updateOnDrag: true,
-                                      minRating: 1,
-                                      glow: true,
-                                      itemSize: 30,
-                                      itemPadding: const EdgeInsets.all(3),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MyTextFormField(
-                                      controller: value.reviewTitleController,
-                                      maxLines: 1,
-                                      hintText: 'Title',
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: MyTextFormField(
-                                      controller: value.reviewController,
-                                      maxLines: 3,
-                                      hintText: 'Review',
-                                    ),
-                                  ),
-                                  Center(
-                                      child: ElevatedButton(
-                                    onPressed: () {
-                                      submitButtonClicked(context,
-                                          value.reservedGigs![widget.index]!.gigId.id);
-                                    },
-                                    style: ButtonStyle(
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5.0),
-                                                side: const BorderSide(
-                                                    color: Color.fromARGB(255, 16, 81, 135))))),
-                                    child: const Text(
-                                      'Submit',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ))
-                                ],
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Add Review',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          )),
-                    )
-                  : const SizedBox(),
-            ],
-          ),
-        );
-      },
-    );
-  }
-    void submitButtonClicked(context, gigId) {
+
+
+  void submitButtonClicked(context, gigId) {
     final provider = Provider.of<ReservedGigs>(context, listen: false);
     ReviewAddingModel reveiw = ReviewAddingModel(
         reviewData: ReviewData(

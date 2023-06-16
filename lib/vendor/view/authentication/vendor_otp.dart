@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +33,7 @@ class VendorOtpScreen extends StatelessWidget {
                 child: Center(
                   child: Image(
                     image: AssetImage(
-                      'assets/splash/logo3.webp',
+                      'assets/splash/newLogo.png',
                     ),
                     height: 100,
                     width: 220,
@@ -90,46 +92,54 @@ class VendorOtpScreen extends StatelessWidget {
                                             ),
                                           ),
                                   )),
-                          context.watch<VendorProvider>().isLoadingOtp?const CircularProgressIndicator(): ElevatedButton(
-                            onPressed: () {
-                              String otpvalidated = otpFieldValidation(context);
-                              if (otpvalidated == 'false') {
-                                var oTP = field1.text +
-                                    field2.text +
-                                    field3.text +
-                                    field4.text +
-                                    field5.text +
-                                    field6.text;
-
-                                VendorProvider().verifyVendorOtp(context, oTP);
-                              }
-                            },
-                            style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(5.0),
-                              fixedSize: MaterialStateProperty.all(
-                                const Size(185, 45),
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 123, 230, 219),
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                          context.watch<VendorProvider>().isLoadingOtp
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    bool otpvalidated =
+                                        otpFieldValidation(context);
+                                    if (otpvalidated) {
+                                      var oTP = field1.text +
+                                          field2.text +
+                                          field3.text +
+                                          field4.text +
+                                          field5.text +
+                                          field6.text;
+                                      VendorProvider().verifyVendorOtp(context, oTP);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              backgroundColor: Colors.red,
+                                              content:
+                                                  Text("Enter Complete Otp!")));
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    elevation: MaterialStateProperty.all(5.0),
+                                    fixedSize: MaterialStateProperty.all(
+                                      const Size(185, 45),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                      const Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Verify',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            child: const Text(
-                              'Verify',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 24),
-                            ),
-                          ),
                           kHeight10,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Text(
-                                "  Didn't Recieve the code?",
+                                "Didn't Recieve the code?",
                                 style: TextStyle(fontSize: 18),
                               ),
                               TextButton(
@@ -156,17 +166,16 @@ class VendorOtpScreen extends StatelessWidget {
     );
   }
 
-  String otpFieldValidation(context) {
+  bool otpFieldValidation(context) {
     if (field1.text.isEmpty ||
         field2.text.isEmpty ||
         field3.text.isEmpty ||
         field4.text.isEmpty ||
         field5.text.isEmpty ||
         field6.text.isEmpty) {
-      Provider.of<UserProvider>(context, listen: false).changeValidatorState();
-      return 'true';
+      return false;
     }
-    return 'false';
+    return true;
   }
 }
 
@@ -176,8 +185,8 @@ class OtpField extends StatelessWidget {
     required this.field,
   });
 
-   // ignore: prefer_typing_uninitialized_variables
-   final field;
+  // ignore: prefer_typing_uninitialized_variables
+  final field;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

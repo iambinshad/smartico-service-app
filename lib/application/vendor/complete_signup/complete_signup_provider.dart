@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:smartico/vendor/controller/complete_sign_up/complete_sign_up.dart';
 import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
@@ -10,6 +11,7 @@ class CompleteSignUpProvider with ChangeNotifier {
 
   String? profileImage;
   final fullName = TextEditingController();
+  final userNameController = TextEditingController();
   final email = TextEditingController();
   final address = TextEditingController();
   final about = TextEditingController();
@@ -41,11 +43,19 @@ class CompleteSignUpProvider with ChangeNotifier {
 
   Future<void> setVendorProfile(VendorAddressModel vendorAddressModel,
       VendorSkillsModel vendorSkillsModel, BuildContext context) async {
-    final addressResult = await CompleteSignUPService().updateVendorAddress(vendorAddressModel);
-    final skillResult = await CompleteSignUPService().updateVendorSkill(vendorSkillsModel);
-    if(addressResult!=null && skillResult !=null){
+    final addressResult =
+        await CompleteSignUPService().updateVendorAddress(vendorAddressModel);
+    final skillResult =
+        await CompleteSignUPService().updateVendorSkill(vendorSkillsModel);
+
+    if (addressResult != null && skillResult != null) {
       // ignore: use_build_context_synchronously
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const VendorBottomNavBar(),), (route) => false);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const VendorBottomNavBar(),
+          ),
+          (route) => false);
     }
   }
 }

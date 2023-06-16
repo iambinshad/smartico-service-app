@@ -16,7 +16,7 @@ class GigDescripttion extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title:Text(title!,style: const TextStyle(fontWeight: FontWeight.bold),) ,centerTitle: true,backgroundColor: const Color.fromARGB(255, 16, 81, 135),),
+      appBar: AppBar(title:Text(title!,style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),) ,centerTitle: true,backgroundColor: const Color.fromARGB(255, 16, 81, 135),),
       body: ListView(
         children: [
           SizedBox(

@@ -7,13 +7,14 @@ import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 
 class WorkReviewScreen extends StatelessWidget {
-  const WorkReviewScreen({super.key});
-
+   WorkReviewScreen({super.key, required this.status});
+bool status;
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       
-      appBar: AppBar(backgroundColor: const Color.fromARGB(255, 16, 81, 135),title:Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 26),) ,),
+      appBar: AppBar(actions: [status==true?Icon(Icons.add):SizedBox()],backgroundColor: const Color.fromARGB(255, 16, 81, 135),title:Text('Ratings & Reviews',style: normalText.copyWith(fontSize: 26,color: Colors.white),) ,),
         body: Consumer<ReservedGigs>(
             builder: (context, value, child) =>  value.reveiws!.isEmpty?const Center(child: Text('No Reviews Posted Yet!'),) :ListView.separated(
               separatorBuilder: (context, index) =>const Divider() ,

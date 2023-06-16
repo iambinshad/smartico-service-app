@@ -31,7 +31,7 @@ class UserOtpScreen extends StatelessWidget {
                 child: Center(
                   child: Image(
                     image: AssetImage(
-                      'assets/splash/logo3.webp',
+                      'assets/splash/newLogo.png',
                     ),
                     height: 100,
                     width: 220,

@@ -5,6 +5,7 @@ import 'package:smartico/application/common/common_provider.dart';
 import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
+import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
@@ -24,11 +25,14 @@ class ViewAllScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: InkWell(onTap: () => Navigator.pop(context),child: Icon(Icons.arrow_back,color: Colors.white,)),
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         elevation: 1,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Services For You',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: headText.copyWith(color: Colors.white),
         ),
       ),
       body: Consumer2<RecentServicesProvider, CommonProvider>(
@@ -41,17 +45,20 @@ class ViewAllScreen extends StatelessWidget {
                   await context
                       .read<SingleGigDetailsProvider>()
                       .getGig(value.allGigs![index].id, context);
-                  if(context.mounted){await Provider.of<ReservedGigs>(context, listen: false)
-                      .getreveiws(value.allGigs![index].id);}
-                      await Provider.of<ReservedGigs>(context,
-                                          listen: false)
-                                      .getreveiws(value.allGigs![index].id);
+                  if (context.mounted) {
+                    await Provider.of<ReservedGigs>(context, listen: false)
+                        .getreveiws(value.allGigs![index].id);
+                  }
+                  await Provider.of<ReservedGigs>(context, listen: false)
+                      .getreveiws(value.allGigs![index].id);
 
                   if (context.mounted) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  const ServiceDescriptionScrn(isBooked: false,),
+                          builder: (context) => const ServiceDescriptionScrn(
+                            isBooked: false,
+                          ),
                         ));
                   }
                 },
@@ -84,15 +91,13 @@ class ViewAllScreen extends StatelessWidget {
                                       value.allGigs![index].title,
                                       style: const TextStyle(
                                           fontFamily: 'Roboto',
-                                          fontSize: 23,
+                                          fontSize: 19,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     const Row(
                                       children: [
-                                        Icon(
-                                          Icons.star_rounded,
-                                          color: Colors.blue,
-                                        ),
+                                        Icon(Icons.star_rounded,
+                                            color: Colors.black, size: 19),
                                         Text(
                                           '5.0',
                                           style: TextStyle(fontSize: 19),
@@ -110,9 +115,9 @@ class ViewAllScreen extends StatelessWidget {
                                     Text(
                                       '\$${value.allGigs![index].price}',
                                       style: const TextStyle(
-                                          fontSize: 22,
+                                          fontSize: 19,
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.blue),
+                                          color: Colors.black),
                                     )
                                   ],
                                 ),

@@ -39,7 +39,8 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: Text(
           'Add Gig',
-          style: headText,
+          style: headText.copyWith(color: Colors.white),
+
         ),
         centerTitle: true,
       ),

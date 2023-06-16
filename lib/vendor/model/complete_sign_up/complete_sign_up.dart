@@ -137,18 +137,18 @@ class VendorAddressModel {
 
 class VendorSkillsModel {
     VendorSkillsModel({
-        required this.skill,
-        required this.googleDrive,
-        required this.linkedIn,
-        required this.github,
+         this.skill,
+         this.googleDrive,
+         this.linkedIn,
+         this.github,
         required this.about,
         required this.profilePhoto,
     });
 
-    String skill;
-    String googleDrive;
-    String linkedIn;
-    String github;
+    String? skill;
+    String? googleDrive;
+    String? linkedIn;
+    String? github;
     String about;
     String profilePhoto;
 

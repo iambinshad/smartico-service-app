@@ -42,7 +42,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
               child: Center(
                 child: Image(
                   image: AssetImage(
-                    'assets/splash/logo3.webp',
+                    'assets/splash/newLogo.png',
                   ),
                   height: 80,
                   width: 180,
@@ -271,6 +271,12 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              TextButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, child: Text("Previous",style: TextStyle(
+                                      fontSize: 18,
+                                      color:
+                                          Color.fromARGB(255, 121, 216, 206)),)),
                               const Text(
                                 "Already have an account?",
                                 style: TextStyle(fontSize: 18),

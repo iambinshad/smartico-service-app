@@ -59,7 +59,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
       appBar: AppBar(
         title: Text(
           'Edit Profile',
-          style: normalText,
+          style: headText.copyWith(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         centerTitle: true,

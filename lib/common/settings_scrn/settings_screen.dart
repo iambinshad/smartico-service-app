@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: Text(
           'Settings',
-          style: headText,
+          style: headText.copyWith(color: Colors.white),
         ),
       ),
       body: SingleChildScrollView(

@@ -28,7 +28,7 @@ class VendorSignIn extends StatelessWidget {
                 child: const Center(
                   child: Image(
                     image: AssetImage(
-                      'assets/splash/logo3.webp',
+                      'assets/splash/newLogo.png',
                     ),
                     height: 70,
                     width: 200,
@@ -37,7 +37,7 @@ class VendorSignIn extends StatelessWidget {
               ),
               Center(
                 child: Padding(
-                  padding: const  EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Card(
                       elevation: 1.0,
                       child: Column(
@@ -58,134 +58,97 @@ class VendorSignIn extends StatelessWidget {
                           ),
                           kHeight20,
                           Padding(
-                            padding:
-                                const EdgeInsets.only(right: 20, left: 20),
-                            child:MyTextFormField(controller: emailController,validator: (p0) {
-                              var validatedEmail = emailValidation(p0);
-                                if (p0 == null || p0.isEmpty) {
-                                  return 'Email is required';
-                                } else if (validatedEmail == false) {
-                                  return 'Enter Valid Email';
-                                }
-                                return null;
-                            },keyboardType: TextInputType.emailAddress,prefixIcon: const Icon(Icons.email_outlined,size: 24,),labelText:'Email',)
-                          ),
-                          kHeight20,
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: 20, left: 20),
-                            child: Consumer<UserProvider>(
-                              builder: (context, value, child) =>
-                                  MyTextFormField(controller:passwordController,validator: (p0) {
-                                    if (p0 == null || p0.isEmpty) {
-                                    return 'Password is required';
-                                  } else if (p0.length < 8) {
-                                    return '8 characters required';
+                              padding:
+                                  const EdgeInsets.only(right: 20, left: 20),
+                              child: MyTextFormField(
+                                controller: emailController,
+                                validator: (p0) {
+                                  var validatedEmail = emailValidation(p0);
+                                  if (p0 == null || p0.isEmpty) {
+                                    return 'Email is required';
+                                  } else if (validatedEmail == false) {
+                                    return 'Enter Valid Email';
                                   }
                                   return null;
-
-                                  },suffixIcon:  IconButton(
-                                    icon: Icon(
-                                      value.userSignInPswdVisiblity
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                      color: Colors.blue,size: 24,
-                                    ),
-                                    onPressed: () {
-                                      value.changeSignInVisibleState(
-                                          value.userSignInPswdVisiblity);
-                                    },
-                                  ),
-                                  prefixIcon: const Icon(Icons.lock_outline_rounded,size: 24,),
-                                  maxLines: 1,
-                                  labelText: 'Password',
-                                  obscureText: !value.userSignInPswdVisiblity,
-                                enableSuggestions: false,
-                                autocorrect: false,
-                                  )
-                            ),
+                                },
+                                keyboardType: TextInputType.emailAddress,
+                                prefixIcon: const Icon(
+                                  Icons.email_outlined,
+                                  size: 24,
+                                ),
+                                labelText: 'Email',
+                              )),
+                          kHeight20,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20, left: 20),
+                            child: Consumer<UserProvider>(
+                                builder: (context, value, child) =>
+                                    MyTextFormField(
+                                      controller: passwordController,
+                                      validator: (p0) {
+                                        if (p0 == null || p0.isEmpty) {
+                                          return 'Password is required';
+                                        } else if (p0.length < 8) {
+                                          return '8 characters required';
+                                        }
+                                        return null;
+                                      },
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          value.userSignInPswdVisiblity
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: Colors.blue,
+                                          size: 24,
+                                        ),
+                                        onPressed: () {
+                                          value.changeSignInVisibleState(
+                                              value.userSignInPswdVisiblity);
+                                        },
+                                      ),
+                                      prefixIcon: const Icon(
+                                        Icons.lock_outline_rounded,
+                                        size: 24,
+                                      ),
+                                      maxLines: 1,
+                                      labelText: 'Password',
+                                      obscureText:
+                                          !value.userSignInPswdVisiblity,
+                                      enableSuggestions: false,
+                                      autocorrect: false,
+                                    )),
                           ),
                           kHeight20,
                           kHeight10,
-                          context.watch<VendorProvider>().isLoading?const CircularProgressIndicator(): ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                signInClicked(context);
-                              }
-                            },
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all(
-                                const Size(310, 50),
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 123, 230, 219),
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                          context.watch<VendorProvider>().isLoading
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      signInClicked(context);
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    fixedSize: MaterialStateProperty.all(
+                                      const Size(310, 50),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                      const Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'sign in',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 24),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            child: const Text(
-                              'sign in',
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 24),
-                            ),
-                          ),
                           kHeight20,
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: const [
-                          //     Expanded(
-                          //         child: Padding(
-                          //       padding: EdgeInsets.only(right: 18, left: 18),
-                          //       child: Divider(
-                          //         thickness: 1,
-                          //         color: Colors.black,
-                          //         height: 5,
-                          //       ),
-                          //     )),
-                          //     Text(
-                          //       'Or',
-                          //       style: TextStyle(fontSize: 20),
-                          //     ),
-                          //     Expanded(
-                          //         child: Padding(
-                          //       padding: EdgeInsets.only(right: 22, left: 22),
-                          //       child: Divider(
-                          //         thickness: 1,
-                          //         color: Colors.black,
-                          //         height: 5,
-                          //       ),
-                          //     )),
-                          //   ],
-                          // ),
-                          // kHeight10,
-                          // Container(
-                          //   width: 315,
-                          //   height: 55,
-                          //   decoration: BoxDecoration(
-                          //       border: Border.all(),
-                          //       borderRadius: BorderRadius.circular(8)),
-                          //   child: Row(
-                          //     children:  [
-                          //       kWidth10,
-                          //       const Center(
-                          //           child: Image(
-                          //         image: AssetImage(
-                          //             'assets/authentication/google-logo-9808.png'),
-                          //         height: 35.0,
-                          //         width: 35.0,
-                          //       )),
-                          //       kWidth20,
-                          //       const Text(
-                          //         'Continue With Google',
-                          //         style: TextStyle(fontSize: 22,fontFamily: 'Roboto',fontWeight: FontWeight.bold),
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
-                          // kHeight10,
+                          
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -212,7 +175,6 @@ class VendorSignIn extends StatelessWidget {
                               ),
                             ],
                           ),
-                         
                         ],
                       )),
                 ),

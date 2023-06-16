@@ -18,14 +18,14 @@ class AllBookingTab extends StatelessWidget {
       appBar: AppBar(
           title: Text(
             'Bookings',
-            style: normalText,
+            style: headText.copyWith(color: Colors.white),
           ),
           backgroundColor: const Color.fromARGB(255, 16, 81, 135),
           centerTitle: true),
       body: Consumer<AllBookingProvider>(
         builder: (context, value, child) => value.allBookings!.isEmpty
-            ? const Center(
-                child: Text('No One Booked Yet!'),
+            ?  Center(
+                child: Text('No One Booked Yet!',style: normalText,),
               )
             : ListView.builder(
                 itemBuilder: (context, index) {

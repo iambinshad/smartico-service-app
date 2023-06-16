@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
+import 'package:smartico/user/view/authentication/user_sign_in.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
+import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 import '../user/view/bottom_nav/bottom_nav.dart';
 
 class RollSelectingScreen extends StatefulWidget {
@@ -23,7 +26,7 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Image(
-            image: const AssetImage('assets/splash/logo3.webp'),
+            image: const AssetImage('assets/splash/newLogo.png'),
             height: width / 12,
           ),
           centerTitle: true,
@@ -118,21 +121,49 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        FlutterSecureStorage storage = FlutterSecureStorage();
+
                         if (customerCheckboxValue == true) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const UserBottomNavBar(),
-                              ),
-                              (route) => false);
+                          final userAccessToken =
+                              await storage.read(key: 'user_access_token');
+
+                          if (userAccessToken != null) {
+                            if(mounted){Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UserBottomNavBar(),
+                                ),
+                                (route) => false);}
+                          } else {
+                           if(mounted){ Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UserSignIn(),
+                                ),
+                                (route) => false);}
+                          }
                         } else if (serviceProviderCheckBoxValue == true) {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VendorSignIn(),
-                              ),
-                              (route) => false);
+                          final userAccessToken =
+                              await storage.read(key: 'vendor_access_token');
+
+                          if (userAccessToken != null) {
+                           if(mounted){ Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VendorBottomNavBar(),
+                                ),
+                                (route) => false);}
+                          } else {
+                           if(mounted){ Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VendorSignIn(),
+                                ),
+                                (route) => false);}
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(

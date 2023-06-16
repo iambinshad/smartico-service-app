@@ -73,7 +73,7 @@ int? chatindex;
               ),
               Text(
                 chatingVendor.vendorName!,
-                style: mediumText,
+                style: mediumText.copyWith(color: Colors.white),
               )
             ],
           ),

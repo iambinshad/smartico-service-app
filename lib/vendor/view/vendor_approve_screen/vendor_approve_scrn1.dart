@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/complete_signup/complete_signup_provider.dart';
-import 'package:smartico/vendor/view/vendor_approve_screen/vendor_approve_scrn2.dart';
+import 'package:smartico/vendor/model/complete_sign_up/complete_sign_up.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../core/widgets.dart';
@@ -19,11 +19,10 @@ class VendorApprovalFirstScrn extends StatefulWidget {
       _VendorApprovalFirstScrnState();
 }
 
-File? profile;
-String unknown = 'assets/splash/unknown.jpg';
-
 class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
   bool res = false;
+  File? profile;
+  String unknown = 'assets/splash/unknown.jpg';
   final _formKey = GlobalKey<FormState>();
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
 
@@ -53,11 +52,11 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       kHeight40,
-                     
                       Center(
                         child: CircleAvatar(
                           radius: 63,
-                          backgroundColor: const Color.fromARGB(255, 123, 230, 219),
+                          backgroundColor:
+                              const Color.fromARGB(255, 123, 230, 219),
                           child: GestureDetector(
                               onTap: () {
                                 showModelBottomSheet(context, width);
@@ -98,11 +97,10 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                                   }
                                   return null;
                                 },
-                                
                                 labelText: 'Address'),
-                                kHeight20,
-                                MyTextFormField(
-                                  keyboardType: TextInputType.number,
+                            kHeight20,
+                            MyTextFormField(
+                                keyboardType: TextInputType.number,
                                 controller: prov.pincode,
                                 validator: (p0) {
                                   if (p0 == null || p0.isEmpty) {
@@ -110,9 +108,7 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                                   }
                                   return null;
                                 },
-                                
                                 labelText: 'Pincode'),
-
                             kHeight20,
                             MyTextFormField(
                                 validator: (p0) {
@@ -122,7 +118,6 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                                   return null;
                                 },
                                 controller: prov.about,
-                                
                                 labelText: 'About'),
                             kHeight20,
                             cscPicker(),
@@ -130,12 +125,20 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                           ],
                         ),
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
                             res = cscPickerValidate();
                           }
-                          if (res == false) {
+                          if (profile == null) {
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.info(
+                                message: 'Add Profile Pic',
+                              ),
+                            );
+                          }
+                          if (!res) {
                             showTopSnackBar(
                               Overlay.of(context),
                               const CustomSnackBar.info(
@@ -143,8 +146,8 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                               ),
                             );
                           }
-                          if (res) {
-                            nextButtonClicked(profile);
+                          if (res && profile != null) {
+                            submitButtonClicked(profile);
                           }
                         },
                         child: Container(
@@ -155,9 +158,11 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
                           width: width / 1.19,
                           child: const Center(
                               child: Text(
-                            'Next',
+                            'SUBMIT',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold,color:Colors.white),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
                           )),
                         ),
                       ),
@@ -263,20 +268,33 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
     final prov = context.read<CompleteSignUpProvider>();
     if (prov.countryValue != null &&
         prov.stateValue != null &&
-        prov.cityValue != null &&
-        profile != null) {
+        prov.cityValue != null) {
       return true;
     }
     return false;
   }
 
-  void nextButtonClicked(File? profile) async {
+  void submitButtonClicked(File? profile) async {
     Provider.of<CompleteSignUpProvider>(context, listen: false).profileImage =
         profile!.path;
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => VendorApprovalSecondScrn(imagePath: profile,),
-        ));
+    final prov = Provider.of<CompleteSignUpProvider>(context, listen: false);
+    final pin = int.parse(prov.pincode.text);
+    final vendorAddressModel = VendorAddressModel(
+        pincode: pin,
+        country: prov.countryValue,
+        currentAddress: prov.address.text,
+        city: prov.cityValue,
+        state: prov.stateValue);
+    CloudinaryResponse response = await cloudinary.uploadFile(
+        CloudinaryFile.fromFile(profile.path,
+            resourceType: CloudinaryResourceType.Image));
+    final url = response.secureUrl;
+
+    VendorSkillsModel vendorSkillsModel =
+        VendorSkillsModel(about: prov.about.text, profilePhoto: url);
+
+    Provider.of<CompleteSignUpProvider>(context, listen: false)
+        .setVendorProfile(vendorAddressModel, vendorSkillsModel, context);
   }
+
 }

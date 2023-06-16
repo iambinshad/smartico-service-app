@@ -38,46 +38,102 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
         currentIndex: currentIndex,
         selectedItemColor: const Color.fromARGB(255, 16, 81, 135),
         unselectedItemColor: Colors.black.withOpacity(0.3),
-        items: const [
+        items: [
           BottomNavigationBarItem(
-              icon: CircleAvatar(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 16, 81, 135),
+                    width: 2.0,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 22.0,
                   child: Icon(
-                Icons.home_filled,
-                color: Colors.black,
-              )),
+                    color: Colors.black,
+                    Icons.home,
+                  ),
+                ),
+              ),
               label: 'Home'),
           BottomNavigationBarItem(
-              icon: CircleAvatar(
-                child: Icon(
-                  color: Colors.black,
-                  Icons.category,
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 16, 81, 135),
+                    width: 2.0,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 22.0,
+                  child: Icon(
+                    color: Colors.black,
+                    Icons.category,
+                  ),
                 ),
               ),
               label: 'All'),
           BottomNavigationBarItem(
-              icon: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                child: Icon(
-                  color: Colors.black,
-                  Icons.chat_outlined,
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 16, 81, 135),
+                    width: 2.0,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 22.0,
+                  child: Icon(
+                    color: Colors.black,
+                    Icons.chat,
+                  ),
                 ),
               ),
               label: 'Chat'),
           BottomNavigationBarItem(
-              icon: CircleAvatar(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 16, 81, 135),
+                    width: 2.0,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 22.0,
                   child: Icon(
-                Icons.book_online,
-                color: Colors.black,
-              )),
-              label: 'Bookings'),
-          BottomNavigationBarItem(
-              icon: CircleAvatar(
-                child: Icon(
-                  color: Colors.black,
-                  Icons.person,
+                    color: Colors.black,
+                    Icons.book_online_outlined,
+                  ),
                 ),
               ),
-              label: 'profile'),
+              label: 'Booking'),
+          BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 16, 81, 135),
+                    width: 2.0,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 22.0,
+                  child: Icon(
+                    color: Colors.black,
+                    Icons.person_2_outlined,
+                  ),
+                ),
+              ),
+              label: 'Profile'),
         ],
       ),
     );

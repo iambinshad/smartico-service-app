@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,23 +13,22 @@ import 'package:smartico/vendor/view/bottom_nav_screens/chats/messages.dart';
 // ignore: must_be_immutable
 class VendorChatScrn extends StatelessWidget {
   VendorChatScrn({super.key});
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   dynamic vid;
   @override
   Widget build(BuildContext context) {
 Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.of<VendorConnectionService>(context,listen: false).sortedVendors;
     return Scaffold(
 
-      backgroundColor: Color.fromARGB(255, 237, 237, 237),
+      backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor:Color.fromARGB(255, 16, 81, 135) ,
+        backgroundColor:const Color.fromARGB(255, 16, 81, 135) ,
         title: Text('Chat Screen', style: headText.copyWith(color: Colors.white)),
       ),
       body: Column(
         children: [
           ColoredBox(
-            color: const Color.fromARGB(255, 121, 216, 206),
+            color: const Color.fromARGB(255, 16, 81, 135),
             child: Padding(
                 padding: const EdgeInsets.only(right: 13, left: 13, bottom: 5),
                 child: Consumer<VendorConnectionService>(
@@ -44,10 +41,10 @@ Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.
           ),
           Expanded(
             child: Consumer<VendorConnectionService>(
-              builder: (context, value, child) =>value.sortedVendors !=null? ListView.builder(
+              builder: (context, value, child) =>value.sortedVendors!.length==0?Center(child:  Text('Chat List Not Found!',style: normalText,)): ListView.builder(
                 itemBuilder: (context, index) {
                   return
-                   value.showList !=null?
+                   value.showList!.length == 0?
                    Padding(
                      padding: const EdgeInsets.all(6.0),
                      child: ListTile(
@@ -93,7 +90,7 @@ Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.
                   
                 },
                 itemCount: value.showList!.length,
-              ):const Text('Chat List Not Found!'),
+              ),
             ),
           )
         ],

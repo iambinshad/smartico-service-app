@@ -9,11 +9,6 @@ import '../../../core/widgets.dart';
 class VendorSignUPScrnOne extends StatelessWidget {
   VendorSignUPScrnOne({super.key});
 
-  final fullNameController = TextEditingController();
-  final userNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -31,7 +26,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
               child: Center(
                 child: Image(
                   image: AssetImage(
-                    'assets/splash/logo3.webp',
+                    'assets/splash/newLogo.png',
                   ),
                   height: 100,
                   width: 250,
@@ -71,7 +66,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                           kHeight20,
                           Padding(
                             padding: const EdgeInsets.only(right: 20, left: 20),
-                            child: MyTextFormField(controller: userNameController,validator: (p0) {
+                            child: MyTextFormField(controller: prov.userNameController,validator: (p0) {
                               if(p0 == null || p0.isEmpty){
                                 return 'Username Is Required';
                               }
@@ -107,7 +102,7 @@ class VendorSignUPScrnOne extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                signUpButtonClicked(context);
+                                signUpButtonClicked(context,prov);
                               }
                             },
                             style: ButtonStyle(
@@ -169,12 +164,14 @@ class VendorSignUPScrnOne extends StatelessWidget {
     return emailResult;
   }
 
-  signUpButtonClicked(context)async {
+  signUpButtonClicked(context,prov)async {
    
     final fullName = Provider.of<CompleteSignUpProvider>(context, listen: false)
         .fullName
         .text;
-    final userName = userNameController.text;
+    final userName = Provider.of<CompleteSignUpProvider>(context, listen: false)
+        .userNameController
+        .text;
     final email = Provider.of<CompleteSignUpProvider>(context, listen: false)
         .email
         .text

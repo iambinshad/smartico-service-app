@@ -7,6 +7,7 @@ import 'package:smartico/application/user/booking/booked_gigs.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/core/constants.dart';
+import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 
 class AllCategroryList extends StatelessWidget {
@@ -19,7 +20,8 @@ class AllCategroryList extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<CommonProvider>(context, listen: false)
           .setShimmerLoading(true);
-          Provider.of<RecentServicesProvider>(context, listen: false).showList=Provider.of<RecentServicesProvider>(context, listen: false).allGigs;
+      Provider.of<RecentServicesProvider>(context, listen: false).showList =
+          Provider.of<RecentServicesProvider>(context, listen: false).allGigs;
       Future.delayed(const Duration(milliseconds: 700), () {
         context.read<CommonProvider>().setShimmerLoading(false);
       });
@@ -28,24 +30,23 @@ class AllCategroryList extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor:const Color.fromARGB(255, 16, 81, 135),
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         elevation: 1,
         centerTitle: true,
-        title:  Text(
+        title: Text(
           'All Services',
-          style:headText.copyWith(color: Colors.white),
+          style: headText.copyWith(color: Colors.white),
         ),
       ),
       body: Column(
         children: [
-           ColoredBox(
-            color:const Color.fromARGB(255, 16, 81, 135),
+          ColoredBox(
+            color: const Color.fromARGB(255, 16, 81, 135),
             child: Padding(
                 padding: const EdgeInsets.only(right: 13, left: 13, bottom: 5),
                 child: Consumer<RecentServicesProvider>(
-                  builder: (context, values, child) => 
-                  CupertinoSearchTextField(
-                    onChanged: (value) =>values.filterGigList(value) ,
+                  builder: (context, values, child) => CupertinoSearchTextField(
+                    onChanged: (value) => values.filterGigList(value),
                     backgroundColor: Colors.white,
                   ),
                 )),
@@ -58,24 +59,29 @@ class AllCategroryList extends StatelessWidget {
                 left: 10,
               ),
               child: Consumer2<RecentServicesProvider, CommonProvider>(
-                builder: (context, value, value2, child) => value2.shimmerLoading
-                        ? Center(child: LoadingAnimationWidget.fourRotatingDots(color: Colors.grey, size: 25.0))
-                        :  ListView.builder(
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
+                builder: (context, value, value2, child) => value2
+                        .shimmerLoading
+                    ? Center(
+                        child: LoadingAnimationWidget.fourRotatingDots(
+                            color: Colors.grey, size: 25.0))
+                    : ListView.builder(
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
                             onTap: () async {
                               await context
                                   .read<SingleGigDetailsProvider>()
                                   .getGig(value.showList![index].id, context);
-                                  await Provider.of<ReservedGigs>(context,
-                                          listen: false)
-                                      .getreveiws(value.allGigs![index].id);
+                              await Provider.of<ReservedGigs>(context,
+                                      listen: false)
+                                  .getreveiws(value.allGigs![index].id);
                               if (context.mounted) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                           const ServiceDescriptionScrn(isBooked: false,),
+                                          const ServiceDescriptionScrn(
+                                        isBooked: false,
+                                      ),
                                     ));
                               }
                             },
@@ -116,12 +122,13 @@ class AllCategroryList extends StatelessWidget {
                                             Text(
                                               value.showList![index].title,
                                               style: const TextStyle(
-                                                  color: Colors.blue,
+                                                  color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 19),
                                             ),
                                           ],
                                         ),
+                                        kHeight10,
                                         Row(
                                           children: [
                                             Text(
@@ -132,49 +139,24 @@ class AllCategroryList extends StatelessWidget {
                                             ),
                                           ],
                                         ),
+                                        kHeight10,
                                         const Row(
                                           children: [
-                                            Icon(
-                                              Icons.star_rate_rounded,
-                                              color: Colors.yellow,
-                                              size: 23,
-                                            ),
+                                            
                                             Text(
                                               '4.9(1.2k + reviews)',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,fontSize: 18,),
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.monetization_on,
-                                              color: Color.fromARGB(
-                                                  255, 58, 201, 15),
-                                              size: 23,
-                                            ),
-                                            Text(
-                                              " ${value.showList![index].price}",
-                                              style:const TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
+                                        kHeight10,
+                                        Text(
+                                          " \u{20B9}${value.showList![index].price}",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,fontSize: 18,),
                                         ),
-                                        const Row(
-                                          children: [
-                                            Icon(
-                                              Icons.remove_red_eye,
-                                              color: Colors.blue,
-                                              size: 23,
-                                            ),
-                                            Text(
-                                              "383",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
+                                       
                                       ],
                                     ),
                                   ),
@@ -182,9 +164,9 @@ class AllCategroryList extends StatelessWidget {
                               ],
                             ),
                           );
-                  },
-                  itemCount: value.showList!.length,
-                ),
+                        },
+                        itemCount: value.showList!.length,
+                      ),
               ),
             ),
           ),

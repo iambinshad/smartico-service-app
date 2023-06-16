@@ -70,7 +70,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(
+                          trailing: Text(
                             snapshot.data?.status ?? "",
                             style: TextStyle(
                                 color: snapshot.data?.status == 'Approved'
@@ -88,13 +88,13 @@ class VendorProfile extends StatelessWidget {
                             "Username",
                             style: normalText,
                           ),
-                          subtitle: Text(
+                          trailing: Text(
                             snapshot.data?.fullName ?? "dkd",
                           ),
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text("${snapshot.data?.phone ?? ""} "),
+                          trailing: Text("${snapshot.data?.phone ?? ""} "),
                           title: Text(
                             "Phone",
                             style: normalText,
@@ -102,7 +102,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.email ?? ""),
+                          trailing: Text(snapshot.data?.email ?? ""),
                           title: Text(
                             "Email",
                             style: normalText,
@@ -110,7 +110,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(
+                          trailing: Text(
                               snapshot.data?.date?.toIso8601String() ?? ""),
                           title: Text(
                             "DOB",
@@ -119,23 +119,42 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.gender ?? ""),
+                          trailing: Text(snapshot.data?.gender ?? ""),
                           title: Text(
                             "Gender",
                             style: normalText,
                           ),
                         ),
-                        Tile(
-                          storage: storage,
-                          subtitle: Text(snapshot.data?.about ?? ""),
-                          title: Text(
-                            "About",
-                            style: normalText,
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10, left: 10),
+                          child: Card(
+                            child: ListTile(
+                              title: Text(
+                                "About",
+                                style: normalText,
+                              ),
+                              subtitle: Text(
+                                snapshot.data?.about ?? "",
+                                style: TextStyle(overflow: TextOverflow.clip),
+                              ),
+                            ),
                           ),
                         ),
+                        // Tile(
+                        //   storage: storage,
+                        //   trailing: Column(
+                        //     children: [
+                        //       Text(snapshot.data?.about ?? "",style: TextStyle(),),
+                        //     ],
+                        //   ),
+                        //   title: Text(
+                        //     "About",
+                        //     style: normalText,
+                        //   ),
+                        // ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.github ?? ""),
+                          trailing: Text(snapshot.data?.github ?? ""),
                           title: Text(
                             "Github",
                             style: normalText,
@@ -143,7 +162,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.googleDrive ?? ""),
+                          trailing: Text(snapshot.data?.googleDrive ?? ""),
                           title: Text(
                             "GoogleDrive",
                             style: normalText,
@@ -151,7 +170,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.linkedIn ?? ""),
+                          trailing: Text(snapshot.data?.linkedIn ?? ""),
                           title: Text(
                             "LinkedIn",
                             style: normalText,
@@ -159,7 +178,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.skill ?? ""),
+                          trailing: Text(snapshot.data?.skill ?? ""),
                           title: Text(
                             "Skills",
                             style: normalText,
@@ -167,7 +186,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(
+                          trailing: Text(
                             "${snapshot.data?.address?.pincode ?? ""}",
                           ),
                           title: Text(
@@ -177,7 +196,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(
+                          trailing: Text(
                               snapshot.data?.address?.currentAddress ?? ""),
                           title: Text(
                             "CurrentAddress",
@@ -186,7 +205,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.address?.country ?? ""),
+                          trailing: Text(snapshot.data?.address?.country ?? ""),
                           title: Text(
                             "Country",
                             style: normalText,
@@ -194,7 +213,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.address?.state ?? ""),
+                          trailing: Text(snapshot.data?.address?.state ?? ""),
                           title: Text(
                             "State",
                             style: normalText,
@@ -202,7 +221,7 @@ class VendorProfile extends StatelessWidget {
                         ),
                         Tile(
                           storage: storage,
-                          subtitle: Text(snapshot.data?.address?.city ?? ""),
+                          trailing: Text(snapshot.data?.address?.city ?? ""),
                           title: Text(
                             "City",
                             style: normalText,

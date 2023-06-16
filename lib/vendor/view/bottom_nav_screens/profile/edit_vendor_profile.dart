@@ -102,8 +102,9 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           "Edit Profile",
+         style: headText.copyWith(color: Colors.white)
         ),
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
