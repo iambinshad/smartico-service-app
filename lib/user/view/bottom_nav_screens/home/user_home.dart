@@ -32,8 +32,7 @@ class UserHomePage extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final token = await getUserAccesToken();
       log(token.toString(), name: 'usereeeee');
-      Provider.of<UserConnectionService>(context, listen: false)
-          .userConnection();
+      Provider.of<UserConnectionService>(context, listen: false).userConnection();
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
@@ -70,7 +69,7 @@ class UserHomePage extends StatelessWidget {
                           enlargeCenterPage: true,
                           autoPlayCurve: Curves.fastOutSlowIn,
                           viewportFraction: 0.8,
-                          enableInfiniteScroll: true,
+                         enableInfiniteScroll: true,
                           autoPlayAnimationDuration:
                               const Duration(microseconds: 5000),
                         ),

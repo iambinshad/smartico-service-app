@@ -45,8 +45,9 @@ class AllBookingTab extends StatelessWidget {
                               width: 80,
                               decoration: BoxDecoration(
                                   image: DecorationImage(
+                                    
                                       image: NetworkImage(value
-                                          .allBookings![index].gigId!.image!),
+                                          .allBookings![index].gigId?.image??"https://cdn4.iconfinder.com/data/icons/ui-beast-3/32/ui-49-4096.png"),
                                       fit: BoxFit.fill),
                                   borderRadius: BorderRadius.circular(7)),
                             ),

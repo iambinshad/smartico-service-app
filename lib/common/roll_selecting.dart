@@ -24,14 +24,7 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: Image(
-            image: const AssetImage('assets/splash/newLogo.png'),
-            height: width / 12,
-          ),
-          centerTitle: true,
-          backgroundColor: const Color.fromARGB(255, 123, 230, 219),
-        ),
+        appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.only(right: 23, left: 23),
           child: SingleChildScrollView(
@@ -40,7 +33,7 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
               children: [
                 kHeight10,
                 const Text(
-                  'You are',
+                  'You are ?',
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
                 kHeight10,
@@ -70,15 +63,23 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                     )
                   ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: const DecorationImage(
-                        image: AssetImage('assets/splash/customer.jpeg'),
-                        fit: BoxFit.cover,
-                      )),
-                  width: width / 1,
-                  height: width / 2,
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      customerCheckboxValue = !customerCheckboxValue;
+                      serviceProviderCheckBoxValue = !customerCheckboxValue;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: const DecorationImage(
+                          image: AssetImage('assets/splash/customer.jpeg'),
+                          fit: BoxFit.cover,
+                        )),
+                    width: width / 1,
+                    height: width / 2,
+                  ),
                 ),
                 kHeight20,
                 Row(
@@ -103,16 +104,25 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                     )
                   ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      image: const DecorationImage(
-                        image:
-                            AssetImage('assets/splash/service provider.jpeg'),
-                        fit: BoxFit.cover,
-                      )),
-                  width: width / 1,
-                  height: width / 2,
+                InkWell(
+                  onTap: () {
+                    setState(() {
+                      serviceProviderCheckBoxValue =
+                          !serviceProviderCheckBoxValue;
+                      customerCheckboxValue = !serviceProviderCheckBoxValue;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: const DecorationImage(
+                          image:
+                              AssetImage('assets/splash/service provider.jpeg'),
+                          fit: BoxFit.cover,
+                        )),
+                    width: width / 1,
+                    height: width / 2,
+                  ),
                 ),
                 SizedBox(
                   height: width / 10,
@@ -129,40 +139,48 @@ class _RollSelectingScreenState extends State<RollSelectingScreen> {
                               await storage.read(key: 'user_access_token');
 
                           if (userAccessToken != null) {
-                            if(mounted){Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const UserBottomNavBar(),
-                                ),
-                                (route) => false);}
+                            if (mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UserBottomNavBar(),
+                                  ),
+                                  (route) => false);
+                            }
                           } else {
-                           if(mounted){ Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UserSignIn(),
-                                ),
-                                (route) => false);}
+                            if (mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => UserSignIn(),
+                                  ),
+                                  (route) => false);
+                            }
                           }
                         } else if (serviceProviderCheckBoxValue == true) {
                           final userAccessToken =
                               await storage.read(key: 'vendor_access_token');
 
                           if (userAccessToken != null) {
-                           if(mounted){ Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const VendorBottomNavBar(),
-                                ),
-                                (route) => false);}
+                            if (mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const VendorBottomNavBar(),
+                                  ),
+                                  (route) => false);
+                            }
                           } else {
-                           if(mounted){ Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VendorSignIn(),
-                                ),
-                                (route) => false);}
+                            if (mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => VendorSignIn(),
+                                  ),
+                                  (route) => false);
+                            }
                           }
                         }
                       },
