@@ -24,7 +24,7 @@ class UserChatScreen extends StatelessWidget {
               .sortedUsers;
     });
     return Scaffold(
-      backgroundColor:const Color.fromARGB(255, 234, 234, 232),
+      // backgroundColor:const Color.fromARGB(255, 234, 234, 232),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor:  const Color.fromARGB(255, 16, 81, 135),

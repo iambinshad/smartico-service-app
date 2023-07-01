@@ -48,35 +48,25 @@ int? chatindex;
           ),
           onPressed: () => Navigator.pop(context),
         ),
-        title: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => TaskerProfileScreen(
-                      profilePic: profilePic ?? "assets/splash/unknown.jpg",chatIndex: chatindex),
-                ));
-          },
-          child: Row(
-            children: [
-              profilePic == null
-                  ? const CircleAvatar(
-                      backgroundImage: AssetImage('assets/splash/unknown.jpg'),
-                      radius: 20,
-                    )
-                  : CircleAvatar(
-                      backgroundImage: NetworkImage(profilePic!),
-                      radius: 23,
-                    ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                chatingVendor.vendorName!,
-                style: mediumText.copyWith(color: Colors.white),
-              )
-            ],
-          ),
+        title: Row(
+          children: [
+            profilePic == null
+                ? const CircleAvatar(
+                    backgroundImage: AssetImage('assets/splash/unknown.jpg'),
+                    radius: 20,
+                  )
+                : CircleAvatar(
+                    backgroundImage: NetworkImage(profilePic!),
+                    radius: 23,
+                  ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              chatingVendor.vendorName!,
+              style: mediumText.copyWith(color: Colors.white),
+            )
+          ],
         ),
       ),
       body: StreamBuilder(

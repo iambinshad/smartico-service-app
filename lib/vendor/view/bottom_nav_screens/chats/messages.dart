@@ -33,26 +33,24 @@ class VendorMessagesScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 223, 206, 158),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
-        title: InkWell(
-          // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ,)),
-          child: Row(
-            children: [
-                profilePic!=null? CircleAvatar(
-                backgroundImage: NetworkImage(profilePic??""),
-                radius: 24,
-              ):const CircleAvatar(
-                backgroundImage: AssetImage('assets/splash/unknown.jpg'),
-                radius: 24,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(
-                chatingUser.userName??"Unknown",
-                style: mediumText,
-              )
-            ],
-          ),
+        title: Row(
+          children: [
+              profilePic!=null? CircleAvatar(
+              backgroundImage: NetworkImage(profilePic??""),
+              radius: 24,
+            ):const CircleAvatar(
+              backgroundImage: AssetImage('assets/splash/unknown.jpg'),
+              radius: 24,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              chatingUser.userName??"Unknown",
+              style: mediumText.copyWith(color: Colors.white),
+              
+            )
+          ],
         ),
       ),
       body: StreamBuilder(

@@ -19,7 +19,6 @@ class VendorChatScrn extends StatelessWidget {
 Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.of<VendorConnectionService>(context,listen: false).sortedVendors;
     return Scaffold(
 
-      backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor:const Color.fromARGB(255, 16, 81, 135) ,
@@ -41,10 +40,12 @@ Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.
           ),
           Expanded(
             child: Consumer<VendorConnectionService>(
-              builder: (context, value, child) =>value.sortedVendors!.length==0?Center(child:  Text('Chat List Not Found!',style: normalText,)): ListView.builder(
+              builder: (context, value, child) =>value.sortedVendors!.length==0?Center(child:  Text('Chat List Not Found!',style: normalText,)): ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
+              
                 itemBuilder: (context, index) {
                   return
-                   value.showList!.length == 0?
+                   value.showList!.length != 0?
                    Padding(
                      padding: const EdgeInsets.all(6.0),
                      child: ListTile(
@@ -89,6 +90,7 @@ Provider.of<VendorConnectionService>(context,listen: false).showList = Provider.
                    ):const Center(child: Text("No Chat Found!"),);
                   
                 },
+                
                 itemCount: value.showList!.length,
               ),
             ),

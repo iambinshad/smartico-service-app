@@ -232,7 +232,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                               ),
                               kHeight10,
                               Text(snapshot.data!.overview,
-                                  style: const TextStyle(fontSize: 18)),
+                                  style: const TextStyle(fontSize: 17)),
                               kHeight10,
                               const Text(
                                 'Description',
@@ -241,7 +241,7 @@ class _ServiceDescriptionScrnState extends State<ServiceDescriptionScrn> {
                               ),
                               kHeight10,
                               Text(snapshot.data!.description,
-                                  style: const TextStyle(fontSize: 18)),
+                                  style: const TextStyle(fontSize: 17)),
                               kHeight10,
                               const Divider(),
                               kHeight15,

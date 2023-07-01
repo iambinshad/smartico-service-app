@@ -24,7 +24,7 @@ class BookedGigsFullDetails extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
@@ -36,7 +36,7 @@ class BookedGigsFullDetails extends StatelessWidget {
               width: width,
               child: Consumer<AllBookingProvider>(
                 builder: (context, value, child) => Image(
-                  image: NetworkImage(value.allBookings![index].gigId!.image!),
+                  image: NetworkImage(value.allBookings?[index].gigId?.image??"https://cdn4.iconfinder.com/data/icons/ui-beast-3/32/ui-49-4096.png"),
                   fit: BoxFit.cover,
                 ),
               )),

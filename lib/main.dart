@@ -140,7 +140,7 @@ class MyApp extends StatelessWidget {
         title: 'Smartico Service Provider',
         theme: ThemeData(
           useMaterial3: true,
-          primarySwatch: Colors.blue,
+          // primarySwatch: Colors.blue,
         ),
         home: SplashScreen(),
         debugShowCheckedModeBanner: false,

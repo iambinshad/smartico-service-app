@@ -51,7 +51,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
                   backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
-                    color: Colors.black,
+                   
                     Icons.category,
                   ),
                 ),
@@ -70,7 +70,7 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
                   backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
-                    color: Colors.black,
+                   
                     Icons.chat,
                   ),
                 ),
@@ -89,7 +89,6 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
                   backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
-                    color: Colors.black,
                     Icons.book_online_outlined,
                   ),
                 ),
@@ -108,7 +107,6 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
                   backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
-                    color: Colors.black,
                     Icons.person_2_outlined,
                   ),
                 ),

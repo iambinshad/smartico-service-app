@@ -55,7 +55,7 @@ class _GigsScreenState extends State<GigsScreen> {
         },
         child: const Icon(
           Icons.add_box_outlined,
-          color: Colors.black,
+          
           size: 30,
         ),
       ),
@@ -80,10 +80,10 @@ class _GigsScreenState extends State<GigsScreen> {
                             
                               ],
                             ),
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Gigs Not Posted Yet!")
+                                Text("Gigs Not Posted Yet!",style: TextStyle(fontWeight: FontWeight.w600),)
                             
                               ],
                             )
@@ -276,8 +276,8 @@ class _GigsScreenState extends State<GigsScreen> {
                                                 ),
                                                 Text(
                                                   value.vendorGigs![index].category.name,
-                                                  style: TextStyle(
-                                                    color: Colors.grey.shade800,
+                                                  style: const TextStyle(
+                                                   
                                                     fontSize: 18,
                                                   ),
                                                 ),
