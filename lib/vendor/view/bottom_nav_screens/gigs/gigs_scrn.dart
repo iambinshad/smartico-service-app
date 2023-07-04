@@ -352,7 +352,7 @@ class _GigsScreenState extends State<GigsScreen> {
       context: context,
       builder: (context) => SizedBox(
         height: 95,
-        width: width / 1.1,
+        width: width ,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(

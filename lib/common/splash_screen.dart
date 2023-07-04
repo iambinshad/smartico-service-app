@@ -41,13 +41,13 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image(
-          image: AssetImage(
-            'assets/splash/newLogo.png',
-          ),
-          width: kIsWeb ? 400 : 300,
-          height: kIsWeb ? 280 : 180,
-        ),
+        // child: Image(
+        //   image: AssetImage(
+        //     'assets/splash/newLogo.png',
+        //   ),
+        //   width: kIsWeb ? 400 : 300,
+        //   height: kIsWeb ? 280 : 180,
+        // ),
       ),
     );
   }
@@ -60,27 +60,29 @@ class _SplashScreenState extends State<SplashScreen> {
     log(userAccessToken.toString());
     log(vendorAccessToken.toString());
     if (userAccessToken == null && vendorAccessToken == null ||
-        userAccessToken != null && vendorAccessToken != null) {
+        userAccessToken != null && vendorAccessToken != null && isDeviceConnected) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const RollSelectingScreen(),
           ),
           (route) => false);
-    } else if (userAccessToken != null && vendorAccessToken == null) {
+    } else if (userAccessToken != null && vendorAccessToken == null && isDeviceConnected) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const UserBottomNavBar(),
           ),
           (route) => false);
-    } else if (userAccessToken == null && vendorAccessToken != null) {
+    } else if (userAccessToken == null && vendorAccessToken != null && isDeviceConnected) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const VendorBottomNavBar(),
           ),
           (route) => false);
+    }else{
+      showDialogBox();
     }
   }
 

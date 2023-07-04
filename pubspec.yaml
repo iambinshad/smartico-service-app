@@ -60,6 +60,8 @@ dependencies:
   connectivity_plus: ^4.0.1
   firebase_crashlytics: ^3.3.3
   firebase_messaging: ^14.6.3
+  open_street_map_search_and_pick: ^0.0.17
+  geolocator: ^9.0.2
   
 
 dev_dependencies:

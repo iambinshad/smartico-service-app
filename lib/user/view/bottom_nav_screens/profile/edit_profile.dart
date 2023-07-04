@@ -3,8 +3,13 @@ import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+// ignore: depend_on_referenced_packages
+import 'package:latlong2/latlong.dart';
+
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/core/constants.dart';
@@ -20,7 +25,9 @@ class EditUserProfile extends StatefulWidget {
 
   String? userName;
   int? phone;
+
   String? profilePic;
+  String locationAddress = 'Pick a Address';
 
   @override
   State<EditUserProfile> createState() => _EditUserProfileState();
@@ -43,6 +50,13 @@ class _EditUserProfileState extends State<EditUserProfile> {
   String? gigImage;
   File? gigImageFile;
   dynamic file;
+  double latitude = 23, longitude = 86;
+
+  LocationPermission? permission;
+
+  String locationAddress = 'Pick a Address';
+  String currentLocation = "Current Location";
+
   int flag = 0;
   @override
   void initState() {
@@ -139,7 +153,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
                             updateButtonClicked();
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 16, 81, 135),
+                            backgroundColor:
+                                const Color.fromARGB(255, 16, 81, 135),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -152,6 +167,13 @@ class _EditUserProfileState extends State<EditUserProfile> {
                           ),
                         ),
                       ),
+                      kHeight10,
+                      TextButton(
+                          onPressed: () async {
+                            permission = await Geolocator.requestPermission();
+                           if(mounted){showModel(context);}
+                          },
+                          child: Text(locationAddress))
                     ],
                   ),
                 ),
@@ -161,6 +183,90 @@ class _EditUserProfileState extends State<EditUserProfile> {
         ),
       ),
     );
+  }
+
+  showModel(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          height: 600,
+          color: Colors.red,
+          child: Center(
+            child: Container(
+              child: OpenStreetMapSearchAndPick(
+                  onGetCurrentLocationPressed: fetchCurrentLocation,
+                  center: LatLong(latitude, longitude),
+                  buttonColor: Colors.blue,
+                  buttonText: 'Set Current Location',
+                  onPicked: (pickedData) {
+                    Navigator.pop(context);
+
+                    setState(() {
+
+                      locationAddress = pickedData.address;
+                      log(locationAddress);
+                      latitude = pickedData.latLong.latitude;
+                      longitude = pickedData.latLong.longitude;
+                      List<String>splited = locationAddress.split(',');
+                      log(splited.toString());
+                      log(splited.length.toString());
+                     stateController.text= splited[splited.length-1];
+                     districtController.text= splited[splited.length-3];
+                     localityController.text= splited[splited.length-6];
+                     nearByController.text = splited[0]+splited[1];
+                    });
+                  }),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<LatLng> fetchCurrentLocation() async {
+    try {
+      LatLng position = await getCurrentLocation();
+      // log(position.latitude.toString());
+      // log(position.longitude.toString());
+      setState(() {
+        currentLocation =
+            'Latitude:${position.latitude}longitude${position.longitude}';
+      });
+      return position;
+    } catch (e) {
+      setState(() {
+        currentLocation = 'Error : $e';
+      });
+    }
+    return LatLng(23, 86);
+  }
+
+  Future<LatLng> getCurrentLocation() async {
+    bool serviceEnabled;
+    // LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied.');
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        return Future.error('Location permissions are denied.');
+      }
+    }
+
+    // Fetch the current location
+    Position position = await Geolocator.getCurrentPosition();
+    return LatLng(position.latitude, position.longitude);
   }
 
   Future pickImageFromGallery() async {
@@ -276,12 +382,14 @@ class _EditUserProfileState extends State<EditUserProfile> {
               resourceType: CloudinaryResourceType.Image));
       url = response.secureUrl;
     }
-    String userLocation ="${stateController.text},${districtController.text},${localityController.text},${nearByController.text}";
+    String userLocation =
+        "${stateController.text},${districtController.text},${localityController.text},${nearByController.text}";
     UserProfileEditModel editedData = UserProfileEditModel(
         userName: fullNameController.text.trim(),
         phone: phoneController.text.trim(),
-        profilePhoto: url ?? widget.profilePic,location:userLocation );
-        
+        profilePhoto: url ?? widget.profilePic,
+        location: userLocation);
+
     await Provider.of<UserProfileProvider>(context, listen: false)
         .editUserProfile(editedData);
     await Provider.of<UserProfileProvider>(context, listen: false)
