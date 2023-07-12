@@ -15,11 +15,10 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
   int currentIndex = 0;
 
   List bottomNavScreens = [
- 
-     const GigsScreen(),
-     VendorChatScrn(),
-     const AllBookingTab(),
-     VendorProfile()
+    const GigsScreen(),
+    VendorChatScrn(),
+    const AllBookingTab(),
+    VendorProfile()
   ];
 
   @override
@@ -35,23 +34,19 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
         currentIndex: currentIndex,
+        selectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         selectedItemColor: const Color.fromARGB(255, 16, 81, 135),
-        unselectedItemColor:Colors.grey,
-        items:  [
-           BottomNavigationBarItem(
+        unselectedItemColor: Colors.grey,
+        items: [
+          BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
-                   
                     Icons.category,
                   ),
                 ),
@@ -59,18 +54,12 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
               label: 'Add Gigs'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
-                   
                     Icons.chat,
                   ),
                 ),
@@ -78,15 +67,10 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
               label: 'Chat'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     Icons.book_online_outlined,
@@ -96,21 +80,15 @@ class _VendorBottomNavBarState extends State<VendorBottomNavBar> {
               label: 'Booking'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     Icons.person_2_outlined,
                   ),
                 ),
-                
               ),
               label: 'Profile'),
         ],

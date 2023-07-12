@@ -70,7 +70,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(onPressed: (){
+          Navigator.pop(context);
+        }, icon: Icon(Icons.arrow_back,color: Colors.white,)),
         title: Text(
           'Edit Profile',
           style: headText.copyWith(color: Colors.white),
@@ -81,104 +86,112 @@ class _EditUserProfileState extends State<EditUserProfile> {
       body: Consumer<UserProfileProvider>(
         builder: (context, value, child) => FutureBuilder(
           future: value.userDetails,
-          builder: (context, snapshot) => SizedBox(
-            height: 700,
-            width: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          bottomSheet(context, width);
-                        },
-                        child: gigImageFile != null
+          builder: (context, snapshot) => Column(
+            
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(child: Container(width: double.infinity,height: 180,child: Image(image: AssetImage("assets/splash/bgImage.jpeg"),fit: BoxFit.fill,),)),
+                  InkWell(
+                    onTap: () {
+                      bottomSheet(context, width);
+                    },
+                    child: gigImageFile != null
+                        ? CircleAvatar(
+
+                            backgroundImage: FileImage(gigImageFile!),
+                            radius: 80,
+                          )
+                        : snapshot.data?.profilePhoto != null
                             ? CircleAvatar(
-                                backgroundImage: FileImage(gigImageFile!),
-                                radius: 60,
+                                backgroundImage: NetworkImage(
+                                  snapshot.data!.profilePhoto!,
+                                ),
+                                radius: 80,
                               )
-                            : snapshot.data?.profilePhoto != null
-                                ? CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      snapshot.data!.profilePhoto!,
-                                    ),
-                                    radius: 60,
-                                  )
-                                : const CircleAvatar(
-                                    backgroundImage:
-                                        AssetImage('assets/splash/unknown.jpg'),
-                                    radius: 60,
-                                  ),
-                      ),
-                      kHeight10,
-                      MyTextFormField(
-                        hintText: 'Full Name',
-                        controller: fullNameController,
-                      ),
-                      kHeight10,
-                      MyTextFormField(
-                        hintText: 'Phone',
-                        controller: phoneController,
-                      ),
-                      kHeight10,
-                      MyTextFormField(
-                        hintText: 'State',
-                        controller: stateController,
-                      ),
-                      kHeight10,
-                      MyTextFormField(
-                        hintText: 'District',
-                        controller: districtController,
-                      ),
-                      kHeight10,
-                      MyTextFormField(
-                        hintText: 'Location',
-                        controller: localityController,
-                      ),
-                      kHeight10,
-                      MyTextFormField(
-                        hintText: 'Nearby',
-                        controller: nearByController,
-                      ),
-                      kHeight10,
-                      SizedBox(
-                        width: width / 1.12,
-                        height: 45,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            updateButtonClicked();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 16, 81, 135),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          child: const Text(
-                            'UPDATE',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                      kHeight10,
-                      TextButton(
-                          onPressed: () async {
-                            permission = await Geolocator.requestPermission();
-                           if(mounted){showModel(context);}
-                          },
-                          child: Text(locationAddress))
-                    ],
+                            : const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('assets/splash/unknown.jpg'),
+                                radius: 80,
+                              ),
+                  ),
+                ],
+              ),
+              kHeight10,
+             Card(
+               child: Padding(
+                 padding: const EdgeInsets.all(13.0),
+                 child: SizedBox(
+                   child: Column(
+                    children: [
+                       MyTextFormField(
+                    hintText: 'Full Name',
+                    controller: fullNameController,
+                  ),
+                  kHeight10,
+                  MyTextFormField(
+                    hintText: 'Phone',
+                    controller: phoneController,
+                  ),
+                  kHeight10,
+                  MyTextFormField(
+                    hintText: 'State',
+                    controller: stateController,
+                  ),
+                  kHeight10,
+                  MyTextFormField(
+                    hintText: 'District',
+                    controller: districtController,
+                  ),
+                  kHeight10,
+                  MyTextFormField(
+                    hintText: 'Location',
+                    controller: localityController,
+                  ),
+                  kHeight10,
+                  MyTextFormField(
+                    hintText: 'Nearby',
+                    controller: nearByController,
+                  ),
+                  kHeight10,
+              SizedBox(
+                width: width / 1.12,
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: () {
+                    updateButtonClicked();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color.fromARGB(255, 16, 81, 135),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  child: const Text(
+                    'UPDATE',
+                    style: TextStyle(
+                      fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-            ),
+                    ],
+                  ),
+                 ),
+               ),
+             ),
+              
+              kHeight10,
+              TextButton(
+                  onPressed: () async {
+                    permission = await Geolocator.requestPermission();
+                   if(mounted){showModel(context);}
+                  },
+                  child: Text(locationAddress))
+            ],
           ),
         ),
       ),

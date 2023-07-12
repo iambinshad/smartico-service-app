@@ -62,6 +62,8 @@ dependencies:
   firebase_messaging: ^14.6.3
   open_street_map_search_and_pick: ^0.0.17
   geolocator: ^9.0.2
+  phone_number: ^2.0.1
+  flutter_map: ^3.1.0
   
 
 dev_dependencies:

@@ -7,7 +7,7 @@ import 'package:smartico/core/widgets.dart';
 
 // ignore: must_be_immutable
 class GigDescripttion extends StatelessWidget {
-  GigDescripttion({super.key, required this.index , required this.title});
+  GigDescripttion({super.key, required this.index, required this.title});
 
   int index;
   String? title;
@@ -16,11 +16,26 @@ class GigDescripttion extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title:Text(title!,style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),) ,centerTitle: true,backgroundColor: const Color.fromARGB(255, 16, 81, 135),),
+      appBar: AppBar(
+        title: Text(
+          title!,
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 16, 81, 135),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
+      ),
       body: ListView(
         children: [
           SizedBox(
-              height: width /1.5,
+              height: width / 1.5,
               width: width,
               child: Consumer<ShowAllGigsProvider>(
                 builder: (context, value, child) => Image(
@@ -40,7 +55,7 @@ class GigDescripttion extends StatelessWidget {
                     children: [
                       Text(
                         value.vendorGigs![index].title,
-                        style:const TextStyle(
+                        style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const Row(
@@ -59,12 +74,11 @@ class GigDescripttion extends StatelessWidget {
                           )
                         ],
                       ),
-          
                       kHeight10,
                       Row(
                         children: [
                           Text(value.vendorGigs![index].type,
-                              style:normalText),
+                              style: normalText),
                         ],
                       ),
                       kHeight10,

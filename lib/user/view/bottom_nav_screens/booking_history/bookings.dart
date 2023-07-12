@@ -82,7 +82,7 @@ class BookingHistory extends StatelessWidget {
                                               .id);
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDescriptionScrn(isBooked: value.reservedGigs![index]!.status=="Completed"?true:false,index: index,),));
                                 },
-                                title: Text(value.reservedGigs![index]!.title),
+                                title: Text(value.reservedGigs![index]!.title,style: TextStyle( fontWeight: FontWeight.w600,),),
                                 leading: Container(
                                   height: 70,
                                   width: 100,
@@ -98,27 +98,32 @@ class BookingHistory extends StatelessWidget {
                                 trailing: value.reservedGigs![index]!.status ==
                                         "Completed"
                                     ? ElevatedButton(
+                                      
                                         onPressed: () {
                                           showIsBooked(index, context);
                                         },
-                                        style: const ButtonStyle(
+                                        style:  ButtonStyle(
+                                          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
                                             backgroundColor:
-                                                MaterialStatePropertyAll(
-                                                    Colors.green)),
+                                                const MaterialStatePropertyAll(
+                                                    Color.fromARGB(255, 123, 230, 219))),
                                         child: Text(
                                           value.reservedGigs![index]!.status,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ))
-                                    : ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStatePropertyAll(
-                                                    value.reservedGigs![index]!
+                                          style:  TextStyle(
+                                           
+                                              color:  value.reservedGigs![index]!
                                                                 .status ==
                                                             "Cancelled"
                                                         ? Colors.red
-                                                        : Colors.blue)),
+                                                        : Color.fromARGB(255, 97, 138, 98)),
+                                        ))
+                                    : ElevatedButton(
+                                        style: ButtonStyle(
+                                          
+                                          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                            backgroundColor:
+                                                const MaterialStatePropertyAll(
+                                                    Color.fromARGB(255, 123, 230, 219))),
                                         onPressed: () {
                                           if (value.reservedGigs![index]!
                                                   .status ==
@@ -174,8 +179,12 @@ class BookingHistory extends StatelessWidget {
                                         },
                                         child: Text(
                                           value.reservedGigs![index]!.status,
-                                          style: const TextStyle(
-                                              color: Colors.white),
+                                          style:  TextStyle(
+                                              color:  value.reservedGigs![index]!
+                                                                .status ==
+                                                            "Cancelled"
+                                                        ? Colors.red
+                                                        : Colors.green),
                                         )),
                                 subtitle: Text(
                                     "\$${value.reservedGigs![index]!.gigId.price}"),

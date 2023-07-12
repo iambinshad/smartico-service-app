@@ -97,9 +97,10 @@ class UserProfilePage extends StatelessWidget {
                             "Location",
                             style: normalText,
                           ),
-                          trailing: Text(
+                          subtitle: Text(
                             snapshot.data?.location ?? "",
                           ),
+                          
                         ),
                         Tile(
                           storage: storage,
@@ -253,6 +254,7 @@ class Tile extends StatelessWidget {
       {super.key,
       this.storage,
       this.onTap,
+      this.subtitle,
       this.trailing,
       this.leading,
       this.title});
@@ -261,6 +263,7 @@ class Tile extends StatelessWidget {
   void Function()? onTap;
   Widget? trailing;
   Widget? leading;
+  Widget? subtitle;
   Widget? title;
 
   @override
@@ -271,6 +274,7 @@ class Tile extends StatelessWidget {
         child: ListTile(
           trailing: trailing,
           onTap: onTap,
+          subtitle: subtitle,
           leading: leading,
           title: title,
         ),

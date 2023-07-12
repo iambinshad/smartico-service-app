@@ -35,21 +35,17 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
         },
         type: BottomNavigationBarType.shifting,
         elevation: 20.0,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         currentIndex: currentIndex,
         selectedItemColor: const Color.fromARGB(255, 16, 81, 135),
         unselectedItemColor: Colors.black.withOpacity(0.3),
         items: [
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     color: Colors.black,
@@ -60,15 +56,11 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               label: 'Home'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
+                  // backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     color: Colors.black,
@@ -79,15 +71,10 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               label: 'All'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     color: Colors.black,
@@ -98,15 +85,11 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               label: 'Chat'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
+                  // backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     color: Colors.black,
@@ -117,15 +100,11 @@ class _UserBottomNavBarState extends State<UserBottomNavBar> {
               label: 'Booking'),
           BottomNavigationBarItem(
               icon: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 16, 81, 135),
-                    width: 2.0,
-                  ),
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.transparent,
+                  // backgroundColor: Colors.transparent,
                   radius: 22.0,
                   child: Icon(
                     color: Colors.black,

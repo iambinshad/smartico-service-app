@@ -45,6 +45,7 @@ int? chatindex;
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
+            color: Colors.white,
           ),
           onPressed: () => Navigator.pop(context),
         ),

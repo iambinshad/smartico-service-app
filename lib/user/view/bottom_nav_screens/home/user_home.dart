@@ -32,7 +32,8 @@ class UserHomePage extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final token = await getUserAccesToken();
       log(token.toString(), name: 'usereeeee');
-      Provider.of<UserConnectionService>(context, listen: false).userConnection();
+      Provider.of<UserConnectionService>(context, listen: false)
+          .userConnection();
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
@@ -45,14 +46,21 @@ class UserHomePage extends StatelessWidget {
       child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 16, 81, 135),
-            title: const Padding(
-                padding: EdgeInsets.only(top: 5, right: 13, left: 13),
-                child: CupertinoSearchTextField(
-                  backgroundColor: Colors.white,
+            title: Padding(
+                padding: const EdgeInsets.only(top: 5, right: 13, left: 13),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ViewAllScreen(),
+                        ));
+                  },
+                  child: const CupertinoSearchTextField(
+                    backgroundColor: Colors.white,
+                    keyboardType: TextInputType.none,
+                  ),
                 )),
-            // title: TextButton(onPressed: (){
-            //   Navigator.push(context, MaterialPageRoute(builder: (context) => MapWidget(),));
-            // }, child:Text("mapppp")),
           ),
           body: Column(
             children: [
@@ -69,7 +77,7 @@ class UserHomePage extends StatelessWidget {
                           enlargeCenterPage: true,
                           autoPlayCurve: Curves.fastOutSlowIn,
                           viewportFraction: 0.8,
-                         enableInfiniteScroll: true,
+                          enableInfiniteScroll: true,
                           autoPlayAnimationDuration:
                               const Duration(microseconds: 5000),
                         ),
@@ -180,11 +188,10 @@ class UserHomePage extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ViewAllScreen(),
+                                  builder: (context) => const ViewAllScreen(),
                                 ));
                           },
-                          child: Text(
+                          child: const Text(
                             'View All',
                             style: TextStyle(
                               fontSize: 18,
