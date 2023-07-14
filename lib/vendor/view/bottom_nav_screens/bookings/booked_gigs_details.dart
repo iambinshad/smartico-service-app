@@ -22,9 +22,19 @@ class BookedGigsFullDetails extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
         title: Text(
           title,
-          style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+          style:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
@@ -36,7 +46,8 @@ class BookedGigsFullDetails extends StatelessWidget {
               width: width,
               child: Consumer<AllBookingProvider>(
                 builder: (context, value, child) => Image(
-                  image: NetworkImage(value.allBookings?[index].gigId?.image??"https://cdn4.iconfinder.com/data/icons/ui-beast-3/32/ui-49-4096.png"),
+                  image: NetworkImage(value.allBookings?[index].gigId?.image ??
+                      "https://cdn4.iconfinder.com/data/icons/ui-beast-3/32/ui-49-4096.png"),
                   fit: BoxFit.cover,
                 ),
               )),
@@ -132,30 +143,32 @@ class BookedGigsFullDetails extends StatelessWidget {
                           CircleAvatar(
                               child: IconButton(
                                   onPressed: () async {
-                                    print(value2.allBookings![index].userId!.location);
-                                    if(value2.allBookings![index].userId!.location!=null){
+                                    print(value2
+                                        .allBookings![index].userId!.location);
+                                    if (value2.allBookings![index].userId!
+                                            .location !=
+                                        null) {
                                       String locationName = value2
-                                        .allBookings![index].userId!.location;
-                                    String url =
-                                        'https://www.google.com/maps/search/?api=1&query=$locationName';
+                                          .allBookings![index].userId!.location;
+                                      String url =
+                                          'https://www.google.com/maps/search/?api=1&query=$locationName';
 
-                                    if (await canLaunchUrl(Uri.parse(url))) {
-                                      await launchUrl(Uri.parse(url));
+                                      if (await canLaunchUrl(Uri.parse(url))) {
+                                        await launchUrl(Uri.parse(url));
+                                      } else {
+                                        showTopSnackBar(
+                                          Overlay.of(context),
+                                          const CustomSnackBar.error(
+                                            message: 'Map Launch Error',
+                                          ),
+                                        );
+                                        throw 'Could not launch $url';
+                                      }
                                     } else {
                                       showTopSnackBar(
                                         Overlay.of(context),
-                                        const CustomSnackBar.error(
-                                          message:
-                                              'Map Launch Error',
-                                        ),
-                                      );
-                                      throw 'Could not launch $url';
-                                    }}else{
-                                       showTopSnackBar(
-                                        Overlay.of(context),
                                         const CustomSnackBar.info(
-                                          message:
-                                              'Location is empty!',
+                                          message: 'Location is empty!',
                                         ),
                                       );
                                     }

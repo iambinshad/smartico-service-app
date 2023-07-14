@@ -23,19 +23,20 @@ class VendorSignInApiService {
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.data['token'] != null) {
           final data = response.data['data']['user'];
-        final id = data['_id'];
-        await storage.write(key: 'currentVendorId', value: id);
+          final id = data['_id'];
+          await storage.write(key: 'currentVendorId', value: id);
           final VendorSignInResModel returnsignInResModel =
               VendorSignInResModel.fromJson(response.data);
           return returnsignInResModel;
         }
-   
       } else if (response.statusMessage == "Wrong Password") {
-             if(context.mounted){
+        if (context.mounted) {
           Provider.of<CommonProvider>(context, listen: false)
-            .userNotExist(context);
+              .userNotExist(context);
         }
-       
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Email or Password is incorrect")));
       }
     } on DioError catch (e) {
       log(e.message.toString());

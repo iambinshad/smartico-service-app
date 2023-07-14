@@ -16,27 +16,33 @@ class VendorSignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(children: [
-              SizedBox(
-                height: height / 6,
-                child: const Center(
-                  child: Image(
-                    image: AssetImage(
-                      'assets/splash/newLogo.png',
+        body: Form(
+          key: _formKey,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                      borderRadius: BorderRadius.circular(10)),
+                  height: height / 15,
+                  width: width / 2.3,
+                  child: const Center(
+                    child: Image(
+                      fit: BoxFit.contain,
+                      image: AssetImage(
+                        'assets/splash/newLogo.png',
+                      ),
+                      height: 70,
+                      width: 200,
                     ),
-                    height: 70,
-                    width: 200,
                   ),
                 ),
-              ),
-              Center(
-                child: Padding(
+                Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Card(
                       elevation: 1.0,
@@ -148,7 +154,6 @@ class VendorSignIn extends StatelessWidget {
                                   ),
                                 ),
                           kHeight20,
-                          
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -178,9 +183,18 @@ class VendorSignIn extends StatelessWidget {
                         ],
                       )),
                 ),
-              )
-            ]),
-          ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Having an issue with this application?'),
+                    Text(
+                      ' Tell us more',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 121, 216, 206)),
+                    )
+                  ],
+                )
+              ]),
         ),
       ),
     );

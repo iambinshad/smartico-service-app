@@ -18,6 +18,8 @@ class UserOtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -26,15 +28,20 @@ class UserOtpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 220,
-                child: Center(
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(10)),
+                height: height / 15,
+                width: width / 2.3,
+                child: const Center(
                   child: Image(
+                    fit: BoxFit.contain,
                     image: AssetImage(
                       'assets/splash/newLogo.png',
                     ),
-                    height: 100,
-                    width: 220,
+                    height: 70,
+                    width: 200,
                   ),
                 ),
               ),
@@ -154,6 +161,16 @@ class UserOtpScreen extends StatelessWidget {
                   ],
                 ),
               ),
+               const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Having an issue with this application?'),
+                  Text(
+                    ' Tell us more',
+                    style: TextStyle(color: Color.fromARGB(255, 121, 216, 206)),
+                  )
+                ],
+              )
             ],
           ),
         ),

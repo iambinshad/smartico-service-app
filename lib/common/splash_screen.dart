@@ -35,19 +35,31 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+       final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       moveToNextPage(context);
     });
-    return const Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        // child: Image(
-        //   image: AssetImage(
-        //     'assets/splash/newLogo.png',
-        //   ),
-        //   width: kIsWeb ? 400 : 300,
-        //   height: kIsWeb ? 280 : 180,
-        // ),
+        child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                      borderRadius: BorderRadius.circular(10)),
+                  height: height / 13,
+                  width: width / 2,
+                  child: const Center(
+                    child: Image(
+                      fit: BoxFit.contain,
+                      image: AssetImage(
+                        'assets/splash/newLogo.png',
+                      ),
+                      height: 70,
+                      width: 200,
+                    ),
+                  ),
+                ),
       ),
     );
   }

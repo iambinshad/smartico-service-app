@@ -22,6 +22,8 @@ class UserSignUP extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -80,7 +82,6 @@ class UserSignUP extends StatelessWidget {
                               padding:
                                   const EdgeInsets.only(right: 20, left: 20),
                               child: MyTextFormField(
-                                
                                 controller: emailController,
                                 validator: (p0) {
                                   var validatedEmail = emailValidation(p0);
@@ -178,7 +179,7 @@ class UserSignUP extends StatelessWidget {
                                 ),
                                 autocorrect: false,
                                 enableSuggestions: false,
-                                obscureText:!value.userSignUpConfPswdVisiblity,
+                                obscureText: !value.userSignUpConfPswdVisiblity,
                                 labelText: 'Confirm Password',
                                 maxLines: 1,
                               ),
@@ -214,36 +215,36 @@ class UserSignUP extends StatelessWidget {
                                 ])),
                           ),
                           kHeight15,
-                         context.watch<UserProvider>().isLoadingsignUp?const CircularProgressIndicator(): ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                  log('inside validate');
-                                  signUpButtonClicked(context);
-                                }
-                            },
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all(
-                                const Size(310, 50),
-                              ),
-                              backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 123, 230, 219),
-                              ),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            child: const Text(
-                                'Agree & Sign Up',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                ),
-                              )
-                          ),
+                          context.watch<UserProvider>().isLoadingsignUp
+                              ? const CircularProgressIndicator()
+                              : ElevatedButton(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      log('inside validate');
+                                      signUpButtonClicked(context);
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    fixedSize: MaterialStateProperty.all(
+                                      const Size(310, 50),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                      const Color.fromARGB(255, 123, 230, 219),
+                                    ),
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Agree & Sign Up',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 24,
+                                    ),
+                                  )),
                           kHeight10,
-                        
                           kHeight10,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -270,6 +271,16 @@ class UserSignUP extends StatelessWidget {
                       ),
                     )),
               ),
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Having an issue with this application?'),
+                Text(
+                  ' Tell us more',
+                  style: TextStyle(color: Color.fromARGB(255, 121, 216, 206)),
+                )
+              ],
             )
           ]),
         ),

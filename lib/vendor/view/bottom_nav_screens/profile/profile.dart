@@ -430,7 +430,6 @@ class VendorProfile extends StatelessWidget {
         (route) => false);
   }
 }
-
 class Tile extends StatelessWidget {
   Tile(
       {super.key,

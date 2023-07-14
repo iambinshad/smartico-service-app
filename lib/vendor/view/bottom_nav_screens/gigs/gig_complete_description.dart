@@ -26,8 +26,10 @@ class GigDescripttion extends StatelessWidget {
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         automaticallyImplyLeading: false,
         leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
+            onPressed: () {
+             Navigator.pop(context);
+            },
+            icon:const Icon(
               Icons.arrow_back,
               color: Colors.white,
             )),

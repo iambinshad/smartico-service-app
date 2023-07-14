@@ -20,23 +20,31 @@ class VendorOtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 220,
-                child: Center(
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                    borderRadius: BorderRadius.circular(10)),
+                height: height / 15,
+                width: width / 2.3,
+                child: const Center(
                   child: Image(
+                    fit: BoxFit.contain,
                     image: AssetImage(
                       'assets/splash/newLogo.png',
                     ),
-                    height: 100,
-                    width: 220,
+                    height: 70,
+                    width: 200,
                   ),
                 ),
               ),
@@ -105,7 +113,8 @@ class VendorOtpScreen extends StatelessWidget {
                                           field4.text +
                                           field5.text +
                                           field6.text;
-                                      VendorProvider().verifyVendorOtp(context, oTP);
+                                      VendorProvider()
+                                          .verifyVendorOtp(context, oTP);
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(const SnackBar(
@@ -159,6 +168,16 @@ class VendorOtpScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Having an issue with this application?'),
+                  Text(
+                    ' Tell us more',
+                    style: TextStyle(color: Color.fromARGB(255, 121, 216, 206)),
+                  )
+                ],
+              )
             ],
           ),
         ),
