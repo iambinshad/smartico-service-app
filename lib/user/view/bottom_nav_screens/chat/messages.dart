@@ -9,7 +9,6 @@ import 'package:smartico/application/user/chat/message_provider.dart';
 import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/chat/chating_vendor_model.dart';
-import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/tasker_profile_scrn.dart';
 import '../../../../core/constants.dart';
 import 'other_screens/message_tile.dart';
 

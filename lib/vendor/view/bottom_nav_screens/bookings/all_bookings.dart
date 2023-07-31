@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/vendor/all_booking/all_bookings.dart';
@@ -24,8 +25,11 @@ class AllBookingTab extends StatelessWidget {
           centerTitle: true),
       body: Consumer<AllBookingProvider>(
         builder: (context, value, child) => value.allBookings!.isEmpty
-            ?  Center(
-                child: Text('No One Booked Yet!',style: normalText,),
+            ? Center(
+                child: Text(
+                  'No One Booked Yet!',
+                  style: normalText,
+                ),
               )
             : ListView.builder(
                 itemBuilder: (context, index) {
@@ -40,16 +44,23 @@ class AllBookingTab extends StatelessWidget {
                                       index: index,
                                       title: value.allBookings![index].title!),
                                 )),
-                            leading: Container(
-                              height: 50,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    
-                                      image: NetworkImage(value
-                                          .allBookings![index].gigId?.image??"https://cdn4.iconfinder.com/data/icons/ui-beast-3/32/ui-49-4096.png"),
-                                      fit: BoxFit.fill),
-                                  borderRadius: BorderRadius.circular(7)),
+                            leading: CachedNetworkImage(
+                              placeholder: (context, url) => const SizedBox(
+                                height: 50,
+                                width: 80,
+                              ),
+                              imageUrl: value
+                                      .allBookings![index].gigId?.image ??
+                                  "https://cdn4.iconfinder.com/data/icons/ui-beast-3/32/ui-49-4096.png",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: 50,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider, fit: BoxFit.fill),
+                                    borderRadius: BorderRadius.circular(7)),
+                              ),
                             ),
                             title: Text(
                               value.allBookings![index].title!,
@@ -62,9 +73,13 @@ class AllBookingTab extends StatelessWidget {
                                     'Completed'
                                 ? TextButton(
                                     onPressed: () {},
-                                    style: const ButtonStyle(
+                                    style: ButtonStyle(
+                                        shape: MaterialStatePropertyAll(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5))),
                                         backgroundColor:
-                                            MaterialStatePropertyAll(
+                                            const MaterialStatePropertyAll(
                                                 Colors.green)),
                                     child: const Text(
                                       'Completed',
@@ -85,78 +100,93 @@ class AllBookingTab extends StatelessWidget {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              content: Row(
-                                                children: [
-                                                  ElevatedButton(
-                                                      onPressed: () async {
-                                                        await Provider.of<
-                                                                    AllBookingProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .completeService(
-                                                                context,
-                                                                value
-                                                                    .allBookings![
-                                                                        index]
-                                                                    .id);
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () async {
+                                                      await Provider.of<
+                                                                  AllBookingProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .completeService(
+                                                              context,
+                                                              value
+                                                                  .allBookings![
+                                                                      index]
+                                                                  .id);
+                                                  if(context.mounted){    await Provider.of<
+                                                                  AllBookingProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .fetchAllBookings(
+                                                              context);}
+                                                      if(context.mounted){Navigator.pop(context);}
+                                                    },
+                                                    style: ButtonStyle(
+                                                        shape: MaterialStatePropertyAll(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5))),
+                                                        backgroundColor:
+                                                            const MaterialStatePropertyAll(
+                                                          Colors.green,
+                                                        )),
+                                                    child: const Text(
+                                                      'Work Completed',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    )),
+                                                ElevatedButton(
+                                                    onPressed: () async {
+                                                      await Provider.of<
+                                                                  CancelUserBookingsProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .cancelUserBooking(
+                                                              context,
+                                                              value
+                                                                  .allBookings![
+                                                                      index]
+                                                                  .id);
+                                                      if (context.mounted) {
                                                         await Provider.of<
                                                                     AllBookingProvider>(
                                                                 context,
                                                                 listen: false)
                                                             .fetchAllBookings(
                                                                 context);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      style: const ButtonStyle(
-                                                          backgroundColor:
-                                                              MaterialStatePropertyAll(
-                                                        Colors.green,
-                                                      )),
-                                                      child: const Text(
-                                                        'Work Completed',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      )),
-                                                  const SizedBox(
-                                                    width: 8,
-                                                  ),
-                                                  ElevatedButton(
-                                                      onPressed: () async {
-                                                       await Provider.of<CancelUserBookingsProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .cancelUserBooking(
-                                                                context,
-                                                                value
-                                                                    .allBookings![
-                                                                        index]
-                                                                    .id);
-                                                        await Provider.of<
-                                                                    AllBookingProvider>(
-                                                                context,
-                                                                listen: false)
-                                                            .fetchAllBookings(
-                                                                context);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      style: const ButtonStyle(
-                                                          backgroundColor:
-                                                              MaterialStatePropertyAll(
-                                                        Colors.red,
-                                                      )),
-                                                      child: const Text(
-                                                        'Cancel Work',
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ))
-                                                ],
-                                              )),
+                                                        
+                                                      }
+                                                     if(context.mounted){ Navigator.pop(context);}
+                                                    },
+                                                    style: ButtonStyle(
+                                                        shape: MaterialStatePropertyAll(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            5))),
+                                                        backgroundColor:
+                                                            const MaterialStatePropertyAll(
+                                                          Colors.red,
+                                                        )),
+                                                    child: const Text(
+                                                      'Cancel Work',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ))
+                                              ],
+                                              content: Text(
+                                                  "Click Cancel Work for canceling ${value.allBookings![index].title!} work or click work complete if your work done")),
                                         );
                                       }
                                     },
                                     style: ButtonStyle(
+                                        shape: MaterialStatePropertyAll(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(5))),
                                         backgroundColor:
                                             MaterialStatePropertyAll(value
                                                         .allBookings![index]

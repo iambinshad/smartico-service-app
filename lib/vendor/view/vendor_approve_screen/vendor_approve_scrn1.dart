@@ -293,8 +293,8 @@ class _VendorApprovalFirstScrnState extends State<VendorApprovalFirstScrn> {
     VendorSkillsModel vendorSkillsModel =
         VendorSkillsModel(about: prov.about.text, profilePhoto: url);
 
-    Provider.of<CompleteSignUpProvider>(context, listen: false)
-        .setVendorProfile(vendorAddressModel, vendorSkillsModel, context);
+    if(mounted){Provider.of<CompleteSignUpProvider>(context, listen: false)
+        .setVendorProfile(vendorAddressModel, vendorSkillsModel, context);}
   }
 
 }

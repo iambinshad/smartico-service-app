@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -42,11 +43,16 @@ class VendorProfile extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: snapshot.data?.profilePhoto != null
-                          ? CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                snapshot.data!.profilePhoto!,
+                          ? CachedNetworkImage(
+                              placeholder: (context, url) => const CircleAvatar(
+                                radius: 30,
                               ),
-                              radius: 30,
+                              imageUrl: snapshot.data!.profilePhoto!,
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
+                                backgroundImage: imageProvider,
+                                radius: 30,
+                              ),
                             )
                           : const CircleAvatar(
                               backgroundImage:
@@ -135,7 +141,8 @@ class VendorProfile extends StatelessWidget {
                               ),
                               subtitle: Text(
                                 snapshot.data?.about ?? "",
-                                style: TextStyle(overflow: TextOverflow.clip),
+                                style: const TextStyle(
+                                    overflow: TextOverflow.clip),
                               ),
                             ),
                           ),
@@ -335,21 +342,21 @@ class VendorProfile extends StatelessWidget {
                                           key: 'user_access_token');
                                       if (context.mounted) {}
                                       if (user != null) {
-                                        Navigator.pushAndRemoveUntil(
+                                        if(context.mounted){Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   const UserBottomNavBar(),
                                             ),
-                                            (route) => false);
+                                            (route) => false);}
                                       } else {
-                                        Navigator.pushAndRemoveUntil(
+                                       if(context.mounted){ Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   UserSignIn(),
                                             ),
-                                            (route) => false);
+                                            (route) => false);}
                                       }
                                     },
                                     child: const Text(
@@ -430,6 +437,7 @@ class VendorProfile extends StatelessWidget {
         (route) => false);
   }
 }
+
 class Tile extends StatelessWidget {
   Tile(
       {super.key,

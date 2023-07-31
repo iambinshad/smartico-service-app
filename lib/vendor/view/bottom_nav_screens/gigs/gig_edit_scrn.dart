@@ -368,13 +368,13 @@ class _GigEditScreenState extends State<GigEditScreen> {
           .editGig(gigEditDatas, context);
     }
     
-      context.read<NewGIgCreateProvider>().getAllCategory(context);
+     if(mounted){ context.read<NewGIgCreateProvider>().getAllCategory(context);}
     
 
     if (mounted) {
       await context.read<ShowAllGigsProvider>().callApiServiceGigs(context);
     }
-    Navigator.pop(context);
+   if(mounted){ Navigator.pop(context);}
   }
 
   Future pickImageFromGallery() async {

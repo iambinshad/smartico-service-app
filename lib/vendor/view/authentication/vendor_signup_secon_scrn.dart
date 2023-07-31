@@ -95,7 +95,9 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   top: 5, left: 8, right: 8),
                               child: DropdownButton(
+                                borderRadius: BorderRadius.circular(10),
                                 underline: const SizedBox(),
+                               
                                 isExpanded: true,
                                 hint: const Text('Select Gender'),
                                 items: genderListObject,
@@ -280,7 +282,7 @@ class VendorSignUpScrnTwo extends StatelessWidget {
                         children: [
                           TextButton(onPressed: (){
                             Navigator.pop(context);
-                          }, child: Text("Previous",style: TextStyle(
+                          }, child: const Text("Previous",style: TextStyle(
                                   fontSize: 18,
                                   color:
                                       Color.fromARGB(255, 121, 216, 206)),)),

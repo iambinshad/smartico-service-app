@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -26,7 +28,7 @@ class ViewAllScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: InkWell(onTap: () => Navigator.pop(context),child: Icon(Icons.arrow_back,color: Colors.white,)),
+        leading: InkWell(onTap: () => Navigator.pop(context),child: const Icon(Icons.arrow_back,color: Colors.white,)),
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         elevation: 1,
         centerTitle: true,
@@ -34,6 +36,18 @@ class ViewAllScreen extends StatelessWidget {
           'Services For You',
           style: headText.copyWith(color: Colors.white),
         ),
+        bottom:  PreferredSize(preferredSize: const Size.fromHeight(30), child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Consumer<RecentServicesProvider>(
+                  builder: (context, values, child) => Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: CupertinoSearchTextField(
+                      onChanged: (value) => values.filterGigList(value),
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                )
+        )),
       ),
       body: Consumer2<RecentServicesProvider, CommonProvider>(
         builder: (context, value, value2, child) => ListView.builder(
@@ -44,13 +58,13 @@ class ViewAllScreen extends StatelessWidget {
                 onTap: () async {
                   await context
                       .read<SingleGigDetailsProvider>()
-                      .getGig(value.allGigs![index].id, context);
+                      .getGig(value.showList![index].id, context);
                   if (context.mounted) {
                     await Provider.of<ReservedGigs>(context, listen: false)
-                        .getreveiws(value.allGigs![index].id);
+                        .getreveiws(value.showList![index].id);
                   }
-                  await Provider.of<ReservedGigs>(context, listen: false)
-                      .getreveiws(value.allGigs![index].id);
+                  if(context.mounted){await Provider.of<ReservedGigs>(context, listen: false)
+                      .getreveiws(value.showList![index].id);}
 
                   if (context.mounted) {
                     Navigator.push(
@@ -68,17 +82,22 @@ class ViewAllScreen extends StatelessWidget {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              Container(
-                                height: height / 4,
-                                width: width / 1.10,
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(15),
-                                        topRight: Radius.circular(15)),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            value.allGigs![index].image),
-                                        fit: BoxFit.fill)),
+                              CachedNetworkImage(
+                                placeholder: (context, url) =>SizedBox( height: height / 4,
+                                  width: width / 1.10,) ,
+                                imageUrl:value.showList![index].image,
+                                imageBuilder: (context, imageProvider) => 
+                                 Container(
+                                  height: height / 4,
+                                  width: width / 1.10,
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(15),
+                                          topRight: Radius.circular(15)),
+                                      image: DecorationImage(
+                                          image:imageProvider,
+                                          fit: BoxFit.fill)),
+                                ),
                               ),
                               Padding(
                                 padding:
@@ -88,7 +107,7 @@ class ViewAllScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      value.allGigs![index].title,
+                                      value.showList![index].title,
                                       style: const TextStyle(
                                           fontFamily: 'Roboto',
                                           fontSize: 19,
@@ -113,7 +132,7 @@ class ViewAllScreen extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Text(
-                                      '\$${value.allGigs![index].price}',
+                                      '\$${value.showList![index].price}',
                                       style: const TextStyle(
                                           fontSize: 19,
                                           fontWeight: FontWeight.bold,
@@ -129,7 +148,7 @@ class ViewAllScreen extends StatelessWidget {
               ),
             );
           },
-          itemCount: value.allGigs!.length,
+          itemCount: value.showList!.length,
         ),
       ),
     );

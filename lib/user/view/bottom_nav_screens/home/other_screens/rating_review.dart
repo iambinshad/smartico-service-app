@@ -12,7 +12,7 @@ class WorkReviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [status == true ? Icon(Icons.add) : SizedBox()],
+          actions: [status == true ? const Icon(Icons.add) : const SizedBox()],
           backgroundColor: const Color.fromARGB(255, 16, 81, 135),
           title: Text(
             'Ratings & Reviews',

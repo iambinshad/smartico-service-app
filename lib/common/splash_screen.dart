@@ -3,18 +3,16 @@ import 'dart:developer';
 // import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smartico/common/roll_selecting.dart';
-import 'package:smartico/user/view/authentication/user_sign_in.dart';
 import 'package:smartico/user/view/bottom_nav/bottom_nav.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
 
 class SplashScreen extends StatefulWidget {
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

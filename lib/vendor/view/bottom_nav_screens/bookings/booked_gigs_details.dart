@@ -143,8 +143,7 @@ class BookedGigsFullDetails extends StatelessWidget {
                           CircleAvatar(
                               child: IconButton(
                                   onPressed: () async {
-                                    print(value2
-                                        .allBookings![index].userId!.location);
+                                    
                                     if (value2.allBookings![index].userId!
                                             .location !=
                                         null) {
@@ -156,12 +155,12 @@ class BookedGigsFullDetails extends StatelessWidget {
                                       if (await canLaunchUrl(Uri.parse(url))) {
                                         await launchUrl(Uri.parse(url));
                                       } else {
-                                        showTopSnackBar(
+                                        if(context.mounted){showTopSnackBar(
                                           Overlay.of(context),
                                           const CustomSnackBar.error(
                                             message: 'Map Launch Error',
                                           ),
-                                        );
+                                        );}
                                         throw 'Could not launch $url';
                                       }
                                     } else {
@@ -181,10 +180,11 @@ class BookedGigsFullDetails extends StatelessWidget {
                                 onPressed: () async {
                                   String currentVendorId =
                                       await getCurrentVendorId();
-                                  if (context.mounted) {}
-                                  final pro = Provider.of<AllBookingProvider>(
+                                 
+                                  final pro= Provider.of<AllBookingProvider>(
                                       context,
                                       listen: false);
+                                  
                                   String chatRoomId = ChatMethods().checkingId(
                                       vendorId: currentVendorId,
                                       currentUser: pro.allBookings![index].id!);

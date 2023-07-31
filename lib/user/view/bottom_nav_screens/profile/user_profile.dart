@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -41,11 +42,16 @@ class UserProfilePage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: snapshot.data?.profilePhoto != null
-                          ? CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                snapshot.data!.profilePhoto!,
+                          ? CachedNetworkImage(
+                              placeholder: (context, url) =>const CircleAvatar(
+                                radius: 30,
                               ),
-                              radius: 30,
+                              imageUrl: snapshot.data!.profilePhoto!,
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
+                                backgroundImage: imageProvider,
+                                radius: 30,
+                              ),
                             )
                           : const CircleAvatar(
                               backgroundImage:
@@ -100,7 +106,6 @@ class UserProfilePage extends StatelessWidget {
                           subtitle: Text(
                             snapshot.data?.location ?? "",
                           ),
-                          
                         ),
                         Tile(
                           storage: storage,

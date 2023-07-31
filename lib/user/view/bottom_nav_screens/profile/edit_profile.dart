@@ -15,6 +15,8 @@ import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/core/constants.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/model/profile_page/profile_edit_model.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class EditUserProfile extends StatefulWidget {
   EditUserProfile(
@@ -36,27 +38,33 @@ class EditUserProfile extends StatefulWidget {
 class _EditUserProfileState extends State<EditUserProfile> {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController stateController = TextEditingController();
-
   TextEditingController districtController = TextEditingController();
-
   TextEditingController localityController = TextEditingController();
   TextEditingController nearByController = TextEditingController();
-
+  TextEditingController locationController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    fullNameController.clear();
+    stateController.clear();
+    districtController.clear();
+    localityController.clear();
+    nearByController.clear();
+    locationController.clear();
+    phoneController.clear();
+  }
+
   File? galleryImage;
   final cloudinary = CloudinaryPublic('dzeuipdky', 'ml_default', cache: false);
-
   File? cameraImage;
   String? gigImage;
   File? gigImageFile;
   dynamic file;
   double latitude = 23, longitude = 86;
-
   LocationPermission? permission;
-
   String locationAddress = 'Pick a Address';
   String currentLocation = "Current Location";
-
   int flag = 0;
   @override
   void initState() {
@@ -73,9 +81,14 @@ class _EditUserProfileState extends State<EditUserProfile> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back,color: Colors.white,)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
         title: Text(
           'Edit Profile',
           style: headText.copyWith(color: Colors.white),
@@ -87,19 +100,25 @@ class _EditUserProfileState extends State<EditUserProfile> {
         builder: (context, value, child) => FutureBuilder(
           future: value.userDetails,
           builder: (context, snapshot) => Column(
-            
             children: [
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  Positioned(child: Container(width: double.infinity,height: 180,child: Image(image: AssetImage("assets/splash/bgImage.jpeg"),fit: BoxFit.fill,),)),
+                  const Positioned(
+                      child: SizedBox(
+                    width: double.infinity,
+                    height: 180,
+                    child: Image(
+                      image: AssetImage("assets/splash/bgImage.jpeg"),
+                      fit: BoxFit.fill,
+                    ),
+                  )),
                   InkWell(
                     onTap: () {
                       bottomSheet(context, width);
                     },
                     child: gigImageFile != null
                         ? CircleAvatar(
-
                             backgroundImage: FileImage(gigImageFile!),
                             radius: 80,
                           )
@@ -119,78 +138,112 @@ class _EditUserProfileState extends State<EditUserProfile> {
                 ],
               ),
               kHeight10,
-             Card(
-               child: Padding(
-                 padding: const EdgeInsets.all(13.0),
-                 child: SizedBox(
-                   child: Column(
-                    children: [
-                       MyTextFormField(
-                    hintText: 'Full Name',
-                    controller: fullNameController,
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'Phone',
-                    controller: phoneController,
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'State',
-                    controller: stateController,
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'District',
-                    controller: districtController,
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'Location',
-                    controller: localityController,
-                  ),
-                  kHeight10,
-                  MyTextFormField(
-                    hintText: 'Nearby',
-                    controller: nearByController,
-                  ),
-                  kHeight10,
-              SizedBox(
-                width: width / 1.12,
-                height: 45,
-                child: ElevatedButton(
-                  onPressed: () {
-                    updateButtonClicked();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        const Color.fromARGB(255, 16, 81, 135),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: SizedBox(
+                    child: Column(
+                      children: [
+                        MyTextFormField(
+                          hintText: 'Full Name',
+                          controller: fullNameController,
+                        ),
+                        kHeight10,
+                        MyTextFormField(
+                          hintText: 'Phone',
+                          controller: phoneController,
+                        ),
+                        kHeight15,
+                        locationController.text.isNotEmpty
+                            ? MyTextFormField(
+                                controller: locationController,
+                                keyboardType: TextInputType.none,
+                                labelText: 'Click To Add Location',
+                                suffixIcon: IconButton(
+                                  onPressed: () async {
+                                    permission =
+                                        await Geolocator.requestPermission();
+                                    if (permission !=
+                                            LocationPermission.denied ||
+                                        permission !=
+                                            LocationPermission.deniedForever) {
+                                      if(mounted){showModel(context);}
+                                    }
+                                  },
+                                  icon: const Icon(Icons.place_outlined),
+                                  color: Colors.blue,
+                                ),
+                              )
+                            : SizedBox(
+                                width: width / 1.12,
+                                height: 45,
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    permission =
+                                        await Geolocator.requestPermission();
+                                    if (permission !=
+                                            LocationPermission.denied ||
+                                        permission !=
+                                            LocationPermission.deniedForever) {
+                                    if(mounted){  showModel(context);}
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 16, 81, 135),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Add Location',
+                                    style:
+                                        headText.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                        kHeight10,
+
+                        kHeight15,
+                        SizedBox(
+                          width: width / 1.12,
+                          height: 45,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              updateButtonClicked();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 16, 81, 135),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            child: const Text(
+                              'UPDATE',
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: const Text(
-                    'UPDATE',
-                    style: TextStyle(
-                      fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
-                    ],
-                  ),
-                 ),
-               ),
-             ),
-              
-              kHeight10,
-              TextButton(
-                  onPressed: () async {
-                    permission = await Geolocator.requestPermission();
-                   if(mounted){showModel(context);}
-                  },
-                  child: Text(locationAddress))
+              kHeight30,
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Having an issue with this application?'),
+                  Text(
+                    ' Tell us more',
+                    style: TextStyle(color: Color.fromARGB(255, 121, 216, 206)),
+                  )
+                ],
+              )
             ],
           ),
         ),
@@ -206,7 +259,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
           height: 600,
           color: Colors.red,
           child: Center(
-            child: Container(
+            child: SizedBox(
               child: OpenStreetMapSearchAndPick(
                   onGetCurrentLocationPressed: fetchCurrentLocation,
                   center: LatLong(latitude, longitude),
@@ -216,18 +269,18 @@ class _EditUserProfileState extends State<EditUserProfile> {
                     Navigator.pop(context);
 
                     setState(() {
+                      locationController.text = pickedData.address;
 
                       locationAddress = pickedData.address;
-                      log(locationAddress);
+                    
                       latitude = pickedData.latLong.latitude;
                       longitude = pickedData.latLong.longitude;
-                      List<String>splited = locationAddress.split(',');
-                      log(splited.toString());
-                      log(splited.length.toString());
-                     stateController.text= splited[splited.length-1];
-                     districtController.text= splited[splited.length-3];
-                     localityController.text= splited[splited.length-6];
-                     nearByController.text = splited[0]+splited[1];
+                      List<String> splited = locationAddress.split(',');
+                      
+                      stateController.text = splited[splited.length - 1];
+                      districtController.text = splited[splited.length - 3];
+                      localityController.text = splited[splited.length - 6];
+                      nearByController.text = splited[0] + splited[1];
                     });
                   }),
             ),
@@ -239,9 +292,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
 
   Future<LatLng> fetchCurrentLocation() async {
     try {
+      if (permission == LocationPermission.denied &&
+          permission == LocationPermission.deniedForever) {
+        permission = await Geolocator.requestPermission();
+      }
       LatLng position = await getCurrentLocation();
-      // log(position.latitude.toString());
-      // log(position.longitude.toString());
+
       setState(() {
         currentLocation =
             'Latitude:${position.latitude}longitude${position.longitude}';
@@ -257,10 +313,15 @@ class _EditUserProfileState extends State<EditUserProfile> {
 
   Future<LatLng> getCurrentLocation() async {
     bool serviceEnabled;
-    // LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      if(mounted){showTopSnackBar(
+        Overlay.of(context),
+        const CustomSnackBar.info(
+          message: 'Location Service Not Enabled',
+        ),
+      );}
       return Future.error('Location services are disabled.');
     }
 
@@ -277,7 +338,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
       }
     }
 
-    // Fetch the current location
     Position position = await Geolocator.getCurrentPosition();
     return LatLng(position.latitude, position.longitude);
   }
@@ -289,12 +349,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
       final imageTemp = File(
         image.path,
       );
-      // if (mounted) {
-      //   Provider.of<CommonProvider>(context,listen: false)
-      //       .editStorageSetting(imageTemp);
-      //   Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editGalleryImage;
-      //    flag = 1;
-      // }
 
       setState(() {
         galleryImage = imageTemp;
@@ -313,12 +367,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
       final imageTemp = File(
         image.path,
       );
-      // if (mounted) {
-      //   Provider.of<CommonProvider>(context,listen: false)
-      //       .editCameraSetting(imageTemp);
-      // Provider.of<NewGIgCreateProvider>(context,listen: false).gigImageFile = Provider.of<CommonProvider>(context,listen: false).editCameraImage;
-      //   flag = 1;
-      // }
 
       setState(() {
         cameraImage = imageTemp;
@@ -403,10 +451,13 @@ class _EditUserProfileState extends State<EditUserProfile> {
         profilePhoto: url ?? widget.profilePic,
         location: userLocation);
 
-    await Provider.of<UserProfileProvider>(context, listen: false)
+   if(mounted){ await Provider.of<UserProfileProvider>(context, listen: false)
         .editUserProfile(editedData);
-    await Provider.of<UserProfileProvider>(context, listen: false)
+    }
+    if(mounted){
+      await Provider.of<UserProfileProvider>(context, listen: false)
         .getUserDetails();
-    Navigator.pop(context);
+    }
+    if(mounted){Navigator.pop(context);}
   }
 }

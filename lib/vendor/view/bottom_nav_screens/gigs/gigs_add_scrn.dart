@@ -36,11 +36,19 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
         title: Text(
           'Add Gig',
           style: headText.copyWith(color: Colors.white),
-
         ),
         centerTitle: true,
       ),
@@ -66,7 +74,6 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                   TextFieldName(value: 'Title'),
                   MyTextFormField(
                     controller: titleController,
-                    
                   ),
                   TextFieldName(value: 'Overview'),
                   MyTextFormField(
@@ -123,15 +130,17 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
                   Consumer2<VendorProvider, NewGIgCreateProvider>(
                       builder: (context, value, value2, child) {
                     return DropdownButtonFormField<CategoryResModel>(
+                      borderRadius: BorderRadius.circular(10),
                       value: value2.selectedCategory,
                       items: value2.categories
                           .map((category) => DropdownMenuItem<CategoryResModel>(
+                            
                                 value: category,
                                 child: Text(category!.name),
                               ))
                           .toList(),
                       onChanged: (CategoryResModel? category) {
-                        value2.setCategory(category, category!.id,context);
+                        value2.setCategory(category, category!.id, context);
                       },
                       validator: (value) {
                         if (value2.selectedCategory == null) {
@@ -228,10 +237,9 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
             resourceType: CloudinaryResourceType.Image));
     final url = response.secureUrl;
     dynamic type;
-    if (context.read<NewGIgCreateProvider>().addserviceCheckBoxValue) {
+    if (mounted&&context.read<NewGIgCreateProvider>().addserviceCheckBoxValue) {
       type = 'Service';
-      
-    } else if (context.read<NewGIgCreateProvider>().addproductCheckBoxValue) {
+    } else if (mounted&& context.read<NewGIgCreateProvider>().addproductCheckBoxValue) {
       type = 'Product';
     }
     var gigCreateDatas = NewGigCreateModel(
@@ -243,9 +251,12 @@ class _GigsAddScreenState extends State<GigsAddScreen> {
         price: price,
         category: context.read<NewGIgCreateProvider>().selectedCategoryId,
         vendorId: vendorId.toString());
-      await context.read<NewGIgCreateProvider>().createNewGig(gigCreateDatas, context);
-      context.read<NewGIgCreateProvider>().getAllCategory(context);
-      await Provider.of<ShowAllGigsProvider>(context,listen: false).callApiServiceGigs(context);
-      Navigator.pop(context);
+    if(mounted){await context
+        .read<NewGIgCreateProvider>()
+        .createNewGig(gigCreateDatas, context);}
+    if(mounted){context.read<NewGIgCreateProvider>().getAllCategory(context);
+    await Provider.of<ShowAllGigsProvider>(context, listen: false)
+        .callApiServiceGigs(context);}
+   if(mounted){ Navigator.pop(context);}
   }
 }

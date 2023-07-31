@@ -21,7 +21,7 @@ class BookingStatus extends StatelessWidget {
           const Center(
             child: Image(
                 image:
-                    AssetImage('assets/user_home/59945-success-confetti.gif')),
+                    AssetImage('assets/splash/59945-success-confetti.gif')),
           ),
           const Text(
             'Thank You',

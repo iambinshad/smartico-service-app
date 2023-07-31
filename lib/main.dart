@@ -29,7 +29,7 @@ import 'package:smartico/application/vendor/all_booking/cancel_user_bookings.dar
 import 'package:smartico/application/vendor/chat/chat_connection_provider.dart';
 import 'package:smartico/application/vendor/profile/vendor_profile.dart';
 import 'package:smartico/application/vendor/vendor_provider.dart';
-import 'package:smartico/core/firebase/firebase_pushNotification.dart';
+import 'package:smartico/core/firebase/firebase_push_notification.dart';
 import 'application/user/booking/book_gig_provider.dart';
 import 'application/user/show_all_gigs/show_all_gigs.dart';
 import 'application/user/user_provider.dart';
@@ -44,8 +44,7 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
-
-  if (Platform.isAndroid) { 
+  if (Platform.isAndroid) {
     await Firebase.initializeApp();
     await FirebaseApi().initNotification();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -55,7 +54,6 @@ void main() async {
       return true;
     };
   }
-
   runApp(const MyApp());
 }
 
@@ -140,9 +138,9 @@ class MyApp extends StatelessWidget {
         title: 'Smartico Service Provider',
         theme: ThemeData(
           useMaterial3: true,
-          // primarySwatch: Colors.blue,
         ),
-        home: SplashScreen(),
+        home: 
+          const SplashScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

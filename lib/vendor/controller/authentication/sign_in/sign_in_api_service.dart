@@ -35,8 +35,8 @@ class VendorSignInApiService {
               .userNotExist(context);
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Email or Password is incorrect")));
+       if(context.mounted){ ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Email or Password is incorrect")));}
       }
     } on DioError catch (e) {
       log(e.message.toString());

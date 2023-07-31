@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -47,7 +48,8 @@ class BookingHistory extends StatelessWidget {
                           context,
                           listen: false)
                       .loading
-                  ? LoadingAnimationWidget.fourRotatingDots(color: Colors.grey, size: 25.0)
+                  ? LoadingAnimationWidget.fourRotatingDots(
+                      color: Colors.grey, size: 25.0)
                   : value.reservedGigs!.isEmpty
                       ? const Column(
                           children: [
@@ -65,65 +67,87 @@ class BookingHistory extends StatelessWidget {
                           child: ListView.builder(
                             itemBuilder: (context, index) => Card(
                               child: ListTile(
-                                onTap: ()async {
-                                    await context
+                                onTap: () async {
+                                  await context
                                       .read<SingleGigDetailsProvider>()
                                       .getGig(
-                                          value
-                                              .reservedGigs![index]!
-                                              .gigId
-                                              .id,context);
+                                          value.reservedGigs![index]!.gigId.id,
+                                          context);
                                   // ignore: use_build_context_synchronously
                                   await Provider.of<ReservedGigs>(context,
                                           listen: false)
-                                      .getreveiws(value
-                                              .reservedGigs![index]!
-                                              .gigId
-                                              .id);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDescriptionScrn(isBooked: value.reservedGigs![index]!.status=="Completed"?true:false,index: index,),));
+                                      .getreveiws(
+                                          value.reservedGigs![index]!.gigId.id);
+                                 if(context.mounted){ Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ServiceDescriptionScrn(
+                                          isBooked: value.reservedGigs![index]!
+                                                      .status ==
+                                                  "Completed"
+                                              ? true
+                                              : false,
+                                          index: index,
+                                        ),
+                                      ));}
                                 },
-                                title: Text(value.reservedGigs![index]!.title,style: TextStyle( fontWeight: FontWeight.w600,),),
-                                leading: Container(
-                                  height: 70,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                          image: NetworkImage(value
-                                              .reservedGigs![index]!
-                                              .gigId
-                                              .image),
-                                          fit: BoxFit.cover)),
+                                title: Text(
+                                  value.reservedGigs![index]!.title,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                leading: CachedNetworkImage(
+                                  placeholder: (context, url) => const SizedBox(
+                                    height: 70,
+                                    width: 100,
+                                  ),
+                                  imageUrl:
+                                      value.reservedGigs![index]!.gigId.image,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    height: 70,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover)),
+                                  ),
                                 ),
                                 trailing: value.reservedGigs![index]!.status ==
                                         "Completed"
                                     ? ElevatedButton(
-                                      
                                         onPressed: () {
                                           showIsBooked(index, context);
                                         },
-                                        style:  ButtonStyle(
-                                          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                                        style: ButtonStyle(
+                                            shape: MaterialStatePropertyAll(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5))),
                                             backgroundColor:
                                                 const MaterialStatePropertyAll(
-                                                    Color.fromARGB(255, 123, 230, 219))),
+                                                    Color.fromARGB(
+                                                        255, 123, 230, 219))),
                                         child: Text(
                                           value.reservedGigs![index]!.status,
-                                          style:  TextStyle(
-                                           
-                                              color:  value.reservedGigs![index]!
-                                                                .status ==
-                                                            "Cancelled"
-                                                        ? Colors.red
-                                                        : Color.fromARGB(255, 97, 138, 98)),
+                                          style: TextStyle(
+                                              color: value.reservedGigs![index]!
+                                                          .status ==
+                                                      "Cancelled"
+                                                  ? Colors.red
+                                                  : const Color.fromARGB(
+                                                      255, 97, 138, 98)),
                                         ))
                                     : ElevatedButton(
                                         style: ButtonStyle(
-                                          
-                                          shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                                            backgroundColor:
-                                                const MaterialStatePropertyAll(
-                                                    Color.fromARGB(255, 123, 230, 219))),
+                                            shape: MaterialStatePropertyAll(
+                                                RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(5))),
+                                            backgroundColor: const MaterialStatePropertyAll(Color.fromARGB(255, 123, 230, 219))),
                                         onPressed: () {
                                           if (value.reservedGigs![index]!
                                                   .status ==
@@ -156,14 +180,19 @@ class BookingHistory extends StatelessWidget {
                                                                       .reservedGigs![
                                                                           index]!
                                                                       .id);
-                                                          await Provider.of<
-                                                                      ReservedGigs>(
-                                                                  context,
-                                                                  listen: false)
-                                                              .getReservedGigs(
-                                                                  context);
-                                                          Navigator.pop(
-                                                              context);
+                                                          if (context.mounted) {
+                                                            await Provider.of<
+                                                                        ReservedGigs>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .getReservedGigs(
+                                                                    context);
+                                                          }
+                                                          if (context.mounted) {
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
                                                         },
                                                         child: const Text(
                                                           'Yes',
@@ -179,12 +208,12 @@ class BookingHistory extends StatelessWidget {
                                         },
                                         child: Text(
                                           value.reservedGigs![index]!.status,
-                                          style:  TextStyle(
-                                              color:  value.reservedGigs![index]!
-                                                                .status ==
-                                                            "Cancelled"
-                                                        ? Colors.red
-                                                        : Colors.green),
+                                          style: TextStyle(
+                                              color: value.reservedGigs![index]!
+                                                          .status ==
+                                                      "Cancelled"
+                                                  ? Colors.red
+                                                  : Colors.green),
                                         )),
                                 subtitle: Text(
                                     "\$${value.reservedGigs![index]!.gigId.price}"),
@@ -230,7 +259,8 @@ class BookingHistory extends StatelessWidget {
           ],
         ));
   }
-  void showIsBooked(int index,BuildContext context) {
+
+  void showIsBooked(int index, BuildContext context) {
     showDialog(
       context: context,
       builder: (context) {
@@ -307,10 +337,8 @@ class BookingHistory extends StatelessWidget {
                                   Center(
                                       child: ElevatedButton(
                                     onPressed: () {
-                                      submitButtonClicked(
-                                          context,
-                                          value.reservedGigs![index]!
-                                              .gigId.id);
+                                      submitButtonClicked(context,
+                                          value.reservedGigs![index]!.gigId.id);
                                     },
                                     style: ButtonStyle(
                                         shape: MaterialStateProperty.all<
@@ -343,6 +371,7 @@ class BookingHistory extends StatelessWidget {
       },
     );
   }
+
   void submitButtonClicked(context, gigId) {
     final provider = Provider.of<ReservedGigs>(context, listen: false);
     ReviewAddingModel reveiw = ReviewAddingModel(

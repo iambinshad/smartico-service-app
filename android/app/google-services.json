@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:567250082750:android:04937819ee72c43b3cf7ef",
         "android_client_info": {
-          "package_name": "com.example.smartico"
+          "package_name": "smartico.app"
         }
       },
       "oauth_client": [

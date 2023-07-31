@@ -102,10 +102,17 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
 
     return Scaffold(
       appBar: AppBar(
-        title:  Text(
-          "Edit Profile",
-         style: headText.copyWith(color: Colors.white)
-        ),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon:const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
+        title:
+            Text("Edit Profile", style: headText.copyWith(color: Colors.white)),
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
       ),
       body: SingleChildScrollView(
@@ -351,8 +358,8 @@ class _VendorProfileEditState extends State<VendorProfileEdit> {
         userName: userNameController.text);
     await Provider.of<VendorProfileProvider>(context, listen: false)
         .editVendorProfile(editedData);
-        await  Provider.of<VendorProfileProvider>(context, listen: false)
-          .getVendorDetails();
+    await Provider.of<VendorProfileProvider>(context, listen: false)
+        .getVendorDetails();
     Navigator.pop(context);
   }
 }

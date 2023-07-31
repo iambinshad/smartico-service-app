@@ -1,6 +1,6 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -32,23 +32,22 @@ class UserHomePage extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final token = await getUserAccesToken();
       log(token.toString(), name: 'usereeeee');
-      Provider.of<UserConnectionService>(context, listen: false)
+      if(context.mounted){Provider.of<UserConnectionService>(context, listen: false)
           .userConnection();
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();
       Provider.of<GetAllVendor>(context, listen: false).fetchAllVendors();
       context.read<RecentServicesProvider>().fetchAllGigs(context);
       Provider.of<ReservedGigs>(context, listen: false)
-          .getReservedGigs(context);
+          .getReservedGigs(context);}
     });
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 16, 81, 135),
-            title: Padding(
-                padding: const EdgeInsets.only(top: 5, right: 13, left: 13),
-                child: GestureDetector(
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 16, 81, 135),
+          title: Padding(
+              padding: const EdgeInsets.only(top: 5, right: 13, left: 13),
+              child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                         context,
@@ -56,13 +55,28 @@ class UserHomePage extends StatelessWidget {
                           builder: (context) => const ViewAllScreen(),
                         ));
                   },
-                  child: const CupertinoSearchTextField(
-                    backgroundColor: Colors.white,
-                    keyboardType: TextInputType.none,
-                  ),
-                )),
-          ),
-          body: Column(
+                  child: Container(
+                    height: 30,
+                    width: width / 1.1,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          'search',
+                          style: TextStyle(color: Colors.grey),
+                        )
+                      ],
+                    ),
+                  ))),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
             children: [
               Column(
                 children: [
@@ -91,7 +105,7 @@ class UserHomePage extends StatelessWidget {
                           ),
                           BannerCard(
                               imageAddress:
-                                  'assets/splash/carpenter banner.webp')
+                                  'assets/splash/service banner 2.jpg')
                         ],
                       ),
                     ),
@@ -134,20 +148,20 @@ class UserHomePage extends StatelessWidget {
                                         key: 'vendor_access_token');
                                     if (context.mounted) {}
                                     if (vendor != null) {
-                                      Navigator.pushAndRemoveUntil(
+                                     if(context.mounted){ Navigator.pushAndRemoveUntil(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 const VendorBottomNavBar(),
                                           ),
-                                          (route) => false);
+                                          (route) => false);}
                                     } else {
-                                      Navigator.push(
+                                      if(context.mounted){Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 VendorSignIn(),
-                                          ));
+                                          ));}
                                     }
                                   },
                                   child: const Text(
@@ -203,102 +217,111 @@ class UserHomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 7, right: 13, left: 13),
-                  child: Consumer2<RecentServicesProvider, CommonProvider>(
-                    builder: (context, value, value2, child) => value2
-                            .shimmerLoading
-                        ? const Center(child: SizedBox())
-                        : GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 3 / 3.1,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  await context
-                                      .read<SingleGigDetailsProvider>()
-                                      .getGig(
-                                          value.allGigs![index].id, context);
-                                  // ignore: use_build_context_synchronously
-                                  await Provider.of<ReservedGigs>(context,
-                                          listen: false)
-                                      .getreveiws(value.allGigs![index].id);
-
-                                  if (context.mounted) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const ServiceDescriptionScrn(
-                                                  isBooked: false,
-                                                )));
-                                  }
-                                },
-                                child: SizedBox(
-                                    width: width / 2,
-                                    child: Column(
-                                      children: [
-                                        Container(
+              Padding(
+                padding: const EdgeInsets.only(top: 7, right: 13, left: 13),
+                child: Consumer2<RecentServicesProvider, CommonProvider>(
+                  builder: (context, value, value2, child) => value2
+                          .shimmerLoading
+                      ? const Center(child: SizedBox())
+                      : GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200,
+                                  childAspectRatio: 3 / 3.1,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () async {
+                                await context
+                                    .read<SingleGigDetailsProvider>()
+                                    .getGig(
+                                        value.allGigs![index].id, context);
+                                // ignore: use_build_context_synchronously
+                                await Provider.of<ReservedGigs>(context,
+                                        listen: false)
+                                    .getreveiws(value.allGigs![index].id);
+        
+                                if (context.mounted) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ServiceDescriptionScrn(
+                                                isBooked: false,
+                                              )));
+                                }
+                              },
+                              child: SizedBox(
+                                  width: width / 2,
+                                  child: Column(
+                                    children: [
+                                      CachedNetworkImage(
+                                        imageUrl: value.allGigs![index].image,
+                                        placeholder: (context, url) =>
+                                            SizedBox(
+                                          height: height / 7.7,
+                                          width: width / 2.1,
+                                        ),
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
                                           height: height / 7.7,
                                           width: width / 2.1,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(9),
                                             image: DecorationImage(
-                                                image: NetworkImage(value
-                                                    .allGigs![index].image),
+                                                image: imageProvider,
                                                 fit: BoxFit.cover),
                                           ),
                                         ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              value.allGigs![index].title,
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(value.allGigs![index].type,
-                                                style: const TextStyle(
-                                                    fontSize: 17,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '\u{20B9}${value.allGigs![index].price}',
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            value.allGigs![index].title,
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(value.allGigs![index].type,
                                               style: const TextStyle(
                                                   fontSize: 17,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
-                              );
-                            },
-                            itemCount: value.allGigs?.length,
-                          ),
-                  ),
+                                                  fontWeight:
+                                                      FontWeight.w500),
+                                              overflow:
+                                                  TextOverflow.ellipsis),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '\u{20B9}${value.allGigs![index].price}',
+                                            style: const TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                            );
+                          },
+                          itemCount: value.allGigs?.length,
+                        ),
                 ),
               )
             ],
-          )),
-    );
+          ),
+        ));
   }
 }

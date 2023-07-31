@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,6 @@ class UserChatScreen extends StatelessWidget {
               .sortedUsers;
     });
     return Scaffold(
-      // backgroundColor:const Color.fromARGB(255, 234, 234, 232),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 16, 81, 135),
@@ -62,7 +62,6 @@ class UserChatScreen extends StatelessWidget {
                                 padding: const EdgeInsets.all(5.0),
                                 child: ListTile(
                                   onTap: () async {
-                                    // value.connectionCount?[index].count = 0;
                                     String currentUserId =
                                         await getCurrentUserId();
                                     String currentUserName =
@@ -95,10 +94,10 @@ class UserChatScreen extends StatelessWidget {
                                             ),
                                           ));
                                     }
-                                    Provider.of<VendorAllGigsFetching>(context,
+                                    if(context.mounted){Provider.of<VendorAllGigsFetching>(context,
                                             listen: false)
                                         .fetchVendorAllGigs(
-                                            value.sortedUsers![index].id!);
+                                            value.sortedUsers![index].id!);}
                                   },
                                   subtitle: Text(
                                       value.showList![index].email.toString()),
@@ -119,17 +118,27 @@ class UserChatScreen extends StatelessWidget {
                                         },
                                         icon: const Icon(Icons.phone)),
                                   ),
-                                  leading: value
-                                              .showList![index].profilePhoto ==
-                                          null
-                                      ? const CircleAvatar(
-                                          radius: 26,
-                                          backgroundImage: AssetImage(
-                                              "assets/splash/unknown.jpg"))
-                                      : CircleAvatar(
-                                          radius: 26,
-                                          backgroundImage: NetworkImage(value
-                                              .showList![index].profilePhoto!)),
+                                  leading:
+                                      value.showList![index].profilePhoto ==
+                                              null
+                                          ? const CircleAvatar(
+                                              radius: 26,
+                                              backgroundImage: AssetImage(
+                                                  "assets/splash/unknown.jpg"))
+                                          : CachedNetworkImage(
+                                              imageUrl: value.showList![index]
+                                                  .profilePhoto!,
+                                              placeholder: (context, url) =>
+                                                  const CircleAvatar(
+                                                radius: 26,
+                                              ),
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      CircleAvatar(
+                                                          radius: 26,
+                                                          backgroundImage:
+                                                              imageProvider),
+                                            ),
                                   title: Text(
                                     value.showList![index].fullName ??
                                         "unknown",
@@ -152,7 +161,7 @@ class UserChatScreen extends StatelessWidget {
     try {
       await launchUrl(Uri.parse("tel://$phoneNumber)"));
     } on PlatformException catch (e) {
-      print(e.message);
+      log(e.message.toString());
     }
   }
 }

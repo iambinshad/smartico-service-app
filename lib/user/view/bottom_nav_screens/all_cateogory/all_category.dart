@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -71,9 +72,9 @@ class AllCategroryList extends StatelessWidget {
                               await context
                                   .read<SingleGigDetailsProvider>()
                                   .getGig(value.showList![index].id, context);
-                              await Provider.of<ReservedGigs>(context,
+                              if(context.mounted){await Provider.of<ReservedGigs>(context,
                                       listen: false)
-                                  .getreveiws(value.allGigs![index].id);
+                                  .getreveiws(value.allGigs![index].id);}
                               if (context.mounted) {
                                 Navigator.push(
                                     context,
@@ -92,16 +93,24 @@ class AllCategroryList extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(7.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(9),
-                                            image: DecorationImage(
-                                                image: NetworkImage(value
-                                                    .showList![index].image),
-                                                fit: BoxFit.cover)),
-                                        height: width / 2.9,
-                                        width: width / 3.2,
+                                      child: CachedNetworkImage(
+                                        placeholder: (context, url) => SizedBox(
+                                          height: width / 2.9,
+                                          width: width / 3.2,
+                                        ),
+                                        imageUrl: value.showList![index].image,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(9),
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover)),
+                                          height: width / 2.9,
+                                          width: width / 3.2,
+                                        ),
                                       ),
                                     )
                                   ],
@@ -142,11 +151,12 @@ class AllCategroryList extends StatelessWidget {
                                         kHeight10,
                                         const Row(
                                           children: [
-                                            
                                             Text(
                                               '4.9(1.2k + reviews)',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.bold,fontSize: 18,),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -154,9 +164,10 @@ class AllCategroryList extends StatelessWidget {
                                         Text(
                                           " \u{20B9}${value.showList![index].price}",
                                           style: const TextStyle(
-                                              fontWeight: FontWeight.bold,fontSize: 18,),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
                                         ),
-                                       
                                       ],
                                     ),
                                   ),
