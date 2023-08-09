@@ -20,8 +20,7 @@ class ReservedGigsService {
                 .map((e) => BookedGigsModel.fromJson(e))
                 .toList();
         return reservedGigs;
-    //      final data = json.decode(response.data["data"]["reserved"]);
-    // return data;
+
       } 
     } on DioError catch (e) {
       log(e.message.toString());

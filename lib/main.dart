@@ -42,7 +42,7 @@ import 'common/splash_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent, // transparent status bar
+    statusBarColor: Colors.transparent, 
   ));
   if (Platform.isAndroid) {
     await Firebase.initializeApp();

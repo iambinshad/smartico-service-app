@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smartico/application/user/user_provider.dart';
-
 import '../../../application/common/common_provider.dart';
 import '../../../core/widgets.dart';
 

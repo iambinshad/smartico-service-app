@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +10,13 @@ import 'package:smartico/application/user/profile/user_profile.dart';
 import 'package:smartico/application/user/show_all_gigs/fetch_single_gig_details.dart';
 import 'package:smartico/application/user/show_all_gigs/show_all_gigs.dart';
 import 'package:smartico/application/user/chat/chat_connection_provider.dart';
-import 'package:smartico/core/theme/access_token/token.dart';
 import 'package:smartico/core/widgets.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/other_screens/work_descrip.dart';
 import 'package:smartico/user/view/bottom_nav_screens/home/view_all_scrn.dart';
 import 'package:smartico/vendor/view/authentication/vendor_sign_in.dart';
 import 'package:smartico/vendor/view/bottom_nav/vendor_bottom_nav.dart';
-import 'banner_card.dart';
+import 'widget.dart';
+
 
 // ignore: must_be_immutable
 class UserHomePage extends StatelessWidget {
@@ -30,8 +29,6 @@ class UserHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final token = await getUserAccesToken();
-      log(token.toString(), name: 'usereeeee');
       if(context.mounted){Provider.of<UserConnectionService>(context, listen: false)
           .userConnection();
       Provider.of<UserProfileProvider>(context, listen: false).getUserDetails();

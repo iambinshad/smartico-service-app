@@ -13,6 +13,7 @@ class UserSignInApiService {
   Dio dio = Dio();
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
+
   Future<UserSignInResModel?> userSignIn(
       UserSignInReqModel userSignInReqModel, BuildContext context) async {
     String path = ApiConfigration.kBaseUrl + ApiConfigration.login;
@@ -30,7 +31,6 @@ class UserSignInApiService {
         final id = data['_id'];
         final name = data['fullName'];
         await storage.write(key: 'currentUserName', value: name);
-        
         await storage.write(key: 'currentUserId', value: id);
         return returnsignInResModel;
       }
